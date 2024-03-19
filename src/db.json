@@ -1,0 +1,41 @@
+
+{ "users":[
+    { "UserName": "Ajay" ,
+     "UserID": "SCC 001",
+      "Email":"Ajay@Manavenergy.com", 
+      "SiteName":"manav site", 
+     " SiteLocation": "Bangalore"
+    },
+    { "UserName": "Raja" ,
+     "UserID": "SCC 002",
+      "Email":"Raja@Manavenergy.com", 
+      "SiteName":"manav site", 
+     " SiteLocation": "Bangalore"
+    },
+    { "UserName": "Teja" ,
+     "UserID": "PCC 003",
+      "Email":"Teja@Manavenergy.com", 
+      "SiteName":"manav site", 
+     " SiteLocation": "Bangalore"
+    },
+    { "UserName": "Pavan" ,
+    "UserID": "PCC 004",
+     "Email":"Pavan@Manavenergy.com", 
+     "SiteName":"manav site", 
+    " SiteLocation": "Bangalore"
+   },
+   { "UserName": "Ram" ,
+   "UserID": "PCC 005",
+    "Email":"Ram@Manavenergy.com", 
+    "SiteName":"manav site", 
+   " SiteLocation": "Bangalore"
+  },
+  { "UserName": "Kumar" ,
+  "UserID": "PCC 006",
+   "Email":"Kumar@Manavenergy.com", 
+   "SiteName":"manav site", 
+  " SiteLocation": "Bangalore"
+ }
+ 
+]
+}

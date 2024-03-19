@@ -1,0 +1,2568 @@
+import { Card,
+    Grid,
+    Text,
+    useMantineTheme,
+    RingProgress,
+    Button, } from '@mantine/core'
+  import React, { useEffect } from 'react'
+  import axios from 'axios';
+  import TableComponent from '../components/Table_comp'
+  import { useState } from 'react';
+  import EditableTable from '../maintenance/EditableTable';
+  import { notifications } from '@mantine/notifications';
+  import { AlertCircle, CircleCheck } from 'tabler-icons-react';
+  
+  
+  
+  
+  const Sample = () => {
+    const theme = useMantineTheme();
+    const [inventoryData, setInventoryData] = useState([]);
+    const [errorData, setErrorData] = useState([]);
+    const [totlaEntries, setTotalEnteries] = useState(0);
+    const [totalIssues, setTotalIssues] = useState(0);
+    const [diffrence, setDiffrence] = useState(0);
+  
+    //Updater code
+    const [showUpdater, setShowUpdater] = useState(false);
+    const [selectedRow, setSelectedRow] = useState(null);
+  
+    const fetchData = async () => {
+      try {
+        const response = await axios.get(
+          "http://192.168.10.251:3000/api/inventory"
+        );
+        const data = response.data;
+        console.log("datas", data);
+  
+        const filteredData = data.filter(
+          (entry) => entry.Issues !== null && !isInvalidValue(entry.Issues)
+        );
+        console.log("FD", filteredData);
+  
+        const entriesCount = data.length;
+        const issuesCount = filteredData.length;
+  
+        const percentage = Math.round((issuesCount / entriesCount) * 100);
+  
+        console.log("per", percentage);
+  
+        console.log(entriesCount);
+        console.log(issuesCount);
+  
+        setTotalEnteries(entriesCount);
+        setInventoryData(filteredData);
+        setTotalIssues(issuesCount);
+        setDiffrence(percentage);
+      } catch (error) {
+        console.log("Couldnt Fetch", error);
+      }
+      try {
+        const response = await axios.get(
+          "http://192.168.10.251:3000/api/error_table"
+        );
+        const data = response.data;
+        console.log("error table data", data);
+        setErrorData(data);
+      } catch (error) {
+        console.log("Error fetching error Table", error);
+      }
+    };
+    const isInvalidValue = (value) => {
+      const invalidValues = ["na", "n a ", "NA", "n/a", "none", "n o n e "];
+      const lowercasedValue = value.toLowerCase().trim();
+      return invalidValues.includes(lowercasedValue);
+    };
+  
+    // useEffect(() => {
+    //   fetchData();
+    // }, []);
+  //this code will change the table headings 
+  
+  
+  const elements = [
+    { position: 6, mass: 12.011, symbol: 'C', name: 'Carbon' },
+    { position: 7, mass: 14.007, symbol: 'N', name: 'Nitrogen' },
+    { position: 39, mass: 88.906, symbol: 'Y', name: 'Yttrium' },
+    { position: 56, mass: 137.33, symbol: 'Ba', name: 'Barium' },
+    { position: 58, mass: 140.12, symbol: 'Ce', name: 'Cerium' },
+  ];
+  
+  
+    const columns = {
+      position: "position",
+     mass:"mass",
+     symbol:"symbol",
+     name:'name'
+    };
+  
+    const visibleColumns = [
+       "position",
+      "mass",
+      "symbol",
+      'name'
+    ];
+  
+   
+  
+  
+  
+   
+  
+    
+    return (
+      <div>
+      <Card shadow="sm" padding="lg" radius="md" withBorder>
+        <Grid>
+          <Grid.Col md={1} lg={0.5}></Grid.Col>
+          <Grid.Col md={6} lg={5}>
+            {/* <Text size="xl" ta="center" fw={700}>
+              Error History{" "}
+            </Text> */}
+            <h1>Error History</h1>
+           
+          </Grid.Col>
+          <Grid.Col md={1} lg={0}></Grid.Col>
+  
+          <Grid.Col md={6} lg={5}>
+            <h1>Pending Issues</h1>
+            <TableComponent
+              data={elements}
+              columns={columns}
+              visibleColumns={visibleColumns}
+            />
+          </Grid.Col>
+          <Grid.Col md={1} lg={0.5}></Grid.Col>
+        </Grid>
+  
+        <Button mt="xl" radius="xl" ml="xl" variant="gradient">
+          Send Us this data!
+        </Button>
+      </Card>
+      <Card shadow="sm" padding="lg" radius="md" withBorder mt="xl">
+        <Grid>
+          <Grid.Col md={1} lg={2}></Grid.Col>
+          <Grid.Col md={6} lg={8}>
+            
+          </Grid.Col>
+          <Grid.Col md={3} lg={3}></Grid.Col>
+        </Grid>
+      </Card>
+    </div>
+  );
+  };
+  
+  export default Sample
+
+
+
+
+
+  // import { Card,
+//   Grid,
+//   Text,
+//   useMantineTheme,
+//   RingProgress,
+//   Button, } from '@mantine/core'
+// import React, { useEffect } from 'react'
+// import axios from 'axios';
+// import TableComponent from '../components/Table_comp'
+// import { useState } from 'react';
+// import EditableTable from '../maintenance/EditableTable';
+// import { notifications } from '@mantine/notifications';
+// import { AlertCircle, CircleCheck } from 'tabler-icons-react';
+
+
+
+
+// const Sample = () => {
+//   // const theme = useMantineTheme();
+//   // const [inventoryData, setInventoryData] = useState([]);
+//   // const [errorData, setErrorData] = useState([]);
+//   // const [totlaEntries, setTotalEnteries] = useState(0);
+//   // const [totalIssues, setTotalIssues] = useState(0);
+//   // const [diffrence, setDiffrence] = useState(0);
+
+//   // //Updater code
+//   // const [showUpdater, setShowUpdater] = useState(false);
+//   // const [selectedRow, setSelectedRow] = useState(null);
+
+//   // const fetchData = async () => {
+//   //   try {
+//   //     const response = await axios.get(
+//   //       "http://192.168.10.251:3000/api/inventory"
+//   //     );
+//   //     const data = response.data;
+//   //     console.log("datas", data);
+
+//   //     const filteredData = data.filter(
+//   //       (entry) => entry.Issues !== null && !isInvalidValue(entry.Issues)
+//   //     );
+//   //     console.log("FD", filteredData);
+
+//   //     const entriesCount = data.length;
+//   //     const issuesCount = filteredData.length;
+
+//   //     const percentage = Math.round((issuesCount / entriesCount) * 100);
+
+//   //     console.log("per", percentage);
+
+//   //     console.log(entriesCount);
+//   //     console.log(issuesCount);
+
+//   //     setTotalEnteries(entriesCount);
+//   //     setInventoryData(filteredData);
+//   //     setTotalIssues(issuesCount);
+//   //     setDiffrence(percentage);
+//   //   } catch (error) {
+//   //     console.log("Couldnt Fetch", error);
+//   //   }
+//   //   try {
+//   //     const response = await axios.get(
+//   //       "http://192.168.10.251:3000/api/error_table"
+//   //     );
+//   //     const data = response.data;
+//   //     console.log("error table data", data);
+//   //     setErrorData(data);
+//   //   } catch (error) {
+//   //     console.log("Error fetching error Table", error);
+//   //   }
+//   // };
+//   // const isInvalidValue = (value) => {
+//   //   const invalidValues = ["na", "n a ", "NA", "n/a", "none", "n o n e "];
+//   //   const lowercasedValue = value.toLowerCase().trim();
+//   //   return invalidValues.includes(lowercasedValue);
+//   // };
+
+//   // useEffect(() => {
+//   //   fetchData();
+//   // }, []);
+
+//   const elements = [
+//     { position: 6, mass: 12.011, symbol: 'C', name: 'Carbon', price:'108' },
+//     { position: 7, mass: 14.007, symbol: 'N', name: 'Nitrogen', price:'200' },
+//     { position: 39, mass: 88.906, symbol: 'Y', name: 'Yttrium', price:'108' },
+//     { position: 56, mass: 137.33, symbol: 'Ba', name: 'Barium', price:'200' },
+//     { position: 58, mass: 140.12, symbol: 'Ce', name: 'Cerium', price:'200' },
+//     { position: 6, mass: 12.011, symbol: 'C', name: 'Carbon', price:'108' },
+//     { position: 7, mass: 14.007, symbol: 'N', name: 'Nitrogen', price:'200' },
+//     { position: 39, mass: 88.906, symbol: 'Y', name: 'Yttrium', price:'108' },
+//     { position: 56, mass: 137.33, symbol: 'Ba', name: 'Barium', price:'200' },
+//     { position: 58, mass: 140.12, symbol: 'Ce', name: 'Cerium', price:'200' },
+//     { position: 6, mass: 12.011, symbol: 'C', name: 'Carbon', price:'108' },
+//     { position: 7, mass: 14.007, symbol: 'N', name: 'Nitrogen', price:'200' },
+//     { position: 39, mass: 88.906, symbol: 'Y', name: 'Yttrium', price:'108' },
+//     { position: 56, mass: 137.33, symbol: 'Ba', name: 'Barium', price:'200' },
+//     { position: 58, mass: 140.12, symbol: 'Ce', name: 'Cerium', price:'200' },
+//     { position: 6, mass: 12.011, symbol: 'C', name: 'Carbon', price:'108' },
+//     { position: 7, mass: 14.007, symbol: 'N', name: 'Nitrogen', price:'200' },
+//     { position: 39, mass: 88.906, symbol: 'Y', name: 'Yttrium', price:'108' },
+//     { position: 56, mass: 137.33, symbol: 'Ba', name: 'Barium', price:'200' },
+//     { position: 58, mass: 140.12, symbol: 'Ce', name: 'Cerium', price:'200' },
+//   ];
+  
+
+//   const columns = {
+//     position: "position",
+//      mass:"mass",
+//      symbol:"symbol",
+//      name:'name',
+//      price:"price"
+//   };
+
+//   const visibleColumns = [
+//     "position",
+//     "mass",
+//    "symbol",
+//    "name",
+//   "price",
+//   ];
+
+//   const cols = {
+//     position: "position",
+//     mass:"mass",
+//     symbol:"symbol",
+//     name:"name",
+//     price:"price",
+//   };
+
+//   const visCols = [
+//     "position",
+//     "mass",
+//    "symbol",
+//    "name",
+//   "price",
+//     ];
+
+//   // const col = {
+//   //   Position: "Position",
+//   //   mass:"mass",
+//   //   symbol:"symbol",
+//   //   name:"Name",
+//   //   price:"price",
+//   // };
+
+//   // const vbCol = ["id", "device_name", "device_type", "Issues"];
+
+//   // const handleUpdate = async ({ deviceName, newIssues }) => {
+//   //   try {
+//   //     // Perform the API request to update the "Issues" value
+//   //     const response = await axios.put(
+//   //       `http://localhost:3000/api/inventory/${deviceName}`,
+//   //       {
+//   //         Issues: newIssues,
+//   //       }
+//   //     );
+
+//   //     // Handle the response from the server
+//   //     console.log("rep", response.data);
+
+//   //     // Fetch updated data after successful update
+//   //     fetchData();
+//   //   } catch (error) {
+//   //     console.error("Error updating Issues:", error);
+//   //     notifications.show({
+//   //       title: "Request Failed",
+//   //       message:
+//   //         "An Error has occured , try again if not please contact us by clicking on contact us page",
+//   //       color: "red",
+//   //       icon: <AlertCircle size={24} color="black" />,
+//   //     });
+//   //   }
+//   //   notifications.show({
+//   //     title: "Success!!",
+//   //     message: "Issue Updated sucessfully",
+//   //     color: "teal",
+//   //     icon: <CircleCheck size={24} color="white" />,
+//   //   });
+//   // };
+//   return (
+//     <div>
+//     <Card shadow="sm" padding="lg" radius="md" withBorder>
+//       <Grid>
+//         <Grid.Col md={1} lg={0.5}></Grid.Col>
+//         <Grid.Col md={6} lg={5}>
+//           {/* <Text size="xl" ta="center" fw={700}>
+//             Error History{" "}
+//           </Text> */}
+//           <h1>Error History</h1>
+//           <TableComponent
+//             data={elements}
+//             columns={cols}
+//             visibleColumns={visCols}
+//           />
+//         </Grid.Col>
+//         <Grid.Col md={1} lg={0}></Grid.Col>
+
+//         <Grid.Col md={6} lg={5}>
+//           <h1>Pending Issues</h1>
+//           <TableComponent
+//             data={elements}
+//             columns={columns}
+//             visibleColumns={visibleColumns}
+//           />
+//         </Grid.Col>
+//         <Grid.Col md={1} lg={0.5}></Grid.Col>
+//       </Grid>
+
+//       <Button mt="xl" radius="xl" ml="xl" variant="gradient">
+//         Send Us this data!
+//       </Button>
+//     </Card>
+//     <Card shadow="sm" padding="lg" radius="md" withBorder mt="xl">
+//       <Grid>
+//         <Grid.Col md={1} lg={2}></Grid.Col>
+//         <Grid.Col md={6} lg={8}>
+        
+//         </Grid.Col>
+//         <Grid.Col md={3} lg={3}></Grid.Col>
+//       </Grid>
+//     </Card>
+//   </div>
+// );
+// };
+
+// export default Sample
+
+import React, { useState, useEffect } from 'react';
+
+const UniqueDataComponent = () => {
+  const [uniqueData, setUniqueData] = useState([]);
+
+  useEffect(() => {
+    // Assume your table data is fetched from an API or stored in some variable
+    const tableData = [
+      { id: 1, name: 'John', age: 30 },
+      { id: 2, name: 'Jane', age: 25 },
+      { id: 3, name: 'John', age: 35 },
+      { id: 4, name: 'Sarah', age: 40 },
+      { id: 5, name: 'Jane', age: 20 },
+    ];
+    console.log("teja", tableData)
+    // Extract unique names from the table data
+    const uniqueNames = [...new Set(tableData.map(item => item.name))];
+
+    setUniqueData(uniqueNames);
+  }, []); // Empty dependency array to run the effect only once
+
+  return (
+    <div>
+      <h2>Unique Names</h2>
+      <ul>
+        {uniqueData.map((name, index) => (
+          <li key={index}>{name}</li>
+        ))}
+      </ul>
+    </div>
+  );
+};
+
+export default UniqueDataComponent;
+
+
+
+[
+    { "UserName": "Ajay" ,
+     "UserID": "MEPL 001",
+      "Email":"Ajay@Manavenergy.com", 
+      "SiteName":"manav site", 
+     " SiteLocation": "Bangalore"
+    },
+    { "UserName": "Raja" ,
+     "UserID": "MEPL 002",
+      "Email":"Raja@Manavenergy.com", 
+      "SiteName":"manav site", 
+     " SiteLocation": "Bangalore"
+    },
+
+    { "UserName": "Teja" ,
+     "UserID": "MEPL 003",
+      "Email":"Teja@Manavenergy.com", 
+      "SiteName":"manav site", 
+     " SiteLocation": "Bangalore"
+    },
+    { "UserName": "Pavan" ,
+    "UserID": "MEPL 004",
+     "Email":"Pavan@Manavenergy.com", 
+     "SiteName":"manav site", 
+    " SiteLocation": "Bangalore"
+   },
+   { "UserName": "Ram" ,
+   "UserID": "'MEPL 005",
+    "Email":"Ram@Manavenergy.com", 
+    "SiteName":"manav site", 
+   " SiteLocation": "Bangalore"
+  },
+  { "UserName": "Kumar" ,
+  "UserID": "MEPL 006",
+   "Email":"Kumar@Manavenergy.com", 
+   "SiteName":"manav site", 
+  " SiteLocation": "Bangalore"
+ }
+ 
+]
+
+Smaple component data
+
+// import { Grid,Card,Center,Text} from '@mantine/core'
+// import React from 'react'
+// import Linechart from './Rferm_components/Linechart';
+// import Responseive_pie from '../maintenance/Responseive_pie';
+// import TableComponent from '../components/Table_comp';
+
+// import { FreeCameraOptions } from "mapbox-gl";
+
+
+// const data = {
+//   labels: ["Jan", "February", "March", "April", "May"],
+//   datasets: [
+//     {
+//       label: "Max Threshold Limit",
+//       data: [45, 46, 45, 45, 45],
+//       fill: false,
+//       borderColor: "rgb(335, 15, 1)",
+//       tension: 0.1,
+//       pointStyle: 'rect',
+//       pointBorderColor: 'rgb(255,255,255)'
+//     },
+    
+//       {
+//         label: " Threshold Limit",
+//         data: [30, 31, 31, 30, 30],
+//         fill: false,
+//         borderColor: "rgb(255,165,0)",
+//         tension: 0.1,
+//         pointStyle: 'rect',
+//         pointBorderColor: 'rgb(255,255,255)'
+//       },
+      
+//           {
+//             label: "Resistance Trend",
+//             data: [5, 6, 9, 5, 5],
+//             fill: false,
+//             borderColor: "rgb(10, 200, 10)",
+//             tension: 0.1,
+//             pointStyle: 'rect',
+//             pointBorderColor: 'rgb(255,255,255)'
+//           },
+//   ],
+// };
+// const options = {
+//   scales: {
+//     x: {
+//       type: "category",
+//       labels: data.labels,
+//     },
+//     y: {
+//       beginAtZero: true,
+//     },
+//   },
+// };
+
+
+// const datav = {
+//   labels: ["Jan", "February", "March", "April", "May"],
+//   datasets: [
+//     {
+//       label: "Fault Resistance",
+//       data: [2.5,1.5,1.2,2.2,2,2.4,],
+//       fill: false,
+//       borderColor: "rgb(335, 15, 1)",
+//       tension: 0.1,
+//       pointStyle: 'rect',
+//       pointBorderColor: 'rgb(255,255,255)'
+//     }
+//   ],
+// };
+// const optionsv = {
+//   scales: {
+//     x: {
+//       type: "category",
+//       labels: data.labels,
+//     },
+//     y: {
+//       beginAtZero: true,
+//     },
+//   },
+// };
+
+// const datatable=[
+//       { Date: '01/01/2023' , MACAddress: 'MC:00:00:00:001', PitName:'Pit 01', PitID:'001', NormalReding: 1.80 , TimeInterval: '01/01/2023 10:44:45', FaultResistance: '2.6', MaxThresholdLimit:'46', ResistanceTrend:'6'},
+//       { Date: '01/01/2023' , MACAddress: 'MC:00:00:00:001', PitName:'Pit 01', PitID:'001', NormalReding: 1.80 , TimeInterval: '01/01/2023 10:44:45', FaultResistance: '2.6' , MaxThresholdLimit:'46', ResistanceTrend:'6'},
+//       { Date: '01/01/2023' , MACAddress: 'MC:00:00:00:001', PitName:'Pit 01', PitID:'001', NormalReding: 1.80 , TimeInterval: '01/01/2023 10:44:45', FaultResistance: '2.6'  , MaxThresholdLimit:'46', ResistanceTrend:'6'},
+//       { Date: '01/01/2023' , MACAddress: 'MC:00:00:00:001', PitName:'Pit 01', PitID:'001', NormalReding: 1.80 , TimeInterval: '01/01/2023 10:44:45', FaultResistance: '2.6'  , MaxThresholdLimit:'46', ResistanceTrend:'6'},
+//       { Date: '01/01/2023' , MACAddress: 'MC:00:00:00:001', PitName:'Pit 01', PitID:'001', NormalReding: 1.90 , TimeInterval: '01/01/2023 10:44:45', FaultResistance: '2.6' , MaxThresholdLimit:'46' , ResistanceTrend:'6'},
+//       { Date: '01/01/2023' , MACAddress: 'MC:00:00:00:001', PitName:'Pit 01', PitID:'001', NormalReding: 1.90 , TimeInterval: '01/01/2023 10:44:45', FaultResistance: '2.6'  , MaxThresholdLimit:'46', ResistanceTrend:'6'},
+//       { Date: '01/01/2023' , MACAddress: 'MC:00:00:00:001', PitName:'Pit 01', PitID:'001', NormalReding: 1.80 , TimeInterval: '01/01/2023 10:44:45', FaultResistance: '2.6' , MaxThresholdLimit:'46', ResistanceTrend:'6' },
+//       { Date: '02/01/2023' , MACAddress: 'MC:00:00:00:001', PitName:'Pit 01', PitID:'001', NormalReding: 1.80 , TimeInterval: '02/01/2023 10:44:45', FaultResistance: '2.6' , MaxThresholdLimit:'46' , ResistanceTrend:'6'},
+//       { Date: '02/01/2023' , MACAddress: 'MC:00:00:00:001', PitName:'Pit 01', PitID:'001', NormalReding: 1.80 , TimeInterval: '02/01/2023 10:44:45', FaultResistance: '2.6'  , MaxThresholdLimit:'46', ResistanceTrend:'6'},
+//       { Date: '02/01/2023' , MACAddress: 'MC:00:00:00:001', PitName:'Pit 01', PitID:'001', NormalReding: 1.80 , TimeInterval: '02/01/2023 10:44:45', FaultResistance: '2.6'  , MaxThresholdLimit:'46', ResistanceTrend:'6'},
+//       { Date: '02/01/2023' , MACAddress: 'MC:00:00:00:001', PitName:'Pit 01', PitID:'001', NormalReding: 1.80 , TimeInterval: '02/01/2023 10:44:45', FaultResistance: '2.5' , MaxThresholdLimit:'46', ResistanceTrend:'6'},
+//       { Date: '03/01/2023' , MACAddress: 'MC:00:00:00:001', PitName:'Pit 01', PitID:'001', NormalReding: 2.5 , TimeInterval: '03/01/2023 10:44:45', FaultResistance: '2.9' , MaxThresholdLimit:'46' , ResistanceTrend:'6'},
+//       { Date: '03/01/2023' , MACAddress: 'MC:00:00:00:001', PitName:'Pit 01', PitID:'001', NormalReding: 1.80 , TimeInterval: '03/01/2023 10:44:45', FaultResistance: '2.9'  , MaxThresholdLimit:'46', ResistanceTrend:'6'},
+//       { Date: '03/01/2023' , MACAddress: 'MC:00:00:00:001', PitName:'Pit 01', PitID:'001', NormalReding: 1.80 , TimeInterval: '03/01/2023 10:44:45', FaultResistance: '2.9'   , MaxThresholdLimit:'46', ResistanceTrend:'6'},
+//       { Date: '03/01/2023' , MACAddress: 'MC:00:00:00:001', PitName:'Pit 01', PitID:'001', NormalReding: 1.80 , TimeInterval: '03/01/2023 10:44:45', FaultResistance: '2.9'  , MaxThresholdLimit:'46', ResistanceTrend:'6'},
+//       { Date: '03/01/2023' , MACAddress: 'MC:00:00:00:001', PitName:'Pit 01', PitID:'001', NormalReding: 1.80 , TimeInterval: '03/01/2023 10:44:45', FaultResistance: '2.9'  , MaxThresholdLimit:'46', ResistanceTrend:'6'},
+//       { Date: '04/01/2023' , MACAddress: 'MC:00:00:00:001', PitName:'Pit 01', PitID:'001', NormalReding: 1.80 , TimeInterval: '04/01/2023 10:44:45', FaultResistance: '2.9'  , ThresholdLimit:'30' , ResistanceTrend:'6'},
+//       { Date: '04/01/2023' , MACAddress: 'MC:00:00:00:001', PitName:'Pit 01', PitID:'001', NormalReding: 2.5 , TimeInterval: '04/01/2023 10:44:45', FaultResistance: '3.0'  , ThresholdLimit:'30' , ResistanceTrend:'6' },
+//       { Date: '04/01/2023' , MACAddress: 'MC:00:00:00:001', PitName:'Pit 01', PitID:'001', NormalReding: 1.80 , TimeInterval: '04/01/2023 10:44:45', FaultResistance: '3.0'   , ThresholdLimit:'30' , ResistanceTrend:'6'},
+//       { Date: '04/01/2023' , MACAddress: 'MC:00:00:00:001', PitName:'Pit 01', PitID:'001', NormalReding: 1.80 , TimeInterval: '04/01/2023 10:44:45', FaultResistance: '3.0'  ,ThresholdLimit:'30', ResistanceTrend:'6' },
+//       { Date: '05/01/2023' , MACAddress: 'MC:00:00:00:001', PitName:'Pit 01', PitID:'001', NormalReding: 1.80 , TimeInterval: '05/01/2023 10:44:45', FaultResistance: '3.0'   , ThresholdLimit:'30' , ResistanceTrend:'6'},
+//       { Date: '05/01/2023' , MACAddress: 'MC:00:00:00:001', PitName:'Pit 01', PitID:'001', NormalReding: 1.80 , TimeInterval: '05/01/2023 10:44:45', FaultResistance: '3.0'  , ThresholdLimit:'30' , ResistanceTrend:'6' },
+//       { Date: '05/01/2023' , MACAddress: 'MC:00:00:00:001', PitName:'Pit 01', PitID:'001', NormalReding: 1.80 , TimeInterval: '05/01/2023 10:44:45', FaultResistance: '3.0'  ,ThresholdLimit:'30' , ResistanceTrend:'6' },
+//       { Date: '05/01/2023' , MACAddress: 'MC:00:00:00:001', PitName:'Pit 01', PitID:'001', NormalReding: 2.45 , TimeInterval: '05/01/2023 10:44:45', FaultResistance: '3.0'  , ThresholdLimit:'30' , ResistanceTrend:'6' },
+//       { Date: '05/01/2023' , MACAddress: 'MC:00:00:00:001', PitName:'Pit 01', PitID:'001', NormalReding: 1.80 , TimeInterval: '05/01/2023 10:44:45', FaultResistance: '3.0'  ,ThresholdLimit:'30' , ResistanceTrend:'6' },
+//       { Date: '05/01/2023' , MACAddress: 'MC:00:00:00:001', PitName:'Pit 01', PitID:'001', NormalReding: 1.80 , TimeInterval: '05/01/2023 10:44:45', FaultResistance: '3.0'  ,ThresholdLimit:'30' , ResistanceTrend:'6' },
+//       { Date: '05/01/2023' , MACAddress: 'MC:00:00:00:001', PitName:'Pit 01', PitID:'001', NormalReding: 1.80 , TimeInterval: '05/01/2023 10:44:45', FaultResistance: '3.0'  , ThresholdLimit:'30' , ResistanceTrend:'6' },
+//       { Date: '05/01/2023' , MACAddress: 'MC:00:00:00:001', PitName:'Pit 01', PitID:'001', NormalReding: 1.80 , TimeInterval: '05/01/2023 10:44:45', FaultResistance: '3.0'   , ThresholdLimit:'30', ResistanceTrend:'6' },
+//       { Date: '06/01/2023' , MACAddress: 'MC:00:00:00:001', PitName:'Pit 01', PitID:'001', NormalReding: 1.80 , TimeInterval: '06/01/2023 10:44:45', FaultResistance: '3.0'   , ThresholdLimit:'30' , ResistanceTrend:'6'},
+//       { Date: '06/01/2023' , MACAddress: 'MC:00:00:00:001', PitName:'Pit 01', PitID:'001', NormalReding: 1.80 , TimeInterval: '06/01/2023 10:44:45', FaultResistance: '2.5'  ,ThresholdLimit:'30'  , ResistanceTrend:'6'},
+//       { Date: '06/01/2023' , MACAddress: 'MC:00:00:00:001', PitName:'Pit 01', PitID:'001', NormalReding: 1.80 , TimeInterval: '06/01/2023 10:44:45', FaultResistance: '2.5'  , ThresholdLimit:'30' , ResistanceTrend:'6' },
+//       { Date: '06/01/2023' , MACAddress: 'MC:00:00:00:001', PitName:'Pit 01', PitID:'001', NormalReding: 1.80 , TimeInterval: '06/01/2023 10:44:45', FaultResistance: '2.5'   , ThresholdLimit:'30', ResistanceTrend:'6' },
+
+
+//       { Date: '01/01/2023' , MACAddress: 'MC:00:00:00:002', PitName:'Pit 02', PitID:'002', NormalReding: 2.20, TimeInterval: '01/01/2023 10:44:45', FaultResistance: '2.5'  , ThresholdLimit:'30', ResistanceTrend:'6'},
+//       { Date: '01/01/2023' , MACAddress: 'MC:00:00:00:002', PitName:'Pit 02', PitID:'002', NormalReding: 1.80 , TimeInterval: '01/01/2023 10:44:45', FaultResistance: '2.5'  , ThresholdLimit:'30', ResistanceTrend:'6'  },
+//       { Date: '01/01/2023' , MACAddress: 'MC:00:00:00:002', PitName:'Pit 02', PitID:'002', NormalReding: 1.80 , TimeInterval: '01/01/2023 10:44:45', FaultResistance: '2.5'  , ThresholdLimit:'30', ResistanceTrend:'6' },
+//       { Date: '01/01/2023' , MACAddress: 'MC:00:00:00:002', PitName:'Pit 02', PitID:'002', NormalReding: 2.32 , TimeInterval: '01/01/2023 10:44:45', FaultResistance: '2.5'  , ThresholdLimit:'30', ResistanceTrend:'6' },
+//       { Date: '01/01/2023' , MACAddress: 'MC:00:00:00:002', PitName:'Pit 02', PitID:'002', NormalReding: 1.80 , TimeInterval: '01/01/2023 10:44:45', FaultResistance: '3.0'  , ThresholdLimit:'30', ResistanceTrend:'6' },
+//       { Date: '01/01/2023' , MACAddress: 'MC:00:00:00:002', PitName:'Pit 02', PitID:'002', NormalReding: 1.80 , TimeInterval: '01/01/2023 10:44:45', FaultResistance: '3.0'  , ThresholdLimit:'30', ResistanceTrend:'6' },
+//       { Date: '02/01/2023' , MACAddress: 'MC:00:00:00:002', PitName:'Pit 02', PitID:'002', NormalReding: 1.80 , TimeInterval: '02/01/2023 10:44:45', FaultResistance: '3.0'  , ThresholdLimit:'30', ResistanceTrend:'6' },
+//       { Date: '02/01/2023' , MACAddress: 'MC:00:00:00:002', PitName:'Pit 02', PitID:'002', NormalReding: 2.22 , TimeInterval: '02/01/2023 10:44:45', FaultResistance: '3.0'  , ThresholdLimit:'30', ResistanceTrend:'6' },
+//       { Date: '02/01/2023' , MACAddress: 'MC:00:00:00:002', PitName:'Pit 02', PitID:'002', NormalReding: 1.80 , TimeInterval: '02/01/2023 10:44:45', FaultResistance: '3.0'  , ThresholdLimit:'30', ResistanceTrend:'6' },
+//       { Date: '02/01/2023' , MACAddress: 'MC:00:00:00:002', PitName:'Pit 02', PitID:'002', NormalReding: 1.80 , TimeInterval: '02/01/2023 10:44:45', FaultResistance: '3.0'  , ThresholdLimit:'30', ResistanceTrend:'6' },
+//       { Date: '03/01/2023' , MACAddress: 'MC:00:00:00:002', PitName:'Pit 02', PitID:'002', NormalReding: 1.80 , TimeInterval: '03/01/2023 10:44:45', FaultResistance: '3.0'   , ThresholdLimit:'30', ResistanceTrend:'6'},
+//       { Date: '03/01/2023' , MACAddress: 'MC:00:00:00:002', PitName:'Pit 02', PitID:'002', NormalReding: 1.80 , TimeInterval: '03/01/2023 10:44:45', FaultResistance: '3.0'  , ThresholdLimit:'30', ResistanceTrend:'6' },
+//       { Date: '03/01/2023' , MACAddress: 'MC:00:00:00:002', PitName:'Pit 02', PitID:'002', NormalReding: 1.80 , TimeInterval: '03/01/2023 10:44:45', FaultResistance: '3.0'  , ThresholdLimit:'30', ResistanceTrend:'6' },
+//       { Date: '03/01/2023' , MACAddress: 'MC:00:00:00:002', PitName:'Pit 02', PitID:'002', NormalReding: 1.80 , TimeInterval: '03/01/2023 10:44:45', FaultResistance: '3.0'  , ThresholdLimit:'30', ResistanceTrend:'6' },
+//       { Date: '04/01/2023' , MACAddress: 'MC:00:00:00:002', PitName:'Pit 02', PitID:'002', NormalReding: 1.80 , TimeInterval: '04/01/2023 10:44:45', FaultResistance: '2.5'  , ThresholdLimit:'30', ResistanceTrend:'6' },
+//       { Date: '04/01/2023' , MACAddress: 'MC:00:00:00:002', PitName:'Pit 02', PitID:'002', NormalReding: 2.22 , TimeInterval: '04/01/2023 10:44:45', FaultResistance: '2.5'  , ThresholdLimit:'30', ResistanceTrend:'6' },
+      
+//       { Date: '04/01/2023' , MACAddress: 'MC:00:00:00:003', PitName:'Pit 03', PitID:'003', NormalReding: 1.80 , TimeInterval: '04/01/2023 10:44:45', FaultResistance: '2.5'  , ThresholdLimit:'30', ResistanceTrend:'6' },
+//       { Date: '04/01/2023' , MACAddress: 'MC:00:00:00:003', PitName:'Pit 03', PitID:'003', NormalReding: 1.80 , TimeInterval: '04/01/2023 10:44:45', FaultResistance: '2.5'  , ThresholdLimit:'30', ResistanceTrend:'6' },
+//       { Date: '05/01/2023' , MACAddress: 'MC:00:00:00:003', PitName:'Pit 03', PitID:'003', NormalReding: 1.80 , TimeInterval: '05/01/2023 10:44:45', FaultResistance: '2.5'  , ThresholdLimit:'30', ResistanceTrend:'6' },
+//       { Date: '05/01/2023' , MACAddress: 'MC:00:00:00:003', PitName:'Pit 03', PitID:'003', NormalReding: 4.44 , TimeInterval: '05/01/2023 10:44:45', FaultResistance: '2.5'  , ThresholdLimit:'30', ResistanceTrend:'6' },
+//       { Date: '05/01/2023' , MACAddress: 'MC:00:00:00:003', PitName:'Pit 03', PitID:'003', NormalReding: 1.80 , TimeInterval: '05/01/2023 10:44:45', FaultResistance: '2.6' , ThresholdLimit:'30', ResistanceTrend:'6'  },
+//       { Date: '05/01/2023' , MACAddress: 'MC:00:00:00:003', PitName:'Pit 03', PitID:'003', NormalReding: 1.80 , TimeInterval: '05/01/2023 10:44:45', FaultResistance: '2.6'  , ThresholdLimit:'30', ResistanceTrend:'6' },
+//       { Date: '05/01/2023' , MACAddress: 'MC:00:00:00:003', PitName:'Pit 03', PitID:'003', NormalReding: 1.80 , TimeInterval: '05/01/2023 10:44:45', FaultResistance: '2.6'  , ThresholdLimit:'30', ResistanceTrend:'6' },
+//       { Date: '05/01/2023' , MACAddress: 'MC:00:00:00:003', PitName:'Pit 03', PitID:'003', NormalReding: 1.80 , TimeInterval: '05/01/2023 10:44:45', FaultResistance: '2.6'  , ThresholdLimit:'30', ResistanceTrend:'6' },
+//       { Date: '05/01/2023' , MACAddress: 'MC:00:00:00:003', PitName:'Pit 03', PitID:'003', NormalReding: 1.80 , TimeInterval: '05/01/2023 10:44:45', FaultResistance: '2.6'  , ThresholdLimit:'30', ResistanceTrend:'6' },
+//       { Date: '05/01/2023' , MACAddress: 'MC:00:00:00:003', PitName:'Pit 03', PitID:'003', NormalReding: 2.22 , TimeInterval: '05/01/2023 10:44:45', FaultResistance: '2.6'  , ThresholdLimit:'30', ResistanceTrend:'6' },
+//       { Date: '06/01/2023' , MACAddress: 'MC:00:00:00:003', PitName:'Pit 03', PitID:'003', NormalReding: 1.80 , TimeInterval: '06/01/2023 10:44:45', FaultResistance: '2.6'  , ThresholdLimit:'30', ResistanceTrend:'6' },
+//       { Date: '06/01/2023' , MACAddress: 'MC:00:00:00:003', PitName:'Pit 03', PitID:'003', NormalReding: 1.80 , TimeInterval: '06/01/2023 10:44:45', FaultResistance: '2.6'  , ThresholdLimit:'30', ResistanceTrend:'6' },
+//       { Date: '06/01/2023' , MACAddress: 'MC:00:00:00:003', PitName:'Pit 03', PitID:'003', NormalReding: 1.80 , TimeInterval: '06/01/2023 10:44:45', FaultResistance: '2.2'  , ThresholdLimit:'30', ResistanceTrend:'6' },
+//       { Date: '06/01/2023' , MACAddress: 'MC:00:00:00:003', PitName:'Pit 03', PitID:'003', NormalReding: 1.80 , TimeInterval: '06/01/2023 10:44:45', FaultResistance: '2.6' , ThresholdLimit:'30', ResistanceTrend:'6'  },
+//     ];
+
+//     const cols={
+//       Date:'Date',
+//       MACAddress: 'MAC Address', 
+//       PitName:'Pit Name', 
+//       PitID:'Pit ID', 
+//       NormalReding: 'Normal Reding' , 
+//       TimeInterval: 'Time Interval', 
+//       FaultResistance: 'FaultResistance'
+
+//     };
+
+//     const visibleColumns=[
+//       'Date',
+//       'MACAddress', 
+//       'PitName', 
+//       'PitID', 
+//       'NormalReding' , 
+//       'TimeInterval', 
+//       'FaultResistance'
+//     ] ;
+
+
+
+
+// function Sample() {
+//   return (
+//         <>
+//         <Grid mt="xl" mb="xl">   
+//     <Grid.Col md={1} lg={1}></Grid.Col> 
+//         <Grid.Col  md={5} lg={5}>
+//           <Card mt="xl" shadow="xl" padding="lg" radius="lg" withBorder>
+//              <Text ta="center" fw={700} td="underline" size="xl">
+//                 {" "}
+//                 <h1>PIT Resistance</h1>
+//               </Text>
+//               <Center>
+//               <Linechart 
+//               chartData={data} 
+//               chartOption={options} />
+//               </Center>
+//           </Card>
+//         </Grid.Col>
+//         <Grid.Col  md={5} lg={5}>
+//           <Card mt="xl" shadow="xl" padding="lg" radius="lg" withBorder>
+//              <Text ta="center" fw={700} td="underline" size="xl">
+//                 {" "}
+//                 <h1>PIT Fault Reading</h1>
+//               </Text>
+//               <Center>
+//               <Linechart 
+//               chartData={datav} 
+//               chartOption={optionsv} />
+//               </Center>
+//           </Card>
+//         </Grid.Col>
+//    <Grid.Col md={1} lg={1}></Grid.Col>
+
+
+//     <Grid.Col md={1} lg={1}></Grid.Col> 
+//         <Grid.Col  md={10} lg={10}>
+//         <Card mt="xl" shadow="xl" padding="lg" radius="lg" withBorder>
+//          <Text ta="center" fw={700} td="underline" size="xl">
+//                 {" "}
+//                 <h1>PIT Reding Table</h1>
+//               </Text>
+//               <TableComponent
+//               data={datatable}
+//               columns={cols}
+//               visibleColumns={visibleColumns} /> {/*I call only table Commponent hear and using probs call */}
+//              </Card>
+//         </Grid.Col>
+//    <Grid.Col md={1} lg={1}></Grid.Col> 
+//    </Grid> 
+      
+//           </> 
+
+//   )
+// }
+
+// export default Sample;
+
+
+
+// import { Grid, Card, Center, Text, Button, Flex, } from '@mantine/core';
+// import React, { useState } from 'react';
+// import Linechart from './Rferm_components/Linechart';
+// import TableComponent from '../components/Table_comp';
+// import { DatePicker, DatePickerInput } from '@mantine/dates';
+
+
+// const datatable=[
+//   { Date: '01/01/2023' , MACAddress: 'MC:00:00:00:001', PitName:'Pit 01', PitID:'001', NormalReding: 1.80 , TimeInterval: '01/01/2023 10:44:45', FaultResistance: '3.6', MaxThresholdLimit:'46', ResistanceTrend:'6'},
+//   { Date: '01/01/2023' , MACAddress: 'MC:00:00:00:001', PitName:'Pit 01', PitID:'001', NormalReding: 1.80 , TimeInterval: '01/01/2023 10:44:45', FaultResistance: '2.6' , MaxThresholdLimit:'46', ResistanceTrend:'6'},
+//   { Date: '01/01/2023' , MACAddress: 'MC:00:00:00:001', PitName:'Pit 01', PitID:'001', NormalReding: 1.80 , TimeInterval: '01/01/2023 10:44:45', FaultResistance: '3.6'  , MaxThresholdLimit:'46', ResistanceTrend:'6'},
+//   { Date: '01/01/2023' , MACAddress: 'MC:00:00:00:001', PitName:'Pit 01', PitID:'001', NormalReding: 1.80 , TimeInterval: '01/01/2023 10:44:45', FaultResistance: '3.6'  , MaxThresholdLimit:'46', ResistanceTrend:'6'},
+//   { Date: '01/01/2023' , MACAddress: 'MC:00:00:00:001', PitName:'Pit 01', PitID:'001', NormalReding: 1.90 , TimeInterval: '01/01/2023 10:44:45', FaultResistance: '3.6' , MaxThresholdLimit:'46' , ResistanceTrend:'6'},
+//   { Date: '01/01/2023' , MACAddress: 'MC:00:00:00:001', PitName:'Pit 01', PitID:'001', NormalReding: 1.90 , TimeInterval: '01/01/2023 10:44:45', FaultResistance: '3.6'  , MaxThresholdLimit:'46', ResistanceTrend:'6'},
+//   { Date: '01/01/2023' , MACAddress: 'MC:00:00:00:001', PitName:'Pit 01', PitID:'001', NormalReding: 1.80 , TimeInterval: '01/01/2023 10:44:45', FaultResistance: '3.6' , MaxThresholdLimit:'46', ResistanceTrend:'6' },
+//   { Date: '02/01/2023' , MACAddress: 'MC:00:00:00:001', PitName:'Pit 01', PitID:'001', NormalReding: 1.80 , TimeInterval: '02/01/2023 10:44:45', FaultResistance: '2.6' , MaxThresholdLimit:'46' , ResistanceTrend:'6'},
+//   { Date: '02/01/2023' , MACAddress: 'MC:00:00:00:001', PitName:'Pit 01', PitID:'001', NormalReding: 1.80 , TimeInterval: '02/01/2023 10:44:45', FaultResistance: '2.6'  , MaxThresholdLimit:'46', ResistanceTrend:'6'},
+//   { Date: '02/01/2023' , MACAddress: 'MC:00:00:00:001', PitName:'Pit 01', PitID:'001', NormalReding: 1.80 , TimeInterval: '02/01/2023 10:44:45', FaultResistance: '2.6'  , MaxThresholdLimit:'46', ResistanceTrend:'6'},
+//   { Date: '02/01/2023' , MACAddress: 'MC:00:00:00:001', PitName:'Pit 01', PitID:'001', NormalReding: 1.80 , TimeInterval: '02/01/2023 10:44:45', FaultResistance: '2.5' , MaxThresholdLimit:'46', ResistanceTrend:'6'},
+//   { Date: '03/01/2023' , MACAddress: 'MC:00:00:00:001', PitName:'Pit 01', PitID:'001', NormalReding: 2.5 , TimeInterval: '03/01/2023 10:44:45', FaultResistance: '4.9' , MaxThresholdLimit:'46' , ResistanceTrend:'6'},
+//   { Date: '03/01/2023' , MACAddress: 'MC:00:00:00:001', PitName:'Pit 01', PitID:'001', NormalReding: 1.80 , TimeInterval: '03/01/2023 10:44:45', FaultResistance: '4.9'  , MaxThresholdLimit:'46', ResistanceTrend:'6'},
+//   { Date: '03/01/2023' , MACAddress: 'MC:00:00:00:001', PitName:'Pit 01', PitID:'001', NormalReding: 1.80 , TimeInterval: '03/01/2023 10:44:45', FaultResistance: '4.9'   , MaxThresholdLimit:'46', ResistanceTrend:'6'},
+//   { Date: '03/01/2023' , MACAddress: 'MC:00:00:00:001', PitName:'Pit 01', PitID:'001', NormalReding: 1.80 , TimeInterval: '03/01/2023 10:44:45', FaultResistance: '4.9'  , MaxThresholdLimit:'46', ResistanceTrend:'6'},
+//   { Date: '03/01/2023' , MACAddress: 'MC:00:00:00:001', PitName:'Pit 01', PitID:'001', NormalReding: 1.80 , TimeInterval: '03/01/2023 10:44:45', FaultResistance: '4.9'  , MaxThresholdLimit:'46', ResistanceTrend:'6'},
+//   { Date: '04/01/2023' , MACAddress: 'MC:00:00:00:001', PitName:'Pit 01', PitID:'001', NormalReding: 1.80 , TimeInterval: '04/01/2023 10:44:45', FaultResistance: '2.9'  , ThresholdLimit:'30' , ResistanceTrend:'6'},
+//   { Date: '04/01/2023' , MACAddress: 'MC:00:00:00:001', PitName:'Pit 01', PitID:'001', NormalReding: 2.5 , TimeInterval: '04/01/2023 10:44:45', FaultResistance: '5.0'  , ThresholdLimit:'30' , ResistanceTrend:'6' },
+//   { Date: '04/01/2023' , MACAddress: 'MC:00:00:00:001', PitName:'Pit 01', PitID:'001', NormalReding: 1.80 , TimeInterval: '04/01/2023 10:44:45', FaultResistance: '5'   , ThresholdLimit:'30' , ResistanceTrend:'6'},
+//   { Date: '04/01/2023' , MACAddress: 'MC:00:00:00:001', PitName:'Pit 01', PitID:'001', NormalReding: 1.80 , TimeInterval: '04/01/2023 10:44:45', FaultResistance: '5'  ,ThresholdLimit:'30', ResistanceTrend:'6' },
+//   { Date: '05/01/2023' , MACAddress: 'MC:00:00:00:001', PitName:'Pit 01', PitID:'001', NormalReding: 1.80 , TimeInterval: '05/01/2023 10:44:45', FaultResistance: '5'   , ThresholdLimit:'30' , ResistanceTrend:'6'},
+//   { Date: '05/01/2023' , MACAddress: 'MC:00:00:00:001', PitName:'Pit 01', PitID:'001', NormalReding: 1.80 , TimeInterval: '05/01/2023 10:44:45', FaultResistance: '5'  , ThresholdLimit:'30' , ResistanceTrend:'6' },
+//   { Date: '05/01/2023' , MACAddress: 'MC:00:00:00:001', PitName:'Pit 01', PitID:'001', NormalReding: 1.80 , TimeInterval: '05/01/2023 10:44:45', FaultResistance: '5'  ,ThresholdLimit:'30' , ResistanceTrend:'6' },
+//   { Date: '05/01/2023' , MACAddress: 'MC:00:00:00:001', PitName:'Pit 01', PitID:'001', NormalReding: 2.45 , TimeInterval: '05/01/2023 10:44:45', FaultResistance: '5'  , ThresholdLimit:'30' , ResistanceTrend:'6' },
+//   { Date: '05/01/2023' , MACAddress: 'MC:00:00:00:001', PitName:'Pit 01', PitID:'001', NormalReding: 1.80 , TimeInterval: '05/01/2023 10:44:45', FaultResistance: '5'  ,ThresholdLimit:'30' , ResistanceTrend:'6' },
+//   { Date: '05/01/2023' , MACAddress: 'MC:00:00:00:001', PitName:'Pit 01', PitID:'001', NormalReding: 1.80 , TimeInterval: '05/01/2023 10:44:45', FaultResistance: '5'  ,ThresholdLimit:'30' , ResistanceTrend:'6' },
+//   { Date: '05/01/2023' , MACAddress: 'MC:00:00:00:001', PitName:'Pit 01', PitID:'001', NormalReding: 1.80 , TimeInterval: '05/01/2023 10:44:45', FaultResistance: '5'  , ThresholdLimit:'30' , ResistanceTrend:'6' },
+//   { Date: '05/01/2023' , MACAddress: 'MC:00:00:00:001', PitName:'Pit 01', PitID:'001', NormalReding: 1.80 , TimeInterval: '05/01/2023 10:44:45', FaultResistance: '5'   , ThresholdLimit:'30', ResistanceTrend:'6' },
+//   { Date: '05/01/2023' , MACAddress: 'MC:00:00:00:001', PitName:'Pit 01', PitID:'001', NormalReding: 1.80 , TimeInterval: '06/01/2023 10:44:45', FaultResistance: '5'   , ThresholdLimit:'30' , ResistanceTrend:'6'},
+//   { Date: '05/01/2023' , MACAddress: 'MC:00:00:00:001', PitName:'Pit 01', PitID:'001', NormalReding: 1.80 , TimeInterval: '06/01/2023 10:44:45', FaultResistance: '2.5'  ,ThresholdLimit:'30'  , ResistanceTrend:'6'},
+//   { Date: '05/01/2023' , MACAddress: 'MC:00:00:00:001', PitName:'Pit 01', PitID:'001', NormalReding: 1.80 , TimeInterval: '06/01/2023 10:44:45', FaultResistance: '2.5'  , ThresholdLimit:'30' , ResistanceTrend:'6' },
+//   { Date: '05/01/2023' , MACAddress: 'MC:00:00:00:001', PitName:'Pit 01', PitID:'001', NormalReding: 1.80 , TimeInterval: '06/01/2023 10:44:45', FaultResistance: '2.5'   , ThresholdLimit:'30', ResistanceTrend:'6' },
+
+
+//   { Date: '01/01/2023' , MACAddress: 'MC:00:00:00:002', PitName:'Pit 02', PitID:'002', NormalReding: 2.20, TimeInterval: '01/01/2023 10:44:45', FaultResistance: '2.5'  , ThresholdLimit:'30', ResistanceTrend:'6'},
+//   { Date: '01/01/2023' , MACAddress: 'MC:00:00:00:002', PitName:'Pit 02', PitID:'002', NormalReding: 1.80 , TimeInterval: '01/01/2023 10:44:45', FaultResistance: '3.0'  , ThresholdLimit:'30', ResistanceTrend:'6'  },
+//   { Date: '01/01/2023' , MACAddress: 'MC:00:00:00:002', PitName:'Pit 02', PitID:'002', NormalReding: 1.80 , TimeInterval: '01/01/2023 10:44:45', FaultResistance: '2.5'  , ThresholdLimit:'30', ResistanceTrend:'6' },
+//   { Date: '01/01/2023' , MACAddress: 'MC:00:00:00:002', PitName:'Pit 02', PitID:'002', NormalReding: 2.32 , TimeInterval: '01/01/2023 10:44:45', FaultResistance: '2.5'  , ThresholdLimit:'30', ResistanceTrend:'6' },
+//   { Date: '01/01/2023' , MACAddress: 'MC:00:00:00:002', PitName:'Pit 02', PitID:'002', NormalReding: 1.80 , TimeInterval: '01/01/2023 10:44:45', FaultResistance: '3.0'  , ThresholdLimit:'30', ResistanceTrend:'6' },
+//   { Date: '01/01/2023' , MACAddress: 'MC:00:00:00:002', PitName:'Pit 02', PitID:'002', NormalReding: 1.80 , TimeInterval: '01/01/2023 10:44:45', FaultResistance: '3.0'  , ThresholdLimit:'30', ResistanceTrend:'6' },
+//   { Date: '02/01/2023' , MACAddress: 'MC:00:00:00:002', PitName:'Pit 02', PitID:'002', NormalReding: 1.80 , TimeInterval: '02/01/2023 10:44:45', FaultResistance: '3.0'  , ThresholdLimit:'30', ResistanceTrend:'6' },
+//   { Date: '02/01/2023' , MACAddress: 'MC:00:00:00:002', PitName:'Pit 02', PitID:'002', NormalReding: 2.22 , TimeInterval: '02/01/2023 10:44:45', FaultResistance: '3.0'  , ThresholdLimit:'30', ResistanceTrend:'6' },
+//   { Date: '02/01/2023' , MACAddress: 'MC:00:00:00:002', PitName:'Pit 02', PitID:'002', NormalReding: 1.80 , TimeInterval: '02/01/2023 10:44:45', FaultResistance: '3.0'  , ThresholdLimit:'30', ResistanceTrend:'6' },
+//   { Date: '02/01/2023' , MACAddress: 'MC:00:00:00:002', PitName:'Pit 02', PitID:'002', NormalReding: 1.80 , TimeInterval: '02/01/2023 10:44:45', FaultResistance: '3.0'  , ThresholdLimit:'30', ResistanceTrend:'6' },
+//   { Date: '03/01/2023' , MACAddress: 'MC:00:00:00:002', PitName:'Pit 02', PitID:'002', NormalReding: 1.80 , TimeInterval: '03/01/2023 10:44:45', FaultResistance: '3.0'   , ThresholdLimit:'30', ResistanceTrend:'6'},
+//   { Date: '03/01/2023' , MACAddress: 'MC:00:00:00:002', PitName:'Pit 02', PitID:'002', NormalReding: 1.80 , TimeInterval: '03/01/2023 10:44:45', FaultResistance: '3.0'  , ThresholdLimit:'30', ResistanceTrend:'6' },
+//   { Date: '03/01/2023' , MACAddress: 'MC:00:00:00:002', PitName:'Pit 02', PitID:'002', NormalReding: 1.80 , TimeInterval: '03/01/2023 10:44:45', FaultResistance: '3.0'  , ThresholdLimit:'30', ResistanceTrend:'6' },
+//   { Date: '03/01/2023' , MACAddress: 'MC:00:00:00:002', PitName:'Pit 02', PitID:'002', NormalReding: 1.80 , TimeInterval: '03/01/2023 10:44:45', FaultResistance: '3.0'  , ThresholdLimit:'30', ResistanceTrend:'6' },
+//   { Date: '04/01/2023' , MACAddress: 'MC:00:00:00:002', PitName:'Pit 02', PitID:'002', NormalReding: 1.80 , TimeInterval: '04/01/2023 10:44:45', FaultResistance: '2.5'  , ThresholdLimit:'30', ResistanceTrend:'6' },
+//   { Date: '04/01/2023' , MACAddress: 'MC:00:00:00:002', PitName:'Pit 02', PitID:'002', NormalReding: 2.22 , TimeInterval: '04/01/2023 10:44:45', FaultResistance: '2.5'  , ThresholdLimit:'30', ResistanceTrend:'6' },
+  
+//   { Date: '04/01/2023' , MACAddress: 'MC:00:00:00:003', PitName:'Pit 03', PitID:'003', NormalReding: 1.80 , TimeInterval: '04/01/2023 10:44:45', FaultResistance: '2.5'  , ThresholdLimit:'30', ResistanceTrend:'6' },
+//   { Date: '04/01/2023' , MACAddress: 'MC:00:00:00:003', PitName:'Pit 03', PitID:'003', NormalReding: 1.80 , TimeInterval: '04/01/2023 10:44:45', FaultResistance: '2.5'  , ThresholdLimit:'30', ResistanceTrend:'6' },
+//   { Date: '05/01/2023' , MACAddress: 'MC:00:00:00:003', PitName:'Pit 03', PitID:'003', NormalReding: 1.80 , TimeInterval: '05/01/2023 10:44:45', FaultResistance: '2.5'  , ThresholdLimit:'30', ResistanceTrend:'6' },
+//   { Date: '05/01/2023' , MACAddress: 'MC:00:00:00:003', PitName:'Pit 03', PitID:'003', NormalReding: 4.44 , TimeInterval: '05/01/2023 10:44:45', FaultResistance: '2.5'  , ThresholdLimit:'30', ResistanceTrend:'6' },
+//   { Date: '05/01/2023' , MACAddress: 'MC:00:00:00:003', PitName:'Pit 03', PitID:'003', NormalReding: 1.80 , TimeInterval: '05/01/2023 10:44:45', FaultResistance: '2.6' , ThresholdLimit:'30', ResistanceTrend:'6'  },
+//   { Date: '05/01/2023' , MACAddress: 'MC:00:00:00:003', PitName:'Pit 03', PitID:'003', NormalReding: 1.80 , TimeInterval: '05/01/2023 10:44:45', FaultResistance: '2.6'  , ThresholdLimit:'30', ResistanceTrend:'6' },
+//   { Date: '05/01/2023' , MACAddress: 'MC:00:00:00:003', PitName:'Pit 03', PitID:'003', NormalReding: 1.80 , TimeInterval: '05/01/2023 10:44:45', FaultResistance: '2.6'  , ThresholdLimit:'30', ResistanceTrend:'6' },
+//   { Date: '05/01/2023' , MACAddress: 'MC:00:00:00:003', PitName:'Pit 03', PitID:'003', NormalReding: 1.80 , TimeInterval: '05/01/2023 10:44:45', FaultResistance: '2.6'  , ThresholdLimit:'30', ResistanceTrend:'6' },
+//   { Date: '05/01/2023' , MACAddress: 'MC:00:00:00:003', PitName:'Pit 03', PitID:'003', NormalReding: 1.80 , TimeInterval: '05/01/2023 10:44:45', FaultResistance: '2.6'  , ThresholdLimit:'30', ResistanceTrend:'6' },
+//   { Date: '05/01/2023' , MACAddress: 'MC:00:00:00:003', PitName:'Pit 03', PitID:'003', NormalReding: 2.22 , TimeInterval: '05/01/2023 10:44:45', FaultResistance: '2.6'  , ThresholdLimit:'30', ResistanceTrend:'6' },
+//   { Date: '05/01/2023' , MACAddress: 'MC:00:00:00:003', PitName:'Pit 03', PitID:'003', NormalReding: 1.80 , TimeInterval: '06/01/2023 10:44:45', FaultResistance: '2.6'  , ThresholdLimit:'30', ResistanceTrend:'6' },
+//   { Date: '05/01/2023' , MACAddress: 'MC:00:00:00:003', PitName:'Pit 03', PitID:'003', NormalReding: 1.80 , TimeInterval: '06/01/2023 10:44:45', FaultResistance: '2.6'  , ThresholdLimit:'30', ResistanceTrend:'6' },
+//   { Date: '05/01/2023' , MACAddress: 'MC:00:00:00:003', PitName:'Pit 03', PitID:'003', NormalReding: 1.80 , TimeInterval: '06/01/2023 10:44:45', FaultResistance: '2.2'  , ThresholdLimit:'30', ResistanceTrend:'6' },
+//   { Date: '05/01/2023' , MACAddress: 'MC:00:00:00:003', PitName:'Pit 03', PitID:'003', NormalReding: 1.80 , TimeInterval: '06/01/2023 10:44:45', FaultResistance: '2.6' , ThresholdLimit:'30', ResistanceTrend:'6'  },
+// ];
+
+// const cols = {
+//   Date: 'Date',
+//   MACAddress: 'MAC Address',
+//   PitName: 'Pit Name',
+//   PitID: 'Pit ID',
+//   NormalReding: 'Normal Reading',
+//   TimeInterval: 'Time Interval',
+//   FaultResistance: 'Fault Resistance',
+// };
+
+// const visibleColumns = [
+//   'Date',
+//   'MACAddress',
+//   'PitName',
+//   'PitID',
+//   'NormalReding',
+//   'TimeInterval',
+//   'FaultResistance',
+// ];
+
+// // // Organize data for line chart
+// // const lineChartData = {
+// //   labels: [],
+// //   datasets: [
+// //     { 
+// //       label: 'Fault Resistance', data: [], 
+// //       borderColor: "rgb(335, 15, 1)",
+// //     },
+// //     // Add more datasets if needed
+// //   ],
+// // };
+
+// // datatable.forEach((item) => {
+// //   lineChartData.labels.push(item.Date);
+// //   lineChartData.datasets[0].data.push(parseFloat(item.FaultResistance)); // Assuming FaultResistance is a numeric value
+// //   // Add more data to other datasets if needed
+// // });
+
+
+
+
+// function Sample() {
+
+//   const [fromDate, setFromDate] = useState(null);
+//   const [toDate, setToDate] = useState(null);
+//   const [showData, setShowData] = useState(false);
+
+//   // Filtered data based on selected date range this code for table 
+//   const filteredData = datatable.filter(item => {
+//     const currentDate = new Date(item.Date);
+//     return (!fromDate || currentDate >= fromDate) && (!toDate || currentDate <= toDate);
+//   });
+
+//   // Organize filtered data for line chart 
+//   const filteredlineChartData = {
+//     labels: [],
+//     datasets: [
+//       { 
+//         label: 'Fault Resistance', 
+//         data: [], 
+//         borderColor: "rgb(335, 15, 1)",
+//       },
+      
+      
+//     ],
+//   };
+// // this logic for select the colum for Displaying the line chart 
+//   filteredData.forEach((item) => {
+//     filteredlineChartData.labels.push(item.Date);
+//     filteredlineChartData.datasets[0].data.push(parseFloat(item.FaultResistance));
+//   });
+  
+//    // Organize filtered data for line chart 
+//    const filteredlineChartDataResis = {
+//     labels: [],
+//     datasets: [
+//       { 
+//         label: 'MaxThresholdLimit', 
+//         data: [], 
+//         borderColor: "blue",
+//       },
+//       { 
+//         label: 'Fault ResistanceTrend', 
+//         data: [], 
+//         borderColor: "lightgreen",
+//       },
+//       { 
+//         label: 'ThresholdLimit', 
+//         data: [], 
+//         borderColor: "pink",
+//       },
+      
+      
+      
+//     ],
+//   };
+// // this logic for select the colum for Displaying the line chart 
+//   filteredData.forEach((item) => {
+//     filteredlineChartDataResis.labels.push(item.Date);
+//     filteredlineChartDataResis.datasets[0].data.push(parseFloat(item.MaxThresholdLimit));
+//     filteredlineChartDataResis.datasets[1].data.push(parseFloat(item.ResistanceTrend));
+//     filteredlineChartDataResis.datasets[2].data.push(parseFloat(item.ThresholdLimit));
+//  // if want to Display more data flow lines in the chart add your colum here 
+//   });
+  
+//   const handleContinue = () => {
+//     if (fromDate && toDate) {
+//       setShowData(true);
+//     } else {
+//       setShowData(false); // Reset showData if either fromDate or toDate is null
+//     }
+//   };
+
+  
+
+//   return (
+//     <>
+    
+//    <Grid mt="xl" mb="xl">
+//       <Grid.Col md={1} lg={1}></Grid.Col>
+//       <Grid.Col md={10} lg={10}>
+      
+//        <Center>
+     
+//            {/* Date range picker */}
+//            <DatePickerInput
+//               label="Select From Date"
+//               value={fromDate}
+//               placeholder="Pick dates range"
+//               onChange={setFromDate}
+//               maxDate={toDate}
+//             />
+//             <DatePickerInput
+//               label="Select End Date"
+//               value={toDate}
+//               placeholder="Pick dates range"
+//               onChange={setToDate}
+//               minDate={fromDate}
+//             />
+//      </Center> 
+//      </Grid.Col> 
+//      <Grid.Col md={1} lg={1}></Grid.Col>
+    
+//             <Button
+//               onClick={handleContinue}
+//               disabled={!fromDate || !toDate}
+//               fullWidth
+//               variant="outline"
+//               style={{ marginTop: '10px' }}
+//             >
+//               Continue
+//             </Button>
+//    </Grid>  
+
+//    {showData ? (
+//         filteredData.length > 0 ? (
+//            <Grid mt="xl" mb="xl">   
+//         <Grid.Col md={1} lg={1}></Grid.Col>
+//         <Grid.Col md={5} lg={5}>
+//           <Card mt="xl" shadow="xl" padding="lg" radius="lg" withBorder>
+//             <Text ta="center" fw={700} td="underline" size="xl">
+//             <h1>PIT Fault Reading</h1>
+//             </Text>
+//             <Center>
+//             {showData && <Linechart chartData={filteredlineChartData} />}
+//             </Center>
+//           </Card>
+//         </Grid.Col>
+//         <Grid.Col md={5} lg={5}>
+//           <Card mt="xl" shadow="xl" padding="lg" radius="lg" withBorder>
+//             <Text ta="center" fw={700} td="underline" size="xl">
+              
+//               <h1>PIT Resistance</h1>
+//             </Text>
+//             <Center>
+//             {showData && <Linechart chartData={filteredlineChartDataResis} />}
+//             </Center>
+//           </Card>
+//         </Grid.Col>
+//         <Grid.Col md={1} lg={1}></Grid.Col>
+
+//         <Grid.Col md={1} lg={1}></Grid.Col>
+//         <Grid.Col md={10} lg={10}>
+//           <Card mt="xl" shadow="xl" padding="lg" radius="lg" withBorder>
+//             <Text ta="center" fw={700} td="underline" size="xl">
+//               <h1>PIT Reading Table</h1>
+//             </Text>
+          
+//             {showData && (
+//             <TableComponent
+//               data={filteredData}
+//               columns={cols}
+//               visibleColumns={visibleColumns}
+//             />
+//             )}
+//           </Card>
+//         </Grid.Col>
+//         <Grid.Col md={1} lg={1}></Grid.Col>
+//       </Grid> 
+//       ) : (
+//         <Center>
+//           <Text>No data available. Please select a date range.</Text>
+//         </Center>
+//       )
+//    ):null}
+//     </>
+//   );
+// }
+
+// export default Sample;
+
+// import React from 'react'
+// import Pit_details from "./Rferm_components/Pit_details";
+// import RfermProgress from "./Rferm_components/RfermProgress";
+// import Map_componenent from "./Rferm_components/Map_componenent";
+// import Pitdetails_table from "./Rferm_components/Pitdetails_table";
+// import { Card, Text, Grid } from "@mantine/core";
+// import Rfermhome from "./Rfermhome";
+// import PITCardtest from "./Rferm_components/PITCardtest";
+// import RfermLinechartb from "./Rferm_components/RfermLinechartb";
+
+// function Sample() {
+  // const datatable=[
+      
+  //   { SCCUser: "Mahadev", PCCUser: "Rajesh", PIT: "P001",Resistances: ["10", "15", "20","30","40","50"], PITStatus:"Unsafe" },
+  //   { SCCUser: "Mahadev", PCCUser: "Rajesh", PIT: "P002",Resistances: ["10", "15", "20","30","40","50"], PITStatus:"Safe" },
+  //   { SCCUser: "Mahadev", PCCUser: "Rajesh", PIT: "P003",Resistances: ["10", "15", "20","30","40","50"],PITStatus:"Unsafe" },
+  //   { SCCUser: "Mahadev", PCCUser: "Rajesh", PIT: "P004",Resistances: ["10", "15", "20","30","40","50"],PITStatus:"Unsafe" },
+  //   { SCCUser: "Mahadev", PCCUser: "Vikram", PIT: "P005", Resistances: ["10", "15", "20","30","40","50"],PITStatus:"Warning" },
+  //   { SCCUser: "Mahadev", PCCUser: "Vikram", PIT: "P006",Resistances: ["10", "15", "20","30","40","50"], PITStatus:"Safe" },
+  //   { SCCUser: "Mahadev", PCCUser: "Vikram", PIT: "P007" , Resistances: ["10", "15", "20","30","40","50"],PITStatus:"Unsafe" },
+  //   { SCCUser: "Mahadev", PCCUser: "Vikram", PIT: "P008" ,Resistances: ["10", "15", "20","30","40","50"], PITStatus:"Unsafe" },
+  //   { SCCUser: "Mahadev", PCCUser: "Ganesh", PIT: "P009" ,Resistances: ["10", "15", "20","30","40","50"], PITStatus:"Safe" },
+  //   { SCCUser: "Mahadev", PCCUser: "Ganesh", PIT: "P010" ,Resistances: ["10", "15", "20","30","40","50"], PITStatus:"Safe" },
+  //   { SCCUser: "Mahadev", PCCUser: "Ganesh", PIT: "P011" ,Resistances: ["10", "15", "20","30","40","50"], PITStatus:"Unsafe" },
+  //   { SCCUser: "Mahadev", PCCUser: "Ganesh", PIT: "P012" ,Resistances: ["10", "15", "20","30","40","50"], PITStatus:"Warning" },  
+    
+  //   { SCCUser: "Ganesh", PCCUser: "Anil", PIT: "P013",Resistances: ["10", "15", "20","30","40","50"], PITStatus:"Unsafe" }, 
+  //   { SCCUser: "Ganesh", PCCUser: "Anil", PIT: "P014" ,Resistances: ["10", "15", "20","30","40","50"], PITStatus:"Warning" }, 
+  //   { SCCUser: "Ganesh", PCCUser: "Anil", PIT: "P015" ,Resistances: ["10", "15", "20","30","40","50"], PITStatus:"Safe" },
+  //   { SCCUser: "Ganesh", PCCUser: "Anil", PIT: "P016" , Resistances: ["10", "15", "20","30","40","50"],PITStatus:"Safe" },
+  //   { SCCUser: "Ganesh", PCCUser: "Kumar", PIT: "P017" ,Resistances: ["10", "15", "20","30","40","50"], PITStatus:"Unsafe" }, 
+  //   { SCCUser: "Ganesh", PCCUser: "Kumar", PIT: "P018" ,Resistances: ["10", "15", "20","30","40","50"], PITStatus:"Unsafe" }, 
+  //   { SCCUser: "Ganesh", PCCUser: "Kumar", PIT: "P019" ,Resistances: ["10", "15", "20","30","40","50"], PITStatus:"Warning" },
+  //   { SCCUser: "Ganesh", PCCUser: "Kumar", PIT: "P020" ,Resistances: ["10", "15", "20","30","40","50"], PITStatus:"Safe" },
+  //   { SCCUser: "Ganesh", PCCUser: "Amit", PIT: "P0021" ,Resistances: ["10", "15", "20","30","40","50"], PITStatus:"Unsafe" }, 
+  //   { SCCUser: "Ganesh", PCCUser: "Amit", PIT: "P0022" ,Resistances: ["10", "15", "20","30","40","50"], PITStatus:"Warning" }, 
+  //   { SCCUser: "Ganesh", PCCUser: "Amit", PIT: "P0023" ,Resistances: ["10", "15", "20","30","40","50"], PITStatus:"Safe" },
+  //   { SCCUser: "Ganesh", PCCUser: "Amit", PIT: "P0024" ,Resistances: ["10", "15", "20","30","40","50"], PITStatus:"Safe" },
+  //   { SCCUser: "Ganesh", PCCUser: "Amit", PIT: "P0025" ,Resistances: ["10", "15", "20","30","40","50"], PITStatus:"Safe" },
+
+  //   { SCCUser: 'Lakshman', PCCUser: "Anil", PIT: "P026" ,Resistances: ["10", "15", "20","30","40","50"], PITStatus:"Unsafe" }, 
+  //   { SCCUser: 'Lakshman', PCCUser: "Anil", PIT: "P027" ,Resistances: ["10", "15", "20","30","40","50"], PITStatus:"Warning" },
+  //   { SCCUser: 'Lakshman', PCCUser: "Anil", PIT: "P028" ,Resistances: ["10", "15", "20","30","40","50"], PITStatus:"Unsafe" }, 
+  //   { SCCUser: 'Lakshman', PCCUser: "Anil", PIT: "P029" ,Resistances: ["10", "15", "20","30","40","50"], PITStatus:"Safe" },
+  //   { SCCUser: 'Lakshman', PCCUser: 'Mangala', PIT: "P030" ,Resistances: ["10", "15", "20","30","40","50"], PITStatus:"Unsafe" }, 
+  //   { SCCUser: 'Lakshman', PCCUser: 'Mangala', PIT: "P031" ,Resistances: ["10", "15", "20","30","40","50"], PITStatus:"Warning" },
+  //   { SCCUser: 'Lakshman', PCCUser: 'Mangala', PIT: "P032" ,Resistances: ["10", "15", "20","30","40","50"], PITStatus:"Safe" },
+  //   { SCCUser: 'Lakshman', PCCUser: 'Mangala', PIT: "P034" ,Resistances: ["10", "15", "20","30","40","50"], PITStatus:"Safe" },
+  //   { SCCUser: 'Lakshman', PCCUser: 'Kumarkar', PIT: "P035" ,Resistances: ["10", "15", "20","30","40","50"], PITStatus:"Unsafe" }, 
+  //   { SCCUser: 'Lakshman', PCCUser: 'Kumarkar', PIT: "P036" ,Resistances: ["10", "15", "20","30","40","50"], PITStatus:"Warning" },
+  //   { SCCUser: 'Lakshman', PCCUser: 'Kumarkar', PIT: "P037", Resistances: ["10", "15", "20","30","40","50"],PITStatus:"Unsafe" }, 
+  //   { SCCUser: 'Lakshman', PCCUser: 'Kumarkar', PIT: "P038" ,Resistances: ["10", "15", "20","30","40","50"], PITStatus:"Safe" },
+  //   { SCCUser: 'Lakshman', PCCUser: 'Kumarkar', PIT: "P039" , Resistances: ["10", "15", "20","30","40","50"],PITStatus:"Unsafe" }, 
+
+  //   { SCCUser: 'Lava' , PCCUser: 'Venu', PIT: 'P040' ,Resistances: ["10", "15", "20","30","40","50"], PITStatus:"Warning" },
+  //   { SCCUser: 'Lava' , PCCUser: 'Venu', PIT: 'P041' ,Resistances: ["10", "15", "20","30","40","50"], PITStatus:"Unsafe" }, 
+  //   { SCCUser: 'Lava' , PCCUser: 'Venu', PIT: 'P042' ,Resistances: ["10", "15", "20","30","40","50"], PITStatus:"Safe" },
+  //   { SCCUser: 'Lava' , PCCUser: 'Venu', PIT: 'P043' , Resistances: ["10", "15", "20","30","40","50"],PITStatus:"Warning" },
+  //   { SCCUser: 'Lava' , PCCUser: 'Manjhu', PIT: 'P044' ,Resistances: ["10", "15", "20","30","40","50"], PITStatus:"Unsafe" }, 
+  //   { SCCUser: 'Lava' , PCCUser: 'Manjhu', PIT: 'P045', Resistances: ["10", "15", "20","30","40","50"],PITStatus:"Unsafe" }, 
+  //   { SCCUser: 'Lava' , PCCUser: 'Manjhu', PIT: 'P046' ,Resistances: ["10", "15", "20","30","40","50"], PITStatus:"Safe" },
+  //   { SCCUser: 'Lava' , PCCUser: 'Manjhu', PIT: 'P047' ,Resistances: ["10", "15", "20","30","40","50"], PITStatus:"Safe" },
+  //   { SCCUser: 'Lava' , PCCUser: 'Mohan', PIT: 'P048' , Resistances: ["10", "15", "20","30","40","50"],PITStatus:"Warning" }, 
+  //   { SCCUser: 'Lava' , PCCUser: 'Mohan', PIT: 'P049' ,Resistances: ["10", "15", "20","30","40","50"],PITStatus:"Safe" },
+  //   { SCCUser: 'Lava' , PCCUser: 'Mohan', PIT: 'P050', Resistances: ["10", "15", "20","30","40","50"],PITStatus:"Unsafe" }, 
+  //   { SCCUser: 'Lava' , PCCUser: 'Mohan', PIT: 'P051' , Resistances: ["10", "15", "20","30","40","50"],PITStatus:"Safe" },
+
+  //   { SCCUser: 'Ramana' , PCCUser: 'Venu A', PIT: 'P00040' ,Resistances: ["10", "15", "20","30","40","50"], PITStatus:"Safe" },
+  //   { SCCUser: 'Ramana' , PCCUser: 'Venu A', PIT: 'P00041',Resistances: ["10", "15", "20","30","40","50"], PITStatus:"Unsafe" }, 
+  //   { SCCUser: 'Ramana' , PCCUser: 'Venu A', PIT: 'P00042' ,Resistances: ["10", "15", "20","30","40","50"], PITStatus:"Warning" },
+  //   { SCCUser: 'Ramana' , PCCUser: 'Venu A', PIT: 'P00043' , Resistances: ["10", "15", "20","30","40","50"],PITStatus:"Safe" },
+  //   { SCCUser: 'Ramana' , PCCUser: 'Manjhu A', PIT: 'P00044',Resistances: ["10", "15", "20","30","40","50"], PITStatus:"Unsafe" }, 
+  //   { SCCUser: 'Ramana', PCCUser: 'Manjhu A', PIT: 'P00045' ,Resistances: ["10", "15", "20","30","40","50"], PITStatus:"Warning" },
+  //   { SCCUser: 'Ramana' , PCCUser: 'Manjhu A', PIT: 'P0406' ,Resistances: ["10", "15", "20","30","40","50"], PITStatus:"Safe" },
+  //   { SCCUser: 'Ramana' , PCCUser: 'Mohan A', PIT: 'P00048' ,Resistances: ["10", "15", "20","30","40","50"], PITStatus:"Safe" },
+  //   { SCCUser: 'Ramana' , PCCUser: 'Mohan A', PIT: 'P00049' ,Resistances: ["10", "15", "20","30","40","50"], PITStatus:"Unsafe" }, 
+  //   { SCCUser: 'Ramana' , PCCUser: 'Mohan A', PIT: 'P0050' , Resistances: ["10", "15", "20","30","40","50"],PITStatus:"Warning" },
+  //   { SCCUser: 'Ramana' , PCCUser: 'Mohan A', PIT: 'P00051' ,Resistances: ["10", "15", "20","30","40","50"], PITStatus:"Safe" },
+
+  //   { SCCUser: 'Shivakumar' , PCCUser: 'Venu B', PIT: 'P0040' ,Resistances: ["10", "15", "20","30","40","50"], PITStatus:"Safe" },
+  //   { SCCUser: 'Shivakumar' , PCCUser: 'Venu B', PIT: 'P0041', Resistances: ["10", "15", "20","30","40","50"],PITStatus:"Unsafe" }, 
+  //   { SCCUser: 'Shivakumar' , PCCUser: 'Venu B', PIT: 'P0042' , Resistances: ["10", "15", "20","30","40","50"],PITStatus:"Warning" },
+  //   { SCCUser: 'Shivakumar' , PCCUser: 'Venu B', PIT: 'P0043' , Resistances: ["10", "15", "20","30","40","50"],PITStatus:"Safe" },
+  //   { SCCUser: 'Shivakumar' , PCCUser: 'Manjhu B', PIT: 'P0044' ,Resistances: ["10", "15", "20","30","40","50"], PITStatus:"Warning" }, 
+  //   { SCCUser: 'Shivakumar' , PCCUser: 'Manjhu B', PIT: 'P0045' , Resistances: ["10", "15", "20","30","40","50"],PITStatus:"Safe" },
+  //   { SCCUser: 'Shivakumar' , PCCUser: 'Manjhu B', PIT: 'P0046' , Resistances: ["10", "15", "20","30","40","50"],PITStatus:"Safe" },
+  //   { SCCUser: 'Shivakumar' , PCCUser: 'Manjhu B', PIT: 'P0047' , Resistances: ["10", "15", "20","30","40","50"],PITStatus:"Unsafe" }, 
+  //   { SCCUser: 'Shivakumar' , PCCUser: 'Mohan B', PIT: 'P0048',Resistances: ["10", "15", "20","30","40","50"], PITStatus:"Unsafe" },
+  //   { SCCUser: 'Shivakumar' , PCCUser: 'Mohan B', PIT: 'P0049', Resistances: ["10", "15", "20","30","40","50"],PITStatus:"Warning" },
+  //   { SCCUser: 'Shivakumar' , PCCUser: 'Mohan B', PIT: 'P0050', Resistances: ["10", "15", "20","30","40","50"],PITStatus:"Unsafe" }, 
+  //   { SCCUser: 'Shivakumar' , PCCUser: 'Mohan B', PIT: 'P0051', Resistances: ["10", "15", "20","30","40","50"],PITStatus:"Safe" },
+
+  //   { SCCUser: 'Niju', PCCUser: "Rajesh A", PIT: "P0001" ,Resistances: ["10", "15", "20","30","40","50"], PITStatus:"Warning" }, 
+  //   { SCCUser: 'Niju', PCCUser: "Rajesh A", PIT: "P0002" , Resistances: ["10", "15", "20","30","40","50"],PITStatus:"Warning" },
+  //   { SCCUser: 'Niju', PCCUser: "Rajesh A", PIT: "P0003",Resistances: ["10", "15", "20","30","40","50"], PITStatus:"Unsafe" }, 
+  //   { SCCUser: 'Niju', PCCUser: "Rajesh A", PIT: "P0004" ,Resistances: ["10", "15", "20","30","40","50"], PITStatus:"Safe" },
+  //   { SCCUser: 'Niju', PCCUser: "Vikram A", PIT: "P0005" ,Resistances: ["10", "15", "20","30","40","50"], PITStatus:"Safe" },
+  //   { SCCUser: 'Niju', PCCUser: "Vikram A", PIT: "P0006" ,Resistances: ["10", "15", "20","30","40","50"], PITStatus:"Warning" },
+  //   { SCCUser: 'Niju', PCCUser: "Vikram A", PIT: "P0007" , Resistances: ["10", "15", "20","30","40","50"],PITStatus:"Safe" }, 
+  //   { SCCUser: 'Niju', PCCUser: "Vikram A", PIT: "P0008" ,Resistances: ["10", "15", "20","30","40","50"], PITStatus:"Safe" },
+  //   { SCCUser: 'Niju', PCCUser: "Ganesh A", PIT: "P0009" ,Resistances: ["10", "15", "20","30","40","50"], PITStatus:"Unsafe" }, 
+  //   { SCCUser: 'Niju', PCCUser: "Ganesh A", PIT: "P0100" , Resistances: ["10", "15", "20","30","40","50"],PITStatus:"Safe" },
+  //   { SCCUser: 'Niju', PCCUser: "Ganesh A", PIT: "P0011" ,Resistances: ["10", "15", "20","30","40","50"], PITStatus:"Warning" },
+  //   { SCCUser: 'Niju', PCCUser: "Ganesh A", PIT: "P0012" ,Resistances: ["10", "15", "20","30","40","50"], PITStatus:"Unsafe" }, 
+    
+  //   { SCCUser: 'Tharun', PCCUser: "Anila", PIT: "P0026" ,Resistances: ["10", "15", "20","30","40","50"], PITStatus:"Safe" },
+  //   { SCCUser: 'Tharun', PCCUser: "Anila", PIT: "P0027" ,Resistances: ["10", "15", "20","30","40","50"], PITStatus:"Warning" },
+  //   { SCCUser: 'Tharun', PCCUser: "Anila", PIT: "P0028" ,Resistances: ["10", "15", "20","30","40","50"], PITStatus:"Unsafe" }, 
+  //   { SCCUser: 'Tharun', PCCUser: "Anila", PIT: "P0029" ,Resistances: ["10", "15", "20","30","40","50"], PITStatus:"Unsafe" }, 
+  //   { SCCUser: 'Tharun', PCCUser: 'Mangala B', PIT: "P0030" ,Resistances: ["10", "15", "20","30","40","50"], PITStatus:"Unsafe" }, 
+  //   { SCCUser: 'Tharun', PCCUser: 'Mangala B', PIT: "P0031" ,Resistances: ["10", "15", "20","30","40","50"], PITStatus:"Warning" },
+  //   { SCCUser: 'Tharun', PCCUser: 'Mangala B', PIT: "P0032" ,Resistances: ["10", "15", "20","30","40","50"],PITStatus:"Safe" },
+  //   { SCCUser: 'Tharun', PCCUser: 'Mangala B', PIT: "P0034" ,Resistances: ["10", "15", "20","30","40","50"], PITStatus:"Safe" },
+  //   { SCCUser: 'Tharun', PCCUser: 'Kumarkar B', PIT: "P0035" ,Resistances: ["10", "15", "20","30","40","50"], PITStatus:"Unsafe" }, 
+  //   { SCCUser: 'Tharun', PCCUser: 'Kumarkar B', PIT: "P0036" ,Resistances: ["10", "15", "20","30","40","50"], PITStatus:"Warning" },
+  //   { SCCUser: 'Tharun', PCCUser: 'Kumarkar B', PIT: "P0037" ,Resistances: ["10", "15", "20","30","40","50"], PITStatus:"Safe" },
+  //   { SCCUser: 'Tharun', PCCUser: 'Kumarkar B', PIT: "P0038" ,Resistances: ["10", "15", "20","30","40","50"], PITStatus:"Warning" },
+  //   { SCCUser: 'Tharun', PCCUser: 'Kumarkar B', PIT: "P0039" ,Resistances: ["10", "15", "20","30","40","50"], PITStatus:"Unsafe" }, 
+
+      
+  //     ];
+
+//   return (
+//     <div>
+//         {/* <Grid>
+//             <Grid.Col md={1} lg={1}></Grid.Col> 
+//         <Grid.Col  md={10} lg={10}>
+        
+//         <Card mt="xl" shadow="xl" padding="lg" radius="lg" withBorder>
+//                 {/*unsafe user data table display hear*/}
+//          {/* <Text ta="center" fw={700} td="underline" size="xl">
+//                 {" "}
+//                 <h1>PIT DETAILS</h1>
+//               </Text>      
+//               <Map_componenent/>  
+//               <PITCardtest datatable={datatable}/>;
+//       </Card>
+//       </Grid.Col> 
+//       <Grid.Col md={1} lg={1}></Grid.Col> 
+//       </Grid> */} 
+
+
+
+// <RfermLinechartb/>
+            
+    
+//     </div>
+//   )
+// }
+
+
+
+
+import React from 'react';
+import RfermLinechartb from "./Rferm_components/RfermLinechartb";
+import Faultreadingchart from './Rferm_components/Faultreadingchart';
+import Connectingchart from './Rferm_components/Extra_Components/Connectingchart';
+import PitCardList, { Pit_card } from './Rferm_components/Pit_card';
+import DemoCardone from './Rferm_components/Extra_Components/DemoCardone';
+import DemoCardtwo from './Rferm_components/Extra_Components/DemoCardtwo';
+import DemoCardthree from './Rferm_components/Extra_Components/DemoCardthree';
+import BatteryGaugevar from './Rferm_components/BatteryGaugevar';
+import DemoCardGrid from './Rferm_components/Extra_Components/DemoCardGrid';
+import { Grid } from '@mantine/core';
+
+
+// const datatable = [
+//   { date: '01/01/2024', MACAddress: 'MC:00:00:00:001', PitName: 'Pit 01', PitID: '001', NormalReding: '2',  ResistanceTrend: '6'},
+//   { date: '01/02/2024', MACAddress: 'MC:00:00:00:001', PitName: 'Pit 01', PitID: '001', FaultResistance: '5', ResistanceTrend: '6' },
+//   { date: '01/03/2024', MACAddress: 'MC:00:00:00:001', PitName: 'Pit 01', PitID: '001', ThresholdLimit: '6', ResistanceTrend: '7' },
+//   { date: '01/04/2024', MACAddress: 'MC:00:00:00:001', PitName: 'Pit 01', PitID: '001', NormalReding: "2",  ResistanceTrend: '7' },
+//   { date: '01/05/2024', MACAddress: 'MC:00:00:00:001', PitName: 'Pit 01', PitID: '001', FaultResistance: '4', ResistanceTrend: '7' },
+//   { date: '01/06/2024', MACAddress: 'MC:00:00:00:001', PitName: 'Pit 01', PitID: '001', ThresholdLimit: '9', ResistanceTrend: '7' },
+//   { date: '01/07/2024', MACAddress: 'MC:00:00:00:001', PitName: 'Pit 01', PitID: '001', NormalReding: 2,  ResistanceTrend: '7' },
+//   { date: '08/08/2024', MACAddress: 'MC:00:00:00:001', PitName: 'Pit 01', PitID: '001',ThresholdLimit: '9', ResistanceTrend: '7' },
+//   { date: '09/09/2024', MACAddress: 'MC:00:00:00:001', PitName: 'Pit 01', PitID: '001',  FaultResistance: '5', ResistanceTrend: '7' },
+//   { date: '10/10/2024', MACAddress: 'MC:00:00:00:001', PitName: 'Pit 01', PitID: '001',ThresholdLimit: '4', ResistanceTrend: '6' },
+//   { date: '01/11/2024', MACAddress: 'MC:00:00:00:001', PitName: 'Pit 01', PitID: '001', NormalReding: 2,  ResistanceTrend: '7' },
+//   { Date: '01/12/2024', MACAddress: 'MC:00:00:00:001', PitName: 'Pit 01', PitID: '001', ThresholdLimit: '6', ResistanceTrend: '7' },
+//   { Date: '01/13/2024', MACAddress: 'MC:00:00:00:001', PitName: 'Pit 01', PitID: '001',  FaultResistance: '5',  ResistanceTrend: '7' },
+//   { Date: '01/14/2024', MACAddress: 'MC:00:00:00:001', PitName: 'Pit 01', PitID: '001', ThresholdLimit: '10', ResistanceTrend: '6' },
+//   { Date: '01/15/2024', MACAddress: 'MC:00:00:00:001', PitName: 'Pit 01', PitID: '001', NormalReding: 2,  ResistanceTrend: '7' },
+//   { Date: '01/16/2024', MACAddress: 'MC:00:00:00:001', PitName: 'Pit 01', PitID: '001', FaultResistance: '4.5', ResistanceTrend: '6' },
+
+// ];
+
+const datatable=[
+      
+  { SCCUser: "Mahadev", PCCUser: "Rajesh", PIT: "P001",Resistances: ["10", "15", "20","30","40","50"], PITStatus:"Unsafe" },
+  { SCCUser: "Mahadev", PCCUser: "Rajesh", PIT: "P002",Resistances: ["10", "15", "20","30","40","50"], PITStatus:"Safe" },
+  { SCCUser: "Mahadev", PCCUser: "Rajesh", PIT: "P003",Resistances: ["10", "15", "20","30","40","50"],PITStatus:"Unsafe" },
+  { SCCUser: "Mahadev", PCCUser: "Rajesh", PIT: "P004",Resistances: ["10", "15", "20","30","40","50"],PITStatus:"Unsafe" },
+  { SCCUser: "Mahadev", PCCUser: "Vikram", PIT: "P005", Resistances: ["10", "15", "20","30","40","50"],PITStatus:"Warning" },
+  { SCCUser: "Mahadev", PCCUser: "Vikram", PIT: "P006",Resistances: ["10", "15", "20","30","40","50"], PITStatus:"Safe" },
+  { SCCUser: "Mahadev", PCCUser: "Vikram", PIT: "P007" , Resistances: ["10", "15", "20","30","40","50"],PITStatus:"Unsafe" },
+  { SCCUser: "Mahadev", PCCUser: "Vikram", PIT: "P008" ,Resistances: ["10", "15", "20","30","40","50"], PITStatus:"Unsafe" },
+  { SCCUser: "Mahadev", PCCUser: "Ganesh", PIT: "P009" ,Resistances: ["10", "15", "20","30","40","50"], PITStatus:"Safe" },
+  { SCCUser: "Mahadev", PCCUser: "Ganesh", PIT: "P010" ,Resistances: ["10", "15", "20","30","40","50"], PITStatus:"Safe" },
+  { SCCUser: "Mahadev", PCCUser: "Ganesh", PIT: "P011" ,Resistances: ["10", "15", "20","30","40","50"], PITStatus:"Unsafe" },
+  { SCCUser: "Mahadev", PCCUser: "Ganesh", PIT: "P012" ,Resistances: ["10", "15", "20","30","40","50"], PITStatus:"Warning" },  
+  
+  { SCCUser: "Ganesh", PCCUser: "Anil", PIT: "P013",Resistances: ["10", "15", "20","30","40","50"], PITStatus:"Unsafe" }, 
+  { SCCUser: "Ganesh", PCCUser: "Anil", PIT: "P014" ,Resistances: ["10", "15", "20","30","40","50"], PITStatus:"Warning" }, 
+  { SCCUser: "Ganesh", PCCUser: "Anil", PIT: "P015" ,Resistances: ["10", "15", "20","30","40","50"], PITStatus:"Safe" },
+  { SCCUser: "Ganesh", PCCUser: "Anil", PIT: "P016" , Resistances: ["10", "15", "20","30","40","50"],PITStatus:"Safe" },
+  { SCCUser: "Ganesh", PCCUser: "Kumar", PIT: "P017" ,Resistances: ["10", "15", "20","30","40","50"], PITStatus:"Unsafe" }, 
+  { SCCUser: "Ganesh", PCCUser: "Kumar", PIT: "P018" ,Resistances: ["10", "15", "20","30","40","50"], PITStatus:"Unsafe" }, 
+  { SCCUser: "Ganesh", PCCUser: "Kumar", PIT: "P019" ,Resistances: ["10", "15", "20","30","40","50"], PITStatus:"Warning" },
+  { SCCUser: "Ganesh", PCCUser: "Kumar", PIT: "P020" ,Resistances: ["10", "15", "20","30","40","50"], PITStatus:"Safe" },
+  { SCCUser: "Ganesh", PCCUser: "Amit", PIT: "P0021" ,Resistances: ["10", "15", "20","30","40","50"], PITStatus:"Unsafe" }, 
+  { SCCUser: "Ganesh", PCCUser: "Amit", PIT: "P0022" ,Resistances: ["10", "15", "20","30","40","50"], PITStatus:"Warning" }, 
+  { SCCUser: "Ganesh", PCCUser: "Amit", PIT: "P0023" ,Resistances: ["10", "15", "20","30","40","50"], PITStatus:"Safe" },
+  { SCCUser: "Ganesh", PCCUser: "Amit", PIT: "P0024" ,Resistances: ["10", "15", "20","30","40","50"], PITStatus:"Safe" },
+  { SCCUser: "Ganesh", PCCUser: "Amit", PIT: "P0025" ,Resistances: ["10", "15", "20","30","40","50"], PITStatus:"Safe" },
+
+  { SCCUser: 'Lakshman', PCCUser: "Anil", PIT: "P026" ,Resistances: ["10", "15", "20","30","40","50"], PITStatus:"Unsafe" }, 
+  { SCCUser: 'Lakshman', PCCUser: "Anil", PIT: "P027" ,Resistances: ["10", "15", "20","30","40","50"], PITStatus:"Warning" },
+  { SCCUser: 'Lakshman', PCCUser: "Anil", PIT: "P028" ,Resistances: ["10", "15", "20","30","40","50"], PITStatus:"Unsafe" }, 
+  { SCCUser: 'Lakshman', PCCUser: "Anil", PIT: "P029" ,Resistances: ["10", "15", "20","30","40","50"], PITStatus:"Safe" },
+  { SCCUser: 'Lakshman', PCCUser: 'Mangala', PIT: "P030" ,Resistances: ["10", "15", "20","30","40","50"], PITStatus:"Unsafe" }, 
+  { SCCUser: 'Lakshman', PCCUser: 'Mangala', PIT: "P031" ,Resistances: ["10", "15", "20","30","40","50"], PITStatus:"Warning" },
+  { SCCUser: 'Lakshman', PCCUser: 'Mangala', PIT: "P032" ,Resistances: ["10", "15", "20","30","40","50"], PITStatus:"Safe" },
+  { SCCUser: 'Lakshman', PCCUser: 'Mangala', PIT: "P034" ,Resistances: ["10", "15", "20","30","40","50"], PITStatus:"Safe" },
+  { SCCUser: 'Lakshman', PCCUser: 'Kumarkar', PIT: "P035" ,Resistances: ["10", "15", "20","30","40","50"], PITStatus:"Unsafe" }, 
+  { SCCUser: 'Lakshman', PCCUser: 'Kumarkar', PIT: "P036" ,Resistances: ["10", "15", "20","30","40","50"], PITStatus:"Warning" },
+  { SCCUser: 'Lakshman', PCCUser: 'Kumarkar', PIT: "P037", Resistances: ["10", "15", "20","30","40","50"],PITStatus:"Unsafe" }, 
+  { SCCUser: 'Lakshman', PCCUser: 'Kumarkar', PIT: "P038" ,Resistances: ["10", "15", "20","30","40","50"], PITStatus:"Safe" },
+  { SCCUser: 'Lakshman', PCCUser: 'Kumarkar', PIT: "P039" , Resistances: ["10", "15", "20","30","40","50"],PITStatus:"Unsafe" }, 
+
+  { SCCUser: 'Lava' , PCCUser: 'Venu', PIT: 'P040' ,Resistances: ["10", "15", "20","30","40","50"], PITStatus:"Warning" },
+  { SCCUser: 'Lava' , PCCUser: 'Venu', PIT: 'P041' ,Resistances: ["10", "15", "20","30","40","50"], PITStatus:"Unsafe" }, 
+  { SCCUser: 'Lava' , PCCUser: 'Venu', PIT: 'P042' ,Resistances: ["10", "15", "20","30","40","50"], PITStatus:"Safe" },
+  { SCCUser: 'Lava' , PCCUser: 'Venu', PIT: 'P043' , Resistances: ["10", "15", "20","30","40","50"],PITStatus:"Warning" },
+  { SCCUser: 'Lava' , PCCUser: 'Manjhu', PIT: 'P044' ,Resistances: ["10", "15", "20","30","40","50"], PITStatus:"Unsafe" }, 
+  { SCCUser: 'Lava' , PCCUser: 'Manjhu', PIT: 'P045', Resistances: ["10", "15", "20","30","40","50"],PITStatus:"Unsafe" }, 
+  { SCCUser: 'Lava' , PCCUser: 'Manjhu', PIT: 'P046' ,Resistances: ["10", "15", "20","30","40","50"], PITStatus:"Safe" },
+  { SCCUser: 'Lava' , PCCUser: 'Manjhu', PIT: 'P047' ,Resistances: ["10", "15", "20","30","40","50"], PITStatus:"Safe" },
+  { SCCUser: 'Lava' , PCCUser: 'Mohan', PIT: 'P048' , Resistances: ["10", "15", "20","30","40","50"],PITStatus:"Warning" }, 
+  { SCCUser: 'Lava' , PCCUser: 'Mohan', PIT: 'P049' ,Resistances: ["10", "15", "20","30","40","50"],PITStatus:"Safe" },
+  { SCCUser: 'Lava' , PCCUser: 'Mohan', PIT: 'P050', Resistances: ["10", "15", "20","30","40","50"],PITStatus:"Unsafe" }, 
+  { SCCUser: 'Lava' , PCCUser: 'Mohan', PIT: 'P051' , Resistances: ["10", "15", "20","30","40","50"],PITStatus:"Safe" },
+
+  { SCCUser: 'Ramana' , PCCUser: 'Venu A', PIT: 'P00040' ,Resistances: ["10", "15", "20","30","40","50"], PITStatus:"Safe" },
+  { SCCUser: 'Ramana' , PCCUser: 'Venu A', PIT: 'P00041',Resistances: ["10", "15", "20","30","40","50"], PITStatus:"Unsafe" }, 
+  { SCCUser: 'Ramana' , PCCUser: 'Venu A', PIT: 'P00042' ,Resistances: ["10", "15", "20","30","40","50"], PITStatus:"Warning" },
+  { SCCUser: 'Ramana' , PCCUser: 'Venu A', PIT: 'P00043' , Resistances: ["10", "15", "20","30","40","50"],PITStatus:"Safe" },
+  { SCCUser: 'Ramana' , PCCUser: 'Manjhu A', PIT: 'P00044',Resistances: ["10", "15", "20","30","40","50"], PITStatus:"Unsafe" }, 
+  { SCCUser: 'Ramana', PCCUser: 'Manjhu A', PIT: 'P00045' ,Resistances: ["10", "15", "20","30","40","50"], PITStatus:"Warning" },
+  { SCCUser: 'Ramana' , PCCUser: 'Manjhu A', PIT: 'P0406' ,Resistances: ["10", "15", "20","30","40","50"], PITStatus:"Safe" },
+  { SCCUser: 'Ramana' , PCCUser: 'Mohan A', PIT: 'P00048' ,Resistances: ["10", "15", "20","30","40","50"], PITStatus:"Safe" },
+  { SCCUser: 'Ramana' , PCCUser: 'Mohan A', PIT: 'P00049' ,Resistances: ["10", "15", "20","30","40","50"], PITStatus:"Unsafe" }, 
+  { SCCUser: 'Ramana' , PCCUser: 'Mohan A', PIT: 'P0050' , Resistances: ["10", "15", "20","30","40","50"],PITStatus:"Warning" },
+  { SCCUser: 'Ramana' , PCCUser: 'Mohan A', PIT: 'P00051' ,Resistances: ["10", "15", "20","30","40","50"], PITStatus:"Safe" },
+
+  { SCCUser: 'Shivakumar' , PCCUser: 'Venu B', PIT: 'P0040' ,Resistances: ["10", "15", "20","30","40","50"], PITStatus:"Safe" },
+  { SCCUser: 'Shivakumar' , PCCUser: 'Venu B', PIT: 'P0041', Resistances: ["10", "15", "20","30","40","50"],PITStatus:"Unsafe" }, 
+  { SCCUser: 'Shivakumar' , PCCUser: 'Venu B', PIT: 'P0042' , Resistances: ["10", "15", "20","30","40","50"],PITStatus:"Warning" },
+  { SCCUser: 'Shivakumar' , PCCUser: 'Venu B', PIT: 'P0043' , Resistances: ["10", "15", "20","30","40","50"],PITStatus:"Safe" },
+  { SCCUser: 'Shivakumar' , PCCUser: 'Manjhu B', PIT: 'P0044' ,Resistances: ["10", "15", "20","30","40","50"], PITStatus:"Warning" }, 
+  { SCCUser: 'Shivakumar' , PCCUser: 'Manjhu B', PIT: 'P0045' , Resistances: ["10", "15", "20","30","40","50"],PITStatus:"Safe" },
+  { SCCUser: 'Shivakumar' , PCCUser: 'Manjhu B', PIT: 'P0046' , Resistances: ["10", "15", "20","30","40","50"],PITStatus:"Safe" },
+  { SCCUser: 'Shivakumar' , PCCUser: 'Manjhu B', PIT: 'P0047' , Resistances: ["10", "15", "20","30","40","50"],PITStatus:"Unsafe" }, 
+  { SCCUser: 'Shivakumar' , PCCUser: 'Mohan B', PIT: 'P0048',Resistances: ["10", "15", "20","30","40","50"], PITStatus:"Unsafe" },
+  { SCCUser: 'Shivakumar' , PCCUser: 'Mohan B', PIT: 'P0049', Resistances: ["10", "15", "20","30","40","50"],PITStatus:"Warning" },
+  { SCCUser: 'Shivakumar' , PCCUser: 'Mohan B', PIT: 'P0050', Resistances: ["10", "15", "20","30","40","50"],PITStatus:"Unsafe" }, 
+  { SCCUser: 'Shivakumar' , PCCUser: 'Mohan B', PIT: 'P0051', Resistances: ["10", "15", "20","30","40","50"],PITStatus:"Safe" },
+
+  { SCCUser: 'Niju', PCCUser: "Rajesh A", PIT: "P0001" ,Resistances: ["10", "15", "20","30","40","50"], PITStatus:"Warning" }, 
+  { SCCUser: 'Niju', PCCUser: "Rajesh A", PIT: "P0002" , Resistances: ["10", "15", "20","30","40","50"],PITStatus:"Warning" },
+  { SCCUser: 'Niju', PCCUser: "Rajesh A", PIT: "P0003",Resistances: ["10", "15", "20","30","40","50"], PITStatus:"Unsafe" }, 
+  { SCCUser: 'Niju', PCCUser: "Rajesh A", PIT: "P0004" ,Resistances: ["10", "15", "20","30","40","50"], PITStatus:"Safe" },
+  { SCCUser: 'Niju', PCCUser: "Vikram A", PIT: "P0005" ,Resistances: ["10", "15", "20","30","40","50"], PITStatus:"Safe" },
+  { SCCUser: 'Niju', PCCUser: "Vikram A", PIT: "P0006" ,Resistances: ["10", "15", "20","30","40","50"], PITStatus:"Warning" },
+  { SCCUser: 'Niju', PCCUser: "Vikram A", PIT: "P0007" , Resistances: ["10", "15", "20","30","40","50"],PITStatus:"Safe" }, 
+  { SCCUser: 'Niju', PCCUser: "Vikram A", PIT: "P0008" ,Resistances: ["10", "15", "20","30","40","50"], PITStatus:"Safe" },
+  { SCCUser: 'Niju', PCCUser: "Ganesh A", PIT: "P0009" ,Resistances: ["10", "15", "20","30","40","50"], PITStatus:"Unsafe" }, 
+  { SCCUser: 'Niju', PCCUser: "Ganesh A", PIT: "P0100" , Resistances: ["10", "15", "20","30","40","50"],PITStatus:"Safe" },
+  { SCCUser: 'Niju', PCCUser: "Ganesh A", PIT: "P0011" ,Resistances: ["10", "15", "20","30","40","50"], PITStatus:"Warning" },
+  { SCCUser: 'Niju', PCCUser: "Ganesh A", PIT: "P0012" ,Resistances: ["10", "15", "20","30","40","50"], PITStatus:"Unsafe" }, 
+  
+  { SCCUser: 'Tharun', PCCUser: "Anila", PIT: "P0026" ,Resistances: ["10", "15", "20","30","40","50"], PITStatus:"Safe" },
+  { SCCUser: 'Tharun', PCCUser: "Anila", PIT: "P0027" ,Resistances: ["10", "15", "20","30","40","50"], PITStatus:"Warning" },
+  { SCCUser: 'Tharun', PCCUser: "Anila", PIT: "P0028" ,Resistances: ["10", "15", "20","30","40","50"], PITStatus:"Unsafe" }, 
+  { SCCUser: 'Tharun', PCCUser: "Anila", PIT: "P0029" ,Resistances: ["10", "15", "20","30","40","50"], PITStatus:"Unsafe" }, 
+  { SCCUser: 'Tharun', PCCUser: 'Mangala B', PIT: "P0030" ,Resistances: ["10", "15", "20","30","40","50"], PITStatus:"Unsafe" }, 
+  { SCCUser: 'Tharun', PCCUser: 'Mangala B', PIT: "P0031" ,Resistances: ["10", "15", "20","30","40","50"], PITStatus:"Warning" },
+  { SCCUser: 'Tharun', PCCUser: 'Mangala B', PIT: "P0032" ,Resistances: ["10", "15", "20","30","40","50"],PITStatus:"Safe" },
+  { SCCUser: 'Tharun', PCCUser: 'Mangala B', PIT: "P0034" ,Resistances: ["10", "15", "20","30","40","50"], PITStatus:"Safe" },
+  { SCCUser: 'Tharun', PCCUser: 'Kumarkar B', PIT: "P0035" ,Resistances: ["10", "15", "20","30","40","50"], PITStatus:"Unsafe" }, 
+  { SCCUser: 'Tharun', PCCUser: 'Kumarkar B', PIT: "P0036" ,Resistances: ["10", "15", "20","30","40","50"], PITStatus:"Warning" },
+  { SCCUser: 'Tharun', PCCUser: 'Kumarkar B', PIT: "P0037" ,Resistances: ["10", "15", "20","30","40","50"], PITStatus:"Safe" },
+  { SCCUser: 'Tharun', PCCUser: 'Kumarkar B', PIT: "P0038" ,Resistances: ["10", "15", "20","30","40","50"], PITStatus:"Warning" },
+  { SCCUser: 'Tharun', PCCUser: 'Kumarkar B', PIT: "P0039" ,Resistances: ["10", "15", "20","30","40","50"], PITStatus:"Unsafe" }, 
+
+    
+    ];
+
+const Sample = () => {
+  return (
+    <div>
+      <h1>Zoomable Line Chart Example</h1>
+      {/* <RfermLinechartb chartData={data} /> */}
+      {/* <Faultreadingchart data={datatable} /> */}
+      {/* <Connectingchart/ > */}
+      {/* <DemoCardone/>
+      <BatteryGaugevar size={50}/>
+    
+      <DemoCardtwo/>
+      <DemoCardthree/> */}
+      {/* <DemoCardGrid/> */}
+      <Grid>
+      <Grid.Col md={1} lg={1}></Grid.Col>
+      <Pit_card/>
+      <Grid.Col md={1} lg={1}></Grid.Col>
+      </Grid>
+    </div>
+  );
+};
+
+export default Sample
+
+
+
+
+
+(PCC Page old code)
+
+import { Card, Center, Divider, Flex, Grid, Group, Text, useMantineTheme, } from '@mantine/core';
+import React from 'react'
+import Responseive_pie from '../../maintenance/Responseive_pie';
+import TableComponent from '../../components/Table_comp';
+import { useNavigate } from 'react-router-dom';
+import Usertable from './UserTable';
+import Pit_Table from './Pit_Table';
+import RFCircularProgressbar from './RFCircularProgressbar';
+import Linechart from './Linechart';
+import RfermRingProgress from './RfermRingProgress';
+import Rfermhome from '../Rfermhome';
+import WorningRing from './WorningRing';
+import FualtRing from './FualtRing';
+import SafeRing from './SafeRing';
+import RfermResponseive_pie from './RfermResponseive_pie';
+import TotalRing from './TotalRing';
+import { red } from '@mui/material/colors';
+import { gray } from 'd3';
+
+function Pcc() {
+
+
+
+
+
+  const CccValue = [
+    { label: "Safe", value: 100, color: "#24782c", },
+    { label: "Warning", value: 50, color: "#d14d14" },
+    { label: "Unsafe", value: 30, color: "#c51d31" }
+  ];
+
+
+
+
+
+  const datatable = [
+    { Date: '01/01/2023', MACAddress: 'MC:00:00:00:001', PitName: 'Pit 01', PitID: '001', NormalReding: 1.80, TimeInterval: '01/01/2023 10:44:45', Unit: '23' },
+    { Date: '01/01/2023', MACAddress: 'MC:00:00:00:001', PitName: 'Pit 01', PitID: '001', NormalReding: 1.80, TimeInterval: '01/01/2023 10:44:45', Unit: '15' },
+    { Date: '01/01/2023', MACAddress: 'MC:00:00:00:001', PitName: 'Pit 01', PitID: '001', NormalReding: 1.80, TimeInterval: '01/01/2023 10:44:45', Unit: '56' },
+    { Date: '01/01/2023', MACAddress: 'MC:00:00:00:001', PitName: 'Pit 01', PitID: '001', NormalReding: 1.80, TimeInterval: '01/01/2023 10:44:45', Unit: '12' },
+    { Date: '01/01/2023', MACAddress: 'MC:00:00:00:001', PitName: 'Pit 01', PitID: '001', NormalReding: 1.90, TimeInterval: '01/01/2023 10:44:45', Unit: '18' },
+    { Date: '01/01/2023', MACAddress: 'MC:00:00:00:001', PitName: 'Pit 01', PitID: '001', NormalReding: 1.80, TimeInterval: '01/01/2023 10:44:45', Unit: '10' },
+    { Date: '01/01/2023', MACAddress: 'MC:00:00:00:001', PitName: 'Pit 01', PitID: '001', NormalReding: 1.80, TimeInterval: '02/01/2023 10:44:45', Unit: '22' },
+    { Date: '01/01/2023', MACAddress: 'MC:00:00:00:001', PitName: 'Pit 01', PitID: '001', NormalReding: 1.80, TimeInterval: '02/01/2023 10:44:45', Unit: '23' },
+    { Date: '01/01/2023', MACAddress: 'MC:00:00:00:001', PitName: 'Pit 01', PitID: '001', NormalReding: 1.80, TimeInterval: '02/01/2023 10:44:45', Unit: '23' },
+    { Date: '01/01/2023', MACAddress: 'MC:00:00:00:001', PitName: 'Pit 01', PitID: '001', NormalReding: 1.80, TimeInterval: '02/01/2023 10:44:45', Unit: '32' },
+    { Date: '03/01/2023', MACAddress: 'MC:00:00:00:001', PitName: 'Pit 01', PitID: '001', NormalReding: 2.5, TimeInterval: '03/01/2023 10:44:45', Unit: '42' },
+    { Date: '03/01/2023', MACAddress: 'MC:00:00:00:001', PitName: 'Pit 01', PitID: '001', NormalReding: 1.80, TimeInterval: '03/01/2023 10:44:45', Unit: '44' },
+    { Date: '03/01/2023', MACAddress: 'MC:00:00:00:001', PitName: 'Pit 01', PitID: '001', NormalReding: 1.80, TimeInterval: '03/01/2023 10:44:45', Unit: '32' },
+    { Date: '03/01/2023', MACAddress: 'MC:00:00:00:001', PitName: 'Pit 01', PitID: '001', NormalReding: 1.80, TimeInterval: '03/01/2023 10:44:45', Unit: '11' },
+    { Date: '03/01/2023', MACAddress: 'MC:00:00:00:001', PitName: 'Pit 01', PitID: '001', NormalReding: 1.80, TimeInterval: '03/01/2023 10:44:45', Unit: '23' },
+    { Date: '04/01/2023', MACAddress: 'MC:00:00:00:001', PitName: 'Pit 01', PitID: '001', NormalReding: 1.80, TimeInterval: '04/01/2023 10:44:45', Unit: '12' },
+    { Date: '04/01/2023', MACAddress: 'MC:00:00:00:001', PitName: 'Pit 01', PitID: '001', NormalReding: 2.5, TimeInterval: '04/01/2023 10:44:45', Unit: '24' },
+    { Date: '04/01/2023', MACAddress: 'MC:00:00:00:001', PitName: 'Pit 01', PitID: '001', NormalReding: 1.80, TimeInterval: '04/01/2023 10:44:45', Unit: '23' },
+    { Date: '04/01/2023', MACAddress: 'MC:00:00:00:001', PitName: 'Pit 01', PitID: '001', NormalReding: 1.80, TimeInterval: '04/01/2023 10:44:45', Unit: '23' },
+    { Date: '05/01/2023', MACAddress: 'MC:00:00:00:001', PitName: 'Pit 01', PitID: '001', NormalReding: 1.80, TimeInterval: '05/01/2023 10:44:45', Unit: '12' },
+    { Date: '05/01/2023', MACAddress: 'MC:00:00:00:001', PitName: 'Pit 01', PitID: '001', NormalReding: 1.80, TimeInterval: '05/01/2023 10:44:45', Unit: '23' },
+    { Date: '05/01/2023', MACAddress: 'MC:00:00:00:001', PitName: 'Pit 01', PitID: '001', NormalReding: 1.80, TimeInterval: '05/01/2023 10:44:45', Unit: '12' },
+    { Date: '05/01/2023', MACAddress: 'MC:00:00:00:001', PitName: 'Pit 01', PitID: '001', NormalReding: 2.45, TimeInterval: '05/01/2023 10:44:45', Unit: '11' },
+    { Date: '05/01/2023', MACAddress: 'MC:00:00:00:001', PitName: 'Pit 01', PitID: '001', NormalReding: 1.80, TimeInterval: '05/01/2023 10:44:45', Unit: '23' },
+    { Date: '05/01/2023', MACAddress: 'MC:00:00:00:001', PitName: 'Pit 01', PitID: '001', NormalReding: 1.80, TimeInterval: '05/01/2023 10:44:45', Unit: '22' },
+    { Date: '05/01/2023', MACAddress: 'MC:00:00:00:001', PitName: 'Pit 01', PitID: '001', NormalReding: 1.80, TimeInterval: '05/01/2023 10:44:45', Unit: '23' },
+    { Date: '05/01/2023', MACAddress: 'MC:00:00:00:001', PitName: 'Pit 01', PitID: '001', NormalReding: 1.80, TimeInterval: '05/01/2023 10:44:45', Unit: '11' },
+    { Date: '06/01/2023', MACAddress: 'MC:00:00:00:001', PitName: 'Pit 01', PitID: '001', NormalReding: 1.80, TimeInterval: '06/01/2023 10:44:45', Unit: '12`' },
+    { Date: '06/01/2023', MACAddress: 'MC:00:00:00:001', PitName: 'Pit 01', PitID: '001', NormalReding: 1.80, TimeInterval: '06/01/2023 10:44:45', Unit: '23' },
+    { Date: '06/01/2023', MACAddress: 'MC:00:00:00:001', PitName: 'Pit 01', PitID: '001', NormalReding: 1.80, TimeInterval: '06/01/2023 10:44:45', Unit: '31' },
+    { Date: '06/01/2023', MACAddress: 'MC:00:00:00:001', PitName: 'Pit 01', PitID: '001', NormalReding: 1.80, TimeInterval: '06/01/2023 10:44:45', Unit: '54' },
+    { Date: '01/01/2023', MACAddress: 'MC:00:00:00:002', PitName: 'Pit 02', PitID: '002', NormalReding: 2.20, TimeInterval: '01/01/2023 10:44:45', Unit: '34' },
+    { Date: '01/01/2023', MACAddress: 'MC:00:00:00:002', PitName: 'Pit 02', PitID: '002', NormalReding: 1.80, TimeInterval: '01/01/2023 10:44:45', Unit: '34' },
+    { Date: '01/01/2023', MACAddress: 'MC:00:00:00:002', PitName: 'Pit 02', PitID: '002', NormalReding: 1.80, TimeInterval: '01/01/2023 10:44:45', Unit: '54' },
+    { Date: '01/01/2023', MACAddress: 'MC:00:00:00:002', PitName: 'Pit 02', PitID: '002', NormalReding: 2.32, TimeInterval: '01/01/2023 10:44:45', Unit: '43' },
+    { Date: '01/01/2023', MACAddress: 'MC:00:00:00:002', PitName: 'Pit 02', PitID: '002', NormalReding: 1.80, TimeInterval: '01/01/2023 10:44:45', Unit: '34' },
+    { Date: '01/01/2023', MACAddress: 'MC:00:00:00:002', PitName: 'Pit 02', PitID: '002', NormalReding: 1.80, TimeInterval: '01/01/2023 10:44:45', Unit: '34' },
+    { Date: '02/01/2023', MACAddress: 'MC:00:00:00:002', PitName: 'Pit 02', PitID: '002', NormalReding: 1.80, TimeInterval: '02/01/2023 10:44:45', Unit: '34' },
+    { Date: '02/01/2023', MACAddress: 'MC:00:00:00:002', PitName: 'Pit 02', PitID: '002', NormalReding: 2.22, TimeInterval: '02/01/2023 10:44:45', Unit: '54' },
+    { Date: '02/01/2023', MACAddress: 'MC:00:00:00:002', PitName: 'Pit 02', PitID: '002', NormalReding: 1.80, TimeInterval: '02/01/2023 10:44:45', Unit: '42' },
+    { Date: '02/01/2023', MACAddress: 'MC:00:00:00:002', PitName: 'Pit 02', PitID: '002', NormalReding: 1.80, TimeInterval: '02/01/2023 10:44:45', Unit: '12' },
+    { Date: '03/01/2023', MACAddress: 'MC:00:00:00:002', PitName: 'Pit 02', PitID: '002', NormalReding: 1.80, TimeInterval: '03/01/2023 10:44:45', Unit: '12' },
+    { Date: '03/01/2023', MACAddress: 'MC:00:00:00:002', PitName: 'Pit 02', PitID: '002', NormalReding: 1.80, TimeInterval: '03/01/2023 10:44:45', Unit: '12' },
+    { Date: '03/01/2023', MACAddress: 'MC:00:00:00:002', PitName: 'Pit 02', PitID: '002', NormalReding: 1.80, TimeInterval: '03/01/2023 10:44:45', Unit: '21' },
+    { Date: '03/01/2023', MACAddress: 'MC:00:00:00:002', PitName: 'Pit 02', PitID: '002', NormalReding: 1.80, TimeInterval: '03/01/2023 10:44:45', Unit: '21' },
+    { Date: '03/01/2023', MACAddress: 'MC:00:00:00:002', PitName: 'Pit 02', PitID: '002', NormalReding: 1.80, TimeInterval: '03/01/2023 10:44:45', Unit: '12' },
+    { Date: '04/01/2023', MACAddress: 'MC:00:00:00:002', PitName: 'Pit 02', PitID: '002', NormalReding: 1.80, TimeInterval: '04/01/2023 10:44:45', Unit: '12' },
+    { Date: '04/01/2023', MACAddress: 'MC:00:00:00:002', PitName: 'Pit 02', PitID: '002', NormalReding: 2.22, TimeInterval: '04/01/2023 10:44:45', Unit: '12' },
+    { Date: '04/01/2023', MACAddress: 'MC:00:00:00:003', PitName: 'Pit 03', PitID: '003', NormalReding: 1.80, TimeInterval: '04/01/2023 10:44:45', Unit: '32' },
+    { Date: '04/01/2023', MACAddress: 'MC:00:00:00:003', PitName: 'Pit 03', PitID: '003', NormalReding: 1.80, TimeInterval: '04/01/2023 10:44:45', Unit: '12' },
+    { Date: '05/01/2023', MACAddress: 'MC:00:00:00:003', PitName: 'Pit 03', PitID: '003', NormalReding: 1.80, TimeInterval: '05/01/2023 10:44:45', Unit: '12' },
+    { Date: '05/01/2023', MACAddress: 'MC:00:00:00:003', PitName: 'Pit 03', PitID: '003', NormalReding: 4.44, TimeInterval: '05/01/2023 10:44:45', Unit: '11' },
+    { Date: '05/01/2023', MACAddress: 'MC:00:00:00:003', PitName: 'Pit 03', PitID: '003', NormalReding: 1.80, TimeInterval: '05/01/2023 10:44:45', Unit: '14' },
+    { Date: '05/01/2023', MACAddress: 'MC:00:00:00:003', PitName: 'Pit 03', PitID: '003', NormalReding: 1.80, TimeInterval: '05/01/2023 10:44:45', Unit: '12' },
+    { Date: '05/01/2023', MACAddress: 'MC:00:00:00:003', PitName: 'Pit 03', PitID: '003', NormalReding: 1.80, TimeInterval: '05/01/2023 10:44:45', Unit: '14' },
+    { Date: '05/01/2023', MACAddress: 'MC:00:00:00:003', PitName: 'Pit 03', PitID: '003', NormalReding: 1.80, TimeInterval: '05/01/2023 10:44:45', Unit: '14' },
+    { Date: '05/01/2023', MACAddress: 'MC:00:00:00:003', PitName: 'Pit 03', PitID: '003', NormalReding: 1.80, TimeInterval: '05/01/2023 10:44:45', Unit: '13' },
+    { Date: '05/01/2023', MACAddress: 'MC:00:00:00:003', PitName: 'Pit 03', PitID: '003', NormalReding: 2.22, TimeInterval: '05/01/2023 10:44:45', Unit: '14' },
+    { Date: '06/01/2023', MACAddress: 'MC:00:00:00:003', PitName: 'Pit 03', PitID: '003', NormalReding: 1.80, TimeInterval: '06/01/2023 10:44:45', Unit: '15' },
+    { Date: '06/01/2023', MACAddress: 'MC:00:00:00:003', PitName: 'Pit 03', PitID: '003', NormalReding: 1.80, TimeInterval: '06/01/2023 10:44:45', Unit: '15' },
+    { Date: '06/01/2023', MACAddress: 'MC:00:00:00:003', PitName: 'Pit 03', PitID: '003', NormalReding: 1.80, TimeInterval: '06/01/2023 10:44:45', Unit: '15' },
+    { Date: '06/01/2023', MACAddress: 'MC:00:00:00:003', PitName: 'Pit 03', PitID: '003', NormalReding: 1.80, TimeInterval: '06/01/2023 10:44:45', Unit: '15' },
+  ];
+
+  const cols = {
+    Date: 'Date',
+    PitName: 'Pit Name',
+    PitID: 'Pit ID',
+    Unit: 'Resistance',
+
+  };
+
+  const visibleColumns = [
+    'Date',
+    'PitName',
+    'PitID',
+    'Unit'
+  ];
+
+
+
+  const datav = {
+    labels: ["Jan", "February", "March", "April", "May"],
+    datasets: [
+      {
+        label: "PIT NAME",
+        data: [3.5, 3.5, 3.2, 3.2, 4, 3.4,],
+        fill: false,
+        borderColor: "rgb(335, 15, 1)",
+        tension: 0.1,
+        pointStyle: 'rect',
+        pointBorderColor: 'rgb(255,255,255)'
+      },
+      {
+        label: "PIT NAME",
+        data: [2.5, 1.5, 1.2, 2.2, 2, 2.4,],
+        fill: false,
+        borderColor: "rgb(335, 15, 1)",
+        tension: 0.1,
+        pointStyle: 'rect',
+        pointBorderColor: 'rgb(255,255,255)'
+      }
+    ],
+  };
+
+
+
+
+
+  const optionsv = {
+    scales: {
+      x: {
+        type: "category",
+        labels: datav.labels,
+      },
+      y: {
+        beginAtZero: true,
+      },
+    },
+  };
+
+  const data0 = [
+    { label: 'SAFE ', stats: '34', progress: 100, color: '#24782c', },
+  ];
+  const data1 = [
+    { label: 'WARNING', stats: '26', progress: 100, color: '#d14d14', },
+  ];
+  const data2 = [
+    {
+      label: 'UNSAFE ',
+      stats: '38',
+      progress: 100,
+      color: '#c51d31',
+
+    }
+  ];
+  const data3 = [
+    {
+      label: 'Total ',
+      stats: '98',
+      progress: 100,
+      color: '#1dbac5',
+
+    }
+  ];
+
+
+
+
+  return (
+    <>
+
+      <Grid mt="xl" mb="xl">
+        <Grid.Col md={1} lg={1}></Grid.Col>
+        <Grid.Col md={2.5} lg={2.5} >
+          <SafeRing data={data0} />
+        </Grid.Col>
+        <Grid.Col md={2.5} lg={2.5} >
+          <WorningRing data={data1} />
+        </Grid.Col>
+        <Grid.Col md={2.5} lg={2.5} >
+          <FualtRing data={data2} />
+        </Grid.Col>
+        <Grid.Col md={2.5} lg={2.5} >
+          <TotalRing data={data3} />
+        </Grid.Col>
+
+
+
+
+        <Grid.Col md={1} lg={1}></Grid.Col>
+        {/*table users */}
+        <Grid.Col md={1} lg={1}></Grid.Col>
+        <Grid.Col md={5} lg={5}>
+
+          <Card mt="xs" shadow="xl" radius="lg" pb={"38"} withBorder>
+            {/*unsafe user data table display hear*/}
+            <Text ta="center" fw={700} size="md">
+
+              <h3>UNSAFE PITS</h3>
+            </Text>
+
+            <Pit_Table
+              data={datatable}
+              columns={cols}
+              visibleColumns={visibleColumns} /> {/*I call only table Commponent hear and using probs call */}
+          </Card>
+        </Grid.Col>
+        <Grid.Col md={5} lg={5}>
+          <Card mt="xs" shadow="xl" radius="lg" withBorder>
+            <Text ta="center" fw={700} size="md">
+
+              <h3>CURRENT PIT STATUS</h3>
+            </Text>
+            <Divider size="xl" mb={"sm"} />
+            <RfermResponseive_pie data={CccValue} />
+          </Card>
+        </Grid.Col>
+        <Grid.Col md={1} lg={1}></Grid.Col>
+
+
+
+      </Grid>
+    </>
+
+  )
+}
+
+export default Pcc
+
+
+
+(CCC user page code)
+
+import { Button, Card, Center, Flex, Grid, Text, Group, } from '@mantine/core'
+import React from 'react'
+import Responseive_pie from '../../maintenance/Responseive_pie'
+import TableComponent from '../../components/Table_comp';
+import MyResponsiveLine from '../Sample';
+import Data_table from '../../components/Data_table';
+import RfermTable from './RfermTable';
+import Usertable from './UserTable';
+import RFCircularProgressbar from './RFCircularProgressbar';
+import RfermRingProgress from './RfermRingProgress';
+import Pitdetails_table from './Pitdetails_table';
+import RfermResponseive_pie from './RfermResponseive_pie';
+import SafeRing from './SafeRing';
+import WorningRing from './WorningRing';
+import FualtRing from './FualtRing';
+import { useNavigate } from 'react-router-dom';
+
+
+
+
+function Ccc() {
+
+  const navigate = useNavigate();
+
+  const datatable = [
+
+    { SCCUser: "Mahadev", PCCUser: "Rajesh", PIT: "P001", Resistances: ["10", "15", "20", "30", "40", "50"], PITStatus: "Warning", Plantname: "Bangalore" },
+    { SCCUser: "Mahadev", PCCUser: "Rajesh", PIT: "P002", Resistances: ["10", "15", "20", "30", "40", "50"], PITStatus: "Safe", Plantname: "Bangalore" },
+    { SCCUser: "Mahadev", PCCUser: "Rajesh", PIT: "P003", Resistances: ["10", "15", "20", "30", "40", "50"], PITStatus: "Unsafe", Plantname: "Bangalore" },
+    { SCCUser: "Mahadev", PCCUser: "Rajesh", PIT: "P004", Resistances: ["10", "15", "20", "30", "40", "50"], PITStatus: "Unsafe", Plantname: "Bangalore" },
+    { SCCUser: "Mahadev", PCCUser: "Vikram", PIT: "P005", Resistances: ["10", "15", "20", "30", "40", "50"], PITStatus: "Warning", Plantname: "Bangalore" },
+    { SCCUser: "Mahadev", PCCUser: "Vikram", PIT: "P006", Resistances: ["10", "15", "20", "30", "40", "50"], PITStatus: "Safe", Plantname: "Bangalore" },
+    { SCCUser: "Mahadev", PCCUser: "Vikram", PIT: "P007", Resistances: ["10", "15", "20", "30", "40", "50"], PITStatus: "Unsafe", Plantname: "Bangalore" },
+    { SCCUser: "Mahadev", PCCUser: "Vikram", PIT: "P008", Resistances: ["10", "15", "20", "30", "40", "50"], PITStatus: "Unsafe", Plantname: "Bangalore" },
+    { SCCUser: "Mahadev", PCCUser: "Ganesh", PIT: "P009", Resistances: ["10", "15", "20", "30", "40", "50"], PITStatus: "Safe", Plantname: "Bangalore" },
+    { SCCUser: "Mahadev", PCCUser: "Ganesh", PIT: "P010", Resistances: ["10", "15", "20", "30", "40", "50"], PITStatus: "Safe", Plantname: "Bangalore" },
+    { SCCUser: "Mahadev", PCCUser: "Ganesh", PIT: "P011", Resistances: ["10", "15", "20", "30", "40", "50"], PITStatus: "Unsafe", Plantname: "Bangalore" },
+    { SCCUser: "Mahadev", PCCUser: "Ganesh", PIT: "P012", Resistances: ["10", "15", "20", "30", "40", "50"], PITStatus: "Warning", Plantname: "Bangalore" },
+
+    { SCCUser: "Ganesh", PCCUser: "Anil", PIT: "P013", Resistances: ["10", "15", "20", "30", "40", "50"], PITStatus: "Unsafe", Plantname: "Hydrabhad" },
+    { SCCUser: "Ganesh", PCCUser: "Anil", PIT: "P014", Resistances: ["10", "15", "20", "30", "40", "50"], PITStatus: "Warning", Plantname: "Hydrabhad" },
+    { SCCUser: "Ganesh", PCCUser: "Anil", PIT: "P015", Resistances: ["10", "15", "20", "30", "40", "50"], PITStatus: "Safe", Plantname: "Hydrabhad" },
+    { SCCUser: "Ganesh", PCCUser: "Anil", PIT: "P016", Resistances: ["10", "15", "20", "30", "40", "50"], PITStatus: "Safe", Plantname: "Hydrabhad" },
+    { SCCUser: "Ganesh", PCCUser: "Kumar", PIT: "P017", Resistances: ["10", "15", "20", "30", "40", "50"], PITStatus: "Unsafe", Plantname: "Hydrabhad" },
+    { SCCUser: "Ganesh", PCCUser: "Kumar", PIT: "P018", Resistances: ["10", "15", "20", "30", "40", "50"], PITStatus: "Unsafe", Plantname: "Hydrabhad" },
+    { SCCUser: "Ganesh", PCCUser: "Kumar", PIT: "P019", Resistances: ["10", "15", "20", "30", "40", "50"], PITStatus: "Warning", Plantname: "Hydrabhad" },
+    { SCCUser: "Ganesh", PCCUser: "Kumar", PIT: "P020", Resistances: ["10", "15", "20", "30", "40", "50"], PITStatus: "Safe", Plantname: "Hydrabhad" },
+    { SCCUser: "Ganesh", PCCUser: "Amit", PIT: "P0021", Resistances: ["10", "15", "20", "30", "40", "50"], PITStatus: "Unsafe", Plantname: "Hydrabhad" },
+    { SCCUser: "Ganesh", PCCUser: "Amit", PIT: "P0022", Resistances: ["10", "15", "20", "30", "40", "50"], PITStatus: "Warning", Plantname: "Hydrabhad" },
+    { SCCUser: "Ganesh", PCCUser: "Amit", PIT: "P0023", Resistances: ["10", "15", "20", "30", "40", "50"], PITStatus: "Safe", Plantname: "Hydrabhad" },
+    { SCCUser: "Ganesh", PCCUser: "Amit", PIT: "P0024", Resistances: ["10", "15", "20", "30", "40", "50"], PITStatus: "Safe", Plantname: "Hydrabhad" },
+    { SCCUser: "Ganesh", PCCUser: "Amit", PIT: "P0025", Resistances: ["10", "15", "20", "30", "40", "50"], PITStatus: "Safe", Plantname: "Hydrabhad" },
+
+    { SCCUser: 'Lakshman', PCCUser: "Anil", PIT: "P026", Resistances: ["10", "15", "20", "30", "40", "50"], PITStatus: "Unsafe", Plantname: "Chanai" },
+    { SCCUser: 'Lakshman', PCCUser: "Anil", PIT: "P027", Resistances: ["10", "15", "20", "30", "40", "50"], PITStatus: "Warning", Plantname: "Chanai" },
+    { SCCUser: 'Lakshman', PCCUser: "Anil", PIT: "P028", Resistances: ["10", "15", "20", "30", "40", "50"], PITStatus: "Unsafe", Plantname: "Chanai" },
+    { SCCUser: 'Lakshman', PCCUser: "Anil", PIT: "P029", Resistances: ["10", "15", "20", "30", "40", "50"], PITStatus: "Safe", Plantname: "Chanai" },
+    { SCCUser: 'Lakshman', PCCUser: 'Mangala', PIT: "P030", Resistances: ["10", "15", "20", "30", "40", "50"], PITStatus: "Unsafe", Plantname: "Chanai" },
+    { SCCUser: 'Lakshman', PCCUser: 'Mangala', PIT: "P031", Resistances: ["10", "15", "20", "30", "40", "50"], PITStatus: "Warning", Plantname: "Chanai" },
+    { SCCUser: 'Lakshman', PCCUser: 'Mangala', PIT: "P032", Resistances: ["10", "15", "20", "30", "40", "50"], PITStatus: "Safe", Plantname: "Chanai" },
+    { SCCUser: 'Lakshman', PCCUser: 'Mangala', PIT: "P034", Resistances: ["10", "15", "20", "30", "40", "50"], PITStatus: "Safe", Plantname: "Chanai" },
+    { SCCUser: 'Lakshman', PCCUser: 'Kumarkar', PIT: "P035", Resistances: ["10", "15", "20", "30", "40", "50"], PITStatus: "Unsafe", Plantname: "Chanai" },
+    { SCCUser: 'Lakshman', PCCUser: 'Kumarkar', PIT: "P036", Resistances: ["10", "15", "20", "30", "40", "50"], PITStatus: "Warning", Plantname: "Chanai" },
+    { SCCUser: 'Lakshman', PCCUser: 'Kumarkar', PIT: "P037", Resistances: ["10", "15", "20", "30", "40", "50"], PITStatus: "Unsafe", Plantname: "Chanai" },
+    { SCCUser: 'Lakshman', PCCUser: 'Kumarkar', PIT: "P038", Resistances: ["10", "15", "20", "30", "40", "50"], PITStatus: "Safe", Plantname: "Chanai" },
+    { SCCUser: 'Lakshman', PCCUser: 'Kumarkar', PIT: "P039", Resistances: ["10", "15", "20", "30", "40", "50"], PITStatus: "Unsafe", Plantname: "Chanai" },
+
+    { SCCUser: 'Lava', PCCUser: 'Venu', PIT: 'P040', Resistances: ["10", "15", "20", "30", "40", "50"], PITStatus: "Warning", Plantname: "koppal" },
+    { SCCUser: 'Lava', PCCUser: 'Venu', PIT: 'P041', Resistances: ["10", "15", "20", "30", "40", "50"], PITStatus: "Unsafe", Plantname: "koppal" },
+    { SCCUser: 'Lava', PCCUser: 'Venu', PIT: 'P042', Resistances: ["10", "15", "20", "30", "40", "50"], PITStatus: "Safe", Plantname: "koppal" },
+    { SCCUser: 'Lava', PCCUser: 'Venu', PIT: 'P043', Resistances: ["10", "15", "20", "30", "40", "50"], PITStatus: "Warning", Plantname: "koppal" },
+    { SCCUser: 'Lava', PCCUser: 'Manjhu', PIT: 'P044', Resistances: ["10", "15", "20", "30", "40", "50"], PITStatus: "Unsafe", Plantname: "koppal" },
+    { SCCUser: 'Lava', PCCUser: 'Manjhu', PIT: 'P045', Resistances: ["10", "15", "20", "30", "40", "50"], PITStatus: "Unsafe", Plantname: "koppal" },
+    { SCCUser: 'Lava', PCCUser: 'Manjhu', PIT: 'P046', Resistances: ["10", "15", "20", "30", "40", "50"], PITStatus: "Safe", Plantname: "koppal" },
+    { SCCUser: 'Lava', PCCUser: 'Manjhu', PIT: 'P047', Resistances: ["10", "15", "20", "30", "40", "50"], PITStatus: "Safe", Plantname: "koppal" },
+    { SCCUser: 'Lava', PCCUser: 'Mohan', PIT: 'P048', Resistances: ["10", "15", "20", "30", "40", "50"], PITStatus: "Warning", Plantname: "koppal" },
+    { SCCUser: 'Lava', PCCUser: 'Mohan', PIT: 'P049', Resistances: ["10", "15", "20", "30", "40", "50"], PITStatus: "Safe", Plantname: "koppal" },
+    { SCCUser: 'Lava', PCCUser: 'Mohan', PIT: 'P050', Resistances: ["10", "15", "20", "30", "40", "50"], PITStatus: "Unsafe", Plantname: "koppal" },
+    { SCCUser: 'Lava', PCCUser: 'Mohan', PIT: 'P051', Resistances: ["10", "15", "20", "30", "40", "50"], PITStatus: "Safe", Plantname: "koppal" },
+
+    { SCCUser: 'Ramana', PCCUser: 'Venu A', PIT: 'P00040', Resistances: ["10", "15", "20", "30", "40", "50"], PITStatus: "Safe", Plantname: "Ballari" },
+    { SCCUser: 'Ramana', PCCUser: 'Venu A', PIT: 'P00041', Resistances: ["10", "15", "20", "30", "40", "50"], PITStatus: "Unsafe", Plantname: "Ballari" },
+    { SCCUser: 'Ramana', PCCUser: 'Venu A', PIT: 'P00042', Resistances: ["10", "15", "20", "30", "40", "50"], PITStatus: "Warning", Plantname: "Ballari" },
+    { SCCUser: 'Ramana', PCCUser: 'Venu A', PIT: 'P00043', Resistances: ["10", "15", "20", "30", "40", "50"], PITStatus: "Safe", Plantname: "Ballari" },
+    { SCCUser: 'Ramana', PCCUser: 'Manjhu A', PIT: 'P00044', Resistances: ["10", "15", "20", "30", "40", "50"], PITStatus: "Unsafe", Plantname: "Ballari" },
+    { SCCUser: 'Ramana', PCCUser: 'Manjhu A', PIT: 'P00045', Resistances: ["10", "15", "20", "30", "40", "50"], PITStatus: "Warning", Plantname: "Ballari" },
+    { SCCUser: 'Ramana', PCCUser: 'Manjhu A', PIT: 'P0406', Resistances: ["10", "15", "20", "30", "40", "50"], PITStatus: "Safe", Plantname: "Ballari" },
+    { SCCUser: 'Ramana', PCCUser: 'Mohan A', PIT: 'P00048', Resistances: ["10", "15", "20", "30", "40", "50"], PITStatus: "Safe", Plantname: "Ballari" },
+    { SCCUser: 'Ramana', PCCUser: 'Mohan A', PIT: 'P00049', Resistances: ["10", "15", "20", "30", "40", "50"], PITStatus: "Unsafe", Plantname: "Ballari" },
+    { SCCUser: 'Ramana', PCCUser: 'Mohan A', PIT: 'P0050', Resistances: ["10", "15", "20", "30", "40", "50"], PITStatus: "Warning", Plantname: "Ballari" },
+    { SCCUser: 'Ramana', PCCUser: 'Mohan A', PIT: 'P00051', Resistances: ["10", "15", "20", "30", "40", "50"], PITStatus: "Safe", Plantname: "Ballari" },
+
+    { SCCUser: 'Shivakumar', PCCUser: 'Venu B', PIT: 'P0040', Resistances: ["10", "15", "20", "30", "40", "50"], PITStatus: "Safe", Plantname: "Hebbal" },
+    { SCCUser: 'Shivakumar', PCCUser: 'Venu B', PIT: 'P0041', Resistances: ["10", "15", "20", "30", "40", "50"], PITStatus: "Unsafe", Plantname: "Hebbal" },
+    { SCCUser: 'Shivakumar', PCCUser: 'Venu B', PIT: 'P0042', Resistances: ["10", "15", "20", "30", "40", "50"], PITStatus: "Warning", Plantname: "Hebbal" },
+    { SCCUser: 'Shivakumar', PCCUser: 'Venu B', PIT: 'P0043', Resistances: ["10", "15", "20", "30", "40", "50"], PITStatus: "Safe", Plantname: "Hebbal" },
+    { SCCUser: 'Shivakumar', PCCUser: 'Manjhu B', PIT: 'P0044', Resistances: ["10", "15", "20", "30", "40", "50"], PITStatus: "Warning", Plantname: "Hebbal" },
+    { SCCUser: 'Shivakumar', PCCUser: 'Manjhu B', PIT: 'P0045', Resistances: ["10", "15", "20", "30", "40", "50"], PITStatus: "Safe", Plantname: "Hebbal" },
+    { SCCUser: 'Shivakumar', PCCUser: 'Manjhu B', PIT: 'P0046', Resistances: ["10", "15", "20", "30", "40", "50"], PITStatus: "Safe", Plantname: "Hebbal" },
+    { SCCUser: 'Shivakumar', PCCUser: 'Manjhu B', PIT: 'P0047', Resistances: ["10", "15", "20", "30", "40", "50"], PITStatus: "Unsafe", Plantname: "Hebbal" },
+    { SCCUser: 'Shivakumar', PCCUser: 'Mohan B', PIT: 'P0048', Resistances: ["10", "15", "20", "30", "40", "50"], PITStatus: "Unsafe", Plantname: "Hebbal" },
+    { SCCUser: 'Shivakumar', PCCUser: 'Mohan B', PIT: 'P0049', Resistances: ["10", "15", "20", "30", "40", "50"], PITStatus: "Warning", Plantname: "Hebbal" },
+    { SCCUser: 'Shivakumar', PCCUser: 'Mohan B', PIT: 'P0050', Resistances: ["10", "15", "20", "30", "40", "50"], PITStatus: "Unsafe", Plantname: "Hebbal" },
+    { SCCUser: 'Shivakumar', PCCUser: 'Mohan B', PIT: 'P0051', Resistances: ["10", "15", "20", "30", "40", "50"], PITStatus: "Safe", Plantname: "Hebbal" },
+
+    { SCCUser: 'Niju', PCCUser: "Rajesh A", PIT: "P0001", Resistances: ["10", "15", "20", "30", "40", "50"], PITStatus: "Warning", Plantname: "Kashi" },
+    { SCCUser: 'Niju', PCCUser: "Rajesh A", PIT: "P0002", Resistances: ["10", "15", "20", "30", "40", "50"], PITStatus: "Warning", Plantname: "Kashi" },
+    { SCCUser: 'Niju', PCCUser: "Rajesh A", PIT: "P0003", Resistances: ["10", "15", "20", "30", "40", "50"], PITStatus: "Unsafe", Plantname: "Kashi" },
+    { SCCUser: 'Niju', PCCUser: "Rajesh A", PIT: "P0004", Resistances: ["10", "15", "20", "30", "40", "50"], PITStatus: "Safe", Plantname: "Kashi" },
+    { SCCUser: 'Niju', PCCUser: "Vikram A", PIT: "P0005", Resistances: ["10", "15", "20", "30", "40", "50"], PITStatus: "Safe", Plantname: "Kashi" },
+    { SCCUser: 'Niju', PCCUser: "Vikram A", PIT: "P0006", Resistances: ["10", "15", "20", "30", "40", "50"], PITStatus: "Warning", Plantname: "Kashi" },
+    { SCCUser: 'Niju', PCCUser: "Vikram A", PIT: "P0007", Resistances: ["10", "15", "20", "30", "40", "50"], PITStatus: "Safe", Plantname: "Kashi" },
+    { SCCUser: 'Niju', PCCUser: "Vikram A", PIT: "P0008", Resistances: ["10", "15", "20", "30", "40", "50"], PITStatus: "Safe", Plantname: "Kashi" },
+    { SCCUser: 'Niju', PCCUser: "Ganesh A", PIT: "P0009", Resistances: ["10", "15", "20", "30", "40", "50"], PITStatus: "Unsafe", Plantname: "Kashi" },
+    { SCCUser: 'Niju', PCCUser: "Ganesh A", PIT: "P0100", Resistances: ["10", "15", "20", "30", "40", "50"], PITStatus: "Safe", Plantname: "Kashi" },
+    { SCCUser: 'Niju', PCCUser: "Ganesh A", PIT: "P0011", Resistances: ["10", "15", "20", "30", "40", "50"], PITStatus: "Warning", Plantname: "Kashi" },
+    { SCCUser: 'Niju', PCCUser: "Ganesh A", PIT: "P0012", Resistances: ["10", "15", "20", "30", "40", "50"], PITStatus: "Unsafe", Plantname: "Kashi" },
+
+    { SCCUser: 'Tharun', PCCUser: "Anila", PIT: "P0026", Resistances: ["10", "15", "20", "30", "40", "50"], PITStatus: "Safe", Plantname: "Dheli" },
+    { SCCUser: 'Tharun', PCCUser: "Anila", PIT: "P0027", Resistances: ["10", "15", "20", "30", "40", "50"], PITStatus: "Warning", Plantname: "Dheli" },
+    { SCCUser: 'Tharun', PCCUser: "Anila", PIT: "P0028", Resistances: ["10", "15", "20", "30", "40", "50"], PITStatus: "Unsafe", Plantname: "Dheli" },
+    { SCCUser: 'Tharun', PCCUser: "Anila", PIT: "P0029", Resistances: ["10", "15", "20", "30", "40", "50"], PITStatus: "Unsafe", Plantname: "Dheli" },
+    { SCCUser: 'Tharun', PCCUser: 'Mangala B', PIT: "P0030", Resistances: ["10", "15", "20", "30", "40", "50"], PITStatus: "Unsafe", Plantname: "Dheli" },
+    { SCCUser: 'Tharun', PCCUser: 'Mangala B', PIT: "P0031", Resistances: ["10", "15", "20", "30", "40", "50"], PITStatus: "Warning", Plantname: "Dheli" },
+    { SCCUser: 'Tharun', PCCUser: 'Mangala B', PIT: "P0032", Resistances: ["10", "15", "20", "30", "40", "50"], PITStatus: "Safe", Plantname: "Dheli" },
+    { SCCUser: 'Tharun', PCCUser: 'Mangala B', PIT: "P0034", Resistances: ["10", "15", "20", "30", "40", "50"], PITStatus: "Safe", Plantname: "Dheli" },
+    { SCCUser: 'Tharun', PCCUser: 'Kumarkar B', PIT: "P0035", Resistances: ["10", "15", "20", "30", "40", "50"], PITStatus: "Unsafe", Plantname: "Dheli" },
+    { SCCUser: 'Tharun', PCCUser: 'Kumarkar B', PIT: "P0036", Resistances: ["10", "15", "20", "30", "40", "50"], PITStatus: "Warning", Plantname: "Dheli" },
+    { SCCUser: 'Tharun', PCCUser: 'Kumarkar B', PIT: "P0037", Resistances: ["10", "15", "20", "30", "40", "50"], PITStatus: "Safe", Plantname: "Dheli" },
+    { SCCUser: 'Tharun', PCCUser: 'Kumarkar B', PIT: "P0038", Resistances: ["10", "15", "20", "30", "40", "50"], PITStatus: "Warning", Plantname: "Dheli" },
+    { SCCUser: 'Tharun', PCCUser: 'Kumarkar B', PIT: "P0039", Resistances: ["10", "15", "20", "30", "40", "50"], PITStatus: "Unsafe", Plantname: "Dheli" },
+
+
+  ];
+
+
+
+  const cols = {
+    SCCUser: 'SCC User',
+    PCCUser: 'PCC User',
+    Plantname: "PLANT NAME",
+    PIT: " PIT NO ",
+
+  };
+
+  const visibleColumns = [
+    "SCCUser",
+    "PCCUser",
+    "Plantname",
+    "PIT",
+
+  ];
+
+  const colsv = {
+    SCCUser: 'SCC USER',
+    PCCUser: 'PCC USER',
+    PIT: " NO OF PIT'S",
+    PITStatus: "PLANT NAME"
+
+  };
+
+  const visibleColumnsv = [
+    "SCCUser",
+    "PCCUser",
+    "PIT",
+    "PITStatus"
+  ];
+
+
+  // Count the number of pits for each SCCUser
+  const pitCounts = {};
+  datatable.forEach(entry => {
+    const { SCCUser } = entry;
+    pitCounts[SCCUser] = (pitCounts[SCCUser] || 0) + 1;
+  });
+
+
+
+
+  // Calculate counts for each status
+  const counts = {
+    Warning: datatable.filter(item => item.PITStatus === "Warning").length,
+    Safe: datatable.filter(item => item.PITStatus === "Safe").length,
+    Unsafe: datatable.filter(item => item.PITStatus === "Unsafe").length
+  };
+
+  // Update CccValue array with counts
+  const updatedCccValue = [
+
+    { label: "Safe", value: counts.Safe, color: "#33FF57", },
+    { label: "Warning", value: counts.Warning, color: "#f59a03" },
+    { label: "Unsafe", value: counts.Unsafe, color: "#f53803" }
+  ];
+
+  // I create the condition here to Display the Unsafe user data into the Table 
+  const unsafeData = datatable.filter(item => item.PITStatus === "Unsafe");
+  console.log("Unsafe:", unsafeData);
+
+  // I create the condition here to Display the Safe user data into the Table 
+  const safeData = datatable.filter(item => item.PITStatus === "Safe");
+  console.log("Safe:", safeData);
+  // I create the condition here to Display the Warning user data into the Table 
+  const WarningData = datatable.filter(item => item.PITStatus === "Warning");
+  console.log("Warning:", WarningData);
+
+  // Count of Unsafe
+  const totalUnsafe = unsafeData.length;
+  console.log("countUnsafe:", totalUnsafe);
+
+  // count of Safe
+  const totalSafe = safeData.length;
+  console.log("countsafe:", totalSafe);
+
+  // Count of Warning 
+  const totalWarning = WarningData.length;
+  console.log("countWarning:", totalWarning);
+
+  // Count of Total Users 
+  const uniqueSCCUsers = Array.from(new Set(datatable.map(item => item.SCCUser)));
+  const SCCUserCount = uniqueSCCUsers.length;
+
+  // Count occurrences of repeat name in this table
+  const siteCounts = {};
+  datatable.forEach(user => {
+    const SCCUser = user.SCCUser;
+    siteCounts[SCCUser] = (siteCounts[SCCUser] || 0) + 1;
+  });
+
+  // Log the counts
+  console.log("Site Counts:", siteCounts);
+
+  // RfermRingProgress data table hear
+
+  const data0 = [
+    { label: 'SAFE SCC', stats: '34', progress: 26, color: '#33FF57', icon: 'up' },
+  ];
+  const data1 = [
+    { label: 'WARNING SCC', stats: '26', progress: 26, color: '#f59a03', icon: 'down' },
+  ];
+  const data2 = [
+    {
+      label: 'UNSAFE SCC',
+      stats: '38',
+      progress: 38,
+      color: '#f53803',
+      icon: 'down',
+    }
+  ];
+  const handleOverClick = () => {
+    navigate("/Rferm/Rferm_components/SCCuserdetails");
+  };
+  const handleOverClick1 = () => {
+    navigate("/Rferm/Rferm_components/SCCuserdetails");
+  };
+  const handleOverClick2 = () => {
+    navigate("/Rferm/Rferm_components/SCCuserdetails");
+  };
+  const handleOverClick3 = () => {
+    navigate("/Rferm/Plantdetails");
+  };
+
+
+  return (
+    <>
+      <Grid mt="xl" mb="xl">
+        <Grid.Col md={1} lg={1} ></Grid.Col>
+        <Grid.Col md={5} lg={5}  >
+          <Card mt="xl" pt="20px" pb="130px" shadow="xl" padding="lg" radius="lg" withBorder>
+            <div>
+              <Text ta="center" fw={700} size="xl">
+                {" "}
+                <h2>TOTAL PITS</h2>
+              </Text>
+              <Center>
+                <RfermResponseive_pie data={updatedCccValue} />
+              </Center>
+            </div>
+          </Card>
+        </Grid.Col>
+        <Grid.Col md={5} lg={5} >
+          <Card mt="xl" pt="25px" pb="26px" shadow="xl" padding="lg" radius="lg" withBorder style={{ justifyContent: "center" }}>
+            <Center>
+              <Grid.Col>
+                <div onClick={handleOverClick} style={{ marginBottom: "20px" }}>
+                  <SafeRing data={data0} /></div>
+
+                <div onClick={handleOverClick1} style={{ marginBottom: "20px" }}>
+                  <WorningRing data={data1} /></div>
+
+                <div onClick={handleOverClick2} style={{ marginBottom: "20px" }}>
+                  <FualtRing data={data2} /></div>
+              </Grid.Col>
+            </Center>
+          </Card>
+        </Grid.Col>
+        <Grid.Col md={1} lg={1} ></Grid.Col>
+
+
+
+        <Grid.Col md={1} lg={1} ></Grid.Col>
+        <Grid.Col md={5} lg={5}  >
+          <Card mt="xl" pt="20px" pb="112px" shadow="xl" padding="lg" radius="lg" withBorder>
+            <div onClick={handleOverClick3} style={{ cursor: "pointer" }}>
+              <Text ta="center" fw={700} size="xl">
+                {" "}
+                <h2>PLANT STATUS</h2>
+              </Text>
+              <Center>
+                <RfermResponseive_pie data={updatedCccValue} />
+              </Center>
+            </div>
+          </Card>
+        </Grid.Col>
+
+
+        {/*table users */}
+
+
+
+        <Grid.Col md={5} lg={5} >
+          <Card mt="xl" shadow="xl" padding="lg" radius="lg" withBorder>
+            <Text ta="center" fw={700} size="xl">
+              {" "}
+              <h2>UNSAFE USERS </h2>
+
+            </Text>
+            <Usertable
+              data={unsafeData}
+              columns={cols}
+              visibleColumns={visibleColumns} />  {/* I call only table Commponent hear and using probs call */}
+          </Card>
+        </Grid.Col>
+        <Grid.Col md={1} lg={1} ></Grid.Col>
+      </Grid>
+    </>
+
+  )
+}
+
+export default Ccc
+
+
+(SCC user old code)
+
+import { Card, Flex, Grid, Text, Center, Group } from '@mantine/core';
+import React, { useEffect } from 'react'
+import Responseive_pie from '../../maintenance/Responseive_pie';
+import TableComponent from '../../components/Table_comp';
+import Usertable from './UserTable';
+import Pitdetails_table from './Pitdetails_table';
+import RfermResponseive_pie from './RfermResponseive_pie';
+import SafeRing from './SafeRing';
+import WorningRing from './WorningRing';
+import FualtRing from './FualtRing';
+import { useNavigate } from 'react-router-dom';
+
+
+
+function Scc() {
+
+
+  const navigate = useNavigate();
+
+  const CccValue = [
+    { label: "Safe", value: 100, color: "#33FF57", },
+    { label: "Warning", value: 50, color: "#f59a03" },
+    { label: "Unsafe", value: 30, color: "#f53803" }
+  ];
+
+
+
+  const datatable = [
+
+    { SCCUser: "Mahadev", PCCUser: "Rajesh", PIT: "P001", Resistances: ["10", "15", "20", "30", "40", "50"], PITStatus: "Warning", Plantname: "Bangalore" },
+    { SCCUser: "Mahadev", PCCUser: "Rajesh", PIT: "P002", Resistances: ["10", "15", "20", "30", "40", "50"], PITStatus: "Safe", Plantname: "Bangalore" },
+    { SCCUser: "Mahadev", PCCUser: "Rajesh", PIT: "P003", Resistances: ["10", "15", "20", "30", "40", "50"], PITStatus: "Unsafe", Plantname: "Bangalore" },
+    { SCCUser: "Mahadev", PCCUser: "Rajesh", PIT: "P004", Resistances: ["10", "15", "20", "30", "40", "50"], PITStatus: "Unsafe", Plantname: "Bangalore" },
+    { SCCUser: "Mahadev", PCCUser: "Vikram", PIT: "P005", Resistances: ["10", "15", "20", "30", "40", "50"], PITStatus: "Warning", Plantname: "Bangalore" },
+    { SCCUser: "Mahadev", PCCUser: "Vikram", PIT: "P006", Resistances: ["10", "15", "20", "30", "40", "50"], PITStatus: "Safe", Plantname: "Bangalore" },
+    { SCCUser: "Mahadev", PCCUser: "Vikram", PIT: "P007", Resistances: ["10", "15", "20", "30", "40", "50"], PITStatus: "Unsafe", Plantname: "Bangalore" },
+    { SCCUser: "Mahadev", PCCUser: "Vikram", PIT: "P008", Resistances: ["10", "15", "20", "30", "40", "50"], PITStatus: "Unsafe", Plantname: "Bangalore" },
+    { SCCUser: "Mahadev", PCCUser: "Ganesh", PIT: "P009", Resistances: ["10", "15", "20", "30", "40", "50"], PITStatus: "Safe", Plantname: "Bangalore" },
+    { SCCUser: "Mahadev", PCCUser: "Ganesh", PIT: "P010", Resistances: ["10", "15", "20", "30", "40", "50"], PITStatus: "Safe", Plantname: "Bangalore" },
+    { SCCUser: "Mahadev", PCCUser: "Ganesh", PIT: "P011", Resistances: ["10", "15", "20", "30", "40", "50"], PITStatus: "Unsafe", Plantname: "Bangalore" },
+    { SCCUser: "Mahadev", PCCUser: "Ganesh", PIT: "P012", Resistances: ["10", "15", "20", "30", "40", "50"], PITStatus: "Warning", Plantname: "Bangalore" },
+
+    { SCCUser: "Ganesh", PCCUser: "Anil", PIT: "P013", Resistances: ["10", "15", "20", "30", "40", "50"], PITStatus: "Unsafe", Plantname: "Hydrabhad" },
+    { SCCUser: "Ganesh", PCCUser: "Anil", PIT: "P014", Resistances: ["10", "15", "20", "30", "40", "50"], PITStatus: "Warning", Plantname: "Hydrabhad" },
+    { SCCUser: "Ganesh", PCCUser: "Anil", PIT: "P015", Resistances: ["10", "15", "20", "30", "40", "50"], PITStatus: "Safe", Plantname: "Hydrabhad" },
+    { SCCUser: "Ganesh", PCCUser: "Anil", PIT: "P016", Resistances: ["10", "15", "20", "30", "40", "50"], PITStatus: "Safe", Plantname: "Hydrabhad" },
+    { SCCUser: "Ganesh", PCCUser: "Kumar", PIT: "P017", Resistances: ["10", "15", "20", "30", "40", "50"], PITStatus: "Unsafe", Plantname: "Hydrabhad" },
+    { SCCUser: "Ganesh", PCCUser: "Kumar", PIT: "P018", Resistances: ["10", "15", "20", "30", "40", "50"], PITStatus: "Unsafe", Plantname: "Hydrabhad" },
+    { SCCUser: "Ganesh", PCCUser: "Kumar", PIT: "P019", Resistances: ["10", "15", "20", "30", "40", "50"], PITStatus: "Warning", Plantname: "Hydrabhad" },
+    { SCCUser: "Ganesh", PCCUser: "Kumar", PIT: "P020", Resistances: ["10", "15", "20", "30", "40", "50"], PITStatus: "Safe", Plantname: "Hydrabhad" },
+    { SCCUser: "Ganesh", PCCUser: "Amit", PIT: "P0021", Resistances: ["10", "15", "20", "30", "40", "50"], PITStatus: "Unsafe", Plantname: "Hydrabhad" },
+    { SCCUser: "Ganesh", PCCUser: "Amit", PIT: "P0022", Resistances: ["10", "15", "20", "30", "40", "50"], PITStatus: "Warning", Plantname: "Hydrabhad" },
+    { SCCUser: "Ganesh", PCCUser: "Amit", PIT: "P0023", Resistances: ["10", "15", "20", "30", "40", "50"], PITStatus: "Safe", Plantname: "Hydrabhad" },
+    { SCCUser: "Ganesh", PCCUser: "Amit", PIT: "P0024", Resistances: ["10", "15", "20", "30", "40", "50"], PITStatus: "Safe", Plantname: "Hydrabhad" },
+    { SCCUser: "Ganesh", PCCUser: "Amit", PIT: "P0025", Resistances: ["10", "15", "20", "30", "40", "50"], PITStatus: "Safe", Plantname: "Hydrabhad" },
+
+    { SCCUser: 'Lakshman', PCCUser: "Anil", PIT: "P026", Resistances: ["10", "15", "20", "30", "40", "50"], PITStatus: "Unsafe", Plantname: "Chanai" },
+    { SCCUser: 'Lakshman', PCCUser: "Anil", PIT: "P027", Resistances: ["10", "15", "20", "30", "40", "50"], PITStatus: "Warning", Plantname: "Chanai" },
+    { SCCUser: 'Lakshman', PCCUser: "Anil", PIT: "P028", Resistances: ["10", "15", "20", "30", "40", "50"], PITStatus: "Unsafe", Plantname: "Chanai" },
+    { SCCUser: 'Lakshman', PCCUser: "Anil", PIT: "P029", Resistances: ["10", "15", "20", "30", "40", "50"], PITStatus: "Safe", Plantname: "Chanai" },
+    { SCCUser: 'Lakshman', PCCUser: 'Mangala', PIT: "P030", Resistances: ["10", "15", "20", "30", "40", "50"], PITStatus: "Unsafe", Plantname: "Chanai" },
+    { SCCUser: 'Lakshman', PCCUser: 'Mangala', PIT: "P031", Resistances: ["10", "15", "20", "30", "40", "50"], PITStatus: "Warning", Plantname: "Chanai" },
+    { SCCUser: 'Lakshman', PCCUser: 'Mangala', PIT: "P032", Resistances: ["10", "15", "20", "30", "40", "50"], PITStatus: "Safe", Plantname: "Chanai" },
+    { SCCUser: 'Lakshman', PCCUser: 'Mangala', PIT: "P034", Resistances: ["10", "15", "20", "30", "40", "50"], PITStatus: "Safe", Plantname: "Chanai" },
+    { SCCUser: 'Lakshman', PCCUser: 'Kumarkar', PIT: "P035", Resistances: ["10", "15", "20", "30", "40", "50"], PITStatus: "Unsafe", Plantname: "Chanai" },
+    { SCCUser: 'Lakshman', PCCUser: 'Kumarkar', PIT: "P036", Resistances: ["10", "15", "20", "30", "40", "50"], PITStatus: "Warning", Plantname: "Chanai" },
+    { SCCUser: 'Lakshman', PCCUser: 'Kumarkar', PIT: "P037", Resistances: ["10", "15", "20", "30", "40", "50"], PITStatus: "Unsafe", Plantname: "Chanai" },
+    { SCCUser: 'Lakshman', PCCUser: 'Kumarkar', PIT: "P038", Resistances: ["10", "15", "20", "30", "40", "50"], PITStatus: "Safe", Plantname: "Chanai" },
+    { SCCUser: 'Lakshman', PCCUser: 'Kumarkar', PIT: "P039", Resistances: ["10", "15", "20", "30", "40", "50"], PITStatus: "Unsafe", Plantname: "Chanai" },
+
+    { SCCUser: 'Lava', PCCUser: 'Venu', PIT: 'P040', Resistances: ["10", "15", "20", "30", "40", "50"], PITStatus: "Warning", Plantname: "koppal" },
+    { SCCUser: 'Lava', PCCUser: 'Venu', PIT: 'P041', Resistances: ["10", "15", "20", "30", "40", "50"], PITStatus: "Unsafe", Plantname: "koppal" },
+    { SCCUser: 'Lava', PCCUser: 'Venu', PIT: 'P042', Resistances: ["10", "15", "20", "30", "40", "50"], PITStatus: "Safe", Plantname: "koppal" },
+    { SCCUser: 'Lava', PCCUser: 'Venu', PIT: 'P043', Resistances: ["10", "15", "20", "30", "40", "50"], PITStatus: "Warning", Plantname: "koppal" },
+    { SCCUser: 'Lava', PCCUser: 'Manjhu', PIT: 'P044', Resistances: ["10", "15", "20", "30", "40", "50"], PITStatus: "Unsafe", Plantname: "koppal" },
+    { SCCUser: 'Lava', PCCUser: 'Manjhu', PIT: 'P045', Resistances: ["10", "15", "20", "30", "40", "50"], PITStatus: "Unsafe", Plantname: "koppal" },
+    { SCCUser: 'Lava', PCCUser: 'Manjhu', PIT: 'P046', Resistances: ["10", "15", "20", "30", "40", "50"], PITStatus: "Safe", Plantname: "koppal" },
+    { SCCUser: 'Lava', PCCUser: 'Manjhu', PIT: 'P047', Resistances: ["10", "15", "20", "30", "40", "50"], PITStatus: "Safe", Plantname: "koppal" },
+    { SCCUser: 'Lava', PCCUser: 'Mohan', PIT: 'P048', Resistances: ["10", "15", "20", "30", "40", "50"], PITStatus: "Warning", Plantname: "koppal" },
+    { SCCUser: 'Lava', PCCUser: 'Mohan', PIT: 'P049', Resistances: ["10", "15", "20", "30", "40", "50"], PITStatus: "Safe", Plantname: "koppal" },
+    { SCCUser: 'Lava', PCCUser: 'Mohan', PIT: 'P050', Resistances: ["10", "15", "20", "30", "40", "50"], PITStatus: "Unsafe", Plantname: "koppal" },
+    { SCCUser: 'Lava', PCCUser: 'Mohan', PIT: 'P051', Resistances: ["10", "15", "20", "30", "40", "50"], PITStatus: "Safe", Plantname: "koppal" },
+
+    { SCCUser: 'Ramana', PCCUser: 'Venu A', PIT: 'P00040', Resistances: ["10", "15", "20", "30", "40", "50"], PITStatus: "Safe", Plantname: "Ballari" },
+    { SCCUser: 'Ramana', PCCUser: 'Venu A', PIT: 'P00041', Resistances: ["10", "15", "20", "30", "40", "50"], PITStatus: "Unsafe", Plantname: "Ballari" },
+    { SCCUser: 'Ramana', PCCUser: 'Venu A', PIT: 'P00042', Resistances: ["10", "15", "20", "30", "40", "50"], PITStatus: "Warning", Plantname: "Ballari" },
+    { SCCUser: 'Ramana', PCCUser: 'Venu A', PIT: 'P00043', Resistances: ["10", "15", "20", "30", "40", "50"], PITStatus: "Safe", Plantname: "Ballari" },
+    { SCCUser: 'Ramana', PCCUser: 'Manjhu A', PIT: 'P00044', Resistances: ["10", "15", "20", "30", "40", "50"], PITStatus: "Unsafe", Plantname: "Ballari" },
+    { SCCUser: 'Ramana', PCCUser: 'Manjhu A', PIT: 'P00045', Resistances: ["10", "15", "20", "30", "40", "50"], PITStatus: "Warning", Plantname: "Ballari" },
+    { SCCUser: 'Ramana', PCCUser: 'Manjhu A', PIT: 'P0406', Resistances: ["10", "15", "20", "30", "40", "50"], PITStatus: "Safe", Plantname: "Ballari" },
+    { SCCUser: 'Ramana', PCCUser: 'Mohan A', PIT: 'P00048', Resistances: ["10", "15", "20", "30", "40", "50"], PITStatus: "Safe", Plantname: "Ballari" },
+    { SCCUser: 'Ramana', PCCUser: 'Mohan A', PIT: 'P00049', Resistances: ["10", "15", "20", "30", "40", "50"], PITStatus: "Unsafe", Plantname: "Ballari" },
+    { SCCUser: 'Ramana', PCCUser: 'Mohan A', PIT: 'P0050', Resistances: ["10", "15", "20", "30", "40", "50"], PITStatus: "Warning", Plantname: "Ballari" },
+    { SCCUser: 'Ramana', PCCUser: 'Mohan A', PIT: 'P00051', Resistances: ["10", "15", "20", "30", "40", "50"], PITStatus: "Safe", Plantname: "Ballari" },
+
+    { SCCUser: 'Shivakumar', PCCUser: 'Venu B', PIT: 'P0040', Resistances: ["10", "15", "20", "30", "40", "50"], PITStatus: "Safe", Plantname: "Hebbal" },
+    { SCCUser: 'Shivakumar', PCCUser: 'Venu B', PIT: 'P0041', Resistances: ["10", "15", "20", "30", "40", "50"], PITStatus: "Unsafe", Plantname: "Hebbal" },
+    { SCCUser: 'Shivakumar', PCCUser: 'Venu B', PIT: 'P0042', Resistances: ["10", "15", "20", "30", "40", "50"], PITStatus: "Warning", Plantname: "Hebbal" },
+    { SCCUser: 'Shivakumar', PCCUser: 'Venu B', PIT: 'P0043', Resistances: ["10", "15", "20", "30", "40", "50"], PITStatus: "Safe", Plantname: "Hebbal" },
+    { SCCUser: 'Shivakumar', PCCUser: 'Manjhu B', PIT: 'P0044', Resistances: ["10", "15", "20", "30", "40", "50"], PITStatus: "Warning", Plantname: "Hebbal" },
+    { SCCUser: 'Shivakumar', PCCUser: 'Manjhu B', PIT: 'P0045', Resistances: ["10", "15", "20", "30", "40", "50"], PITStatus: "Safe", Plantname: "Hebbal" },
+    { SCCUser: 'Shivakumar', PCCUser: 'Manjhu B', PIT: 'P0046', Resistances: ["10", "15", "20", "30", "40", "50"], PITStatus: "Safe", Plantname: "Hebbal" },
+    { SCCUser: 'Shivakumar', PCCUser: 'Manjhu B', PIT: 'P0047', Resistances: ["10", "15", "20", "30", "40", "50"], PITStatus: "Unsafe", Plantname: "Hebbal" },
+    { SCCUser: 'Shivakumar', PCCUser: 'Mohan B', PIT: 'P0048', Resistances: ["10", "15", "20", "30", "40", "50"], PITStatus: "Unsafe", Plantname: "Hebbal" },
+    { SCCUser: 'Shivakumar', PCCUser: 'Mohan B', PIT: 'P0049', Resistances: ["10", "15", "20", "30", "40", "50"], PITStatus: "Warning", Plantname: "Hebbal" },
+    { SCCUser: 'Shivakumar', PCCUser: 'Mohan B', PIT: 'P0050', Resistances: ["10", "15", "20", "30", "40", "50"], PITStatus: "Unsafe", Plantname: "Hebbal" },
+    { SCCUser: 'Shivakumar', PCCUser: 'Mohan B', PIT: 'P0051', Resistances: ["10", "15", "20", "30", "40", "50"], PITStatus: "Safe", Plantname: "Hebbal" },
+
+    { SCCUser: 'Niju', PCCUser: "Rajesh A", PIT: "P0001", Resistances: ["10", "15", "20", "30", "40", "50"], PITStatus: "Warning", Plantname: "Kashi" },
+    { SCCUser: 'Niju', PCCUser: "Rajesh A", PIT: "P0002", Resistances: ["10", "15", "20", "30", "40", "50"], PITStatus: "Warning", Plantname: "Kashi" },
+    { SCCUser: 'Niju', PCCUser: "Rajesh A", PIT: "P0003", Resistances: ["10", "15", "20", "30", "40", "50"], PITStatus: "Unsafe", Plantname: "Kashi" },
+    { SCCUser: 'Niju', PCCUser: "Rajesh A", PIT: "P0004", Resistances: ["10", "15", "20", "30", "40", "50"], PITStatus: "Safe", Plantname: "Kashi" },
+    { SCCUser: 'Niju', PCCUser: "Vikram A", PIT: "P0005", Resistances: ["10", "15", "20", "30", "40", "50"], PITStatus: "Safe", Plantname: "Kashi" },
+    { SCCUser: 'Niju', PCCUser: "Vikram A", PIT: "P0006", Resistances: ["10", "15", "20", "30", "40", "50"], PITStatus: "Warning", Plantname: "Kashi" },
+    { SCCUser: 'Niju', PCCUser: "Vikram A", PIT: "P0007", Resistances: ["10", "15", "20", "30", "40", "50"], PITStatus: "Safe", Plantname: "Kashi" },
+    { SCCUser: 'Niju', PCCUser: "Vikram A", PIT: "P0008", Resistances: ["10", "15", "20", "30", "40", "50"], PITStatus: "Safe", Plantname: "Kashi" },
+    { SCCUser: 'Niju', PCCUser: "Ganesh A", PIT: "P0009", Resistances: ["10", "15", "20", "30", "40", "50"], PITStatus: "Unsafe", Plantname: "Kashi" },
+    { SCCUser: 'Niju', PCCUser: "Ganesh A", PIT: "P0100", Resistances: ["10", "15", "20", "30", "40", "50"], PITStatus: "Safe", Plantname: "Kashi" },
+    { SCCUser: 'Niju', PCCUser: "Ganesh A", PIT: "P0011", Resistances: ["10", "15", "20", "30", "40", "50"], PITStatus: "Warning", Plantname: "Kashi" },
+    { SCCUser: 'Niju', PCCUser: "Ganesh A", PIT: "P0012", Resistances: ["10", "15", "20", "30", "40", "50"], PITStatus: "Unsafe", Plantname: "Kashi" },
+
+    { SCCUser: 'Tharun', PCCUser: "Anila", PIT: "P0026", Resistances: ["10", "15", "20", "30", "40", "50"], PITStatus: "Safe", Plantname: "Dheli" },
+    { SCCUser: 'Tharun', PCCUser: "Anila", PIT: "P0027", Resistances: ["10", "15", "20", "30", "40", "50"], PITStatus: "Warning", Plantname: "Dheli" },
+    { SCCUser: 'Tharun', PCCUser: "Anila", PIT: "P0028", Resistances: ["10", "15", "20", "30", "40", "50"], PITStatus: "Unsafe", Plantname: "Dheli" },
+    { SCCUser: 'Tharun', PCCUser: "Anila", PIT: "P0029", Resistances: ["10", "15", "20", "30", "40", "50"], PITStatus: "Unsafe", Plantname: "Dheli" },
+    { SCCUser: 'Tharun', PCCUser: 'Mangala B', PIT: "P0030", Resistances: ["10", "15", "20", "30", "40", "50"], PITStatus: "Unsafe", Plantname: "Dheli" },
+    { SCCUser: 'Tharun', PCCUser: 'Mangala B', PIT: "P0031", Resistances: ["10", "15", "20", "30", "40", "50"], PITStatus: "Warning", Plantname: "Dheli" },
+    { SCCUser: 'Tharun', PCCUser: 'Mangala B', PIT: "P0032", Resistances: ["10", "15", "20", "30", "40", "50"], PITStatus: "Safe", Plantname: "Dheli" },
+    { SCCUser: 'Tharun', PCCUser: 'Mangala B', PIT: "P0034", Resistances: ["10", "15", "20", "30", "40", "50"], PITStatus: "Safe", Plantname: "Dheli" },
+    { SCCUser: 'Tharun', PCCUser: 'Kumarkar B', PIT: "P0035", Resistances: ["10", "15", "20", "30", "40", "50"], PITStatus: "Unsafe", Plantname: "Dheli" },
+    { SCCUser: 'Tharun', PCCUser: 'Kumarkar B', PIT: "P0036", Resistances: ["10", "15", "20", "30", "40", "50"], PITStatus: "Warning", Plantname: "Dheli" },
+    { SCCUser: 'Tharun', PCCUser: 'Kumarkar B', PIT: "P0037", Resistances: ["10", "15", "20", "30", "40", "50"], PITStatus: "Safe", Plantname: "Dheli" },
+    { SCCUser: 'Tharun', PCCUser: 'Kumarkar B', PIT: "P0038", Resistances: ["10", "15", "20", "30", "40", "50"], PITStatus: "Warning", Plantname: "Dheli" },
+    { SCCUser: 'Tharun', PCCUser: 'Kumarkar B', PIT: "P0039", Resistances: ["10", "15", "20", "30", "40", "50"], PITStatus: "Unsafe", Plantname: "Dheli" },
+
+
+  ];
+
+
+
+  const cols = {
+    PCCUser: 'PCC User',
+    Plantname: "AREA NAME",
+    PIT: " PIT NO ",
+
+  };
+
+  const visibleColumns = [
+    "PCCUser",
+    "Plantname",
+    "PIT",
+
+  ];
+
+
+  const colsv = {
+
+    PCCUser: 'PCC USER',
+    PITStatus: "STATUS",
+    PIT: " NO OF PIT'S"
+
+  };
+
+  const visibleColumnsv = [
+
+    "PCCUser",
+    "PITStatus",
+    "PIT",
+  ];
+
+
+
+  // I create the condition here to Display the Unsafe user data into the Table 
+  const unsafeData = datatable.filter(item => item.PITStatus === "Unsafe");
+  console.log("Unsafe:", unsafeData);
+
+  // Count of Unsafe
+  const totalUnsafe = unsafeData.length;
+
+  const data0 = [
+    { label: 'SAFE PCC', stats: '34', progress: 26, color: '#33FF57', icon: 'up' },
+  ];
+  const data1 = [
+    { label: 'WARNING PCC', stats: '26', progress: 26, color: '#f59a03', icon: 'down' },
+  ];
+  const data2 = [
+    {
+      label: 'UNSAFE PCC',
+      stats: '38',
+      progress: 38,
+      color: '#f53803',
+      icon: 'down',
+    }
+  ];
+  const handleOverClick = () => {
+    navigate("/Rferm/PCCuserdetails");
+  };
+  const handleOverClick1 = () => {
+    navigate("/Rferm/PCCuserdetails");
+  };
+  const handleOverClick2 = () => {
+    navigate("/Rferm/PCCuserdetails");
+  };
+  const handleOverClick3 = () => {
+    navigate("/Rferm/Areadetails");
+  };
+
+
+  return (
+    <>
+      <Grid mt="xl" mb="xl">
+        <Grid.Col md={1} lg={1}></Grid.Col>
+        <Grid.Col md={5} lg={5}>
+          <Card mt="xl" pb="125px" shadow="xl" padding="xl" radius="lg" withBorder>
+            <div>
+              <Text ta="center" fw={700} size="xl">
+                {" "}
+                <h1>TOTAL PITS</h1>
+              </Text>
+              <Center>
+                <RfermResponseive_pie data={CccValue} />
+              </Center>
+            </div>
+          </Card>
+        </Grid.Col>
+        <Grid.Col md={5} lg={5} >
+          <Card mt="xl" pt="25px" pb="26px" shadow="xl" padding="lg" radius="lg" withBorder style={{ justifyContent: "center" }}>
+
+            <Center>
+              <Grid.Col>
+                <div onClick={handleOverClick} style={{ marginBottom: "20px" }}>
+                  <SafeRing data={data0} /></div>
+
+                <div onClick={handleOverClick1} style={{ marginBottom: "20px" }}>
+                  <WorningRing data={data1} /></div>
+
+                <div onClick={handleOverClick2} style={{ marginBottom: "20px" }}>
+                  <FualtRing data={data2} /></div>
+              </Grid.Col>
+            </Center>
+
+          </Card>
+        </Grid.Col>
+        <Grid.Col md={1} lg={1} ></Grid.Col>
+
+        {/*table users */}
+        <Grid.Col md={1} lg={1}></Grid.Col>
+        <Grid.Col md={5} lg={5}>
+          <Card mt="xl" shadow="xl" padding="lg" radius="lg" withBorder>
+            <Text ta="center" fw={700} size="xl">
+              {" "}
+              <h1>UNSAFE USER</h1>
+            </Text>
+            <Usertable
+              data={unsafeData}
+              columns={cols}
+              visibleColumns={visibleColumns} /> {/*I call only table Commponent hear and using probs call */}
+          </Card>
+        </Grid.Col>
+        {/*Responseive_pie here */}
+
+        <Grid.Col md={5} lg={5}>
+          <Card mt="xl" pb="140px" shadow="xl" padding="xl" radius="lg" withBorder>
+            <div onClick={handleOverClick3} style={{ cursor: "pointer" }}>
+              <Text ta="center" fw={700} size="xl">
+                {" "}
+                <h1>AREA STATUS</h1>
+              </Text>
+              <Center>
+                <RfermResponseive_pie data={CccValue} />
+              </Center>
+            </div>
+          </Card>
+        </Grid.Col>
+        <Grid.Col md={1} lg={1}></Grid.Col>
+      </Grid>
+    </>
+
+  )
+}
+
+
+export default Scc
+
+
+Apex radarchart code
+
+// import React, { useState } from 'react';
+// import ReactApexChart from 'react-apexcharts';
+
+// const RadarChart = () => {
+//   const [chartData, setChartData] = useState({
+//     series: [
+//       {
+//         name: 'PIT 1',
+//         data: [80, 50, 30, 40],
+//       },
+//       {
+//         name: 'PIT 2',
+//         data: [20, 30, 40, 80,],
+//       },
+//       {
+//         name: 'PIT 3',
+//         data: [44, 76, 78, 13,],
+//       },
+//       {
+//         name: 'PIT 4',
+//         data: [54, 96, 98, 3,],
+//       },
+//     ],
+//     options: {
+//       chart: {
+//         height: 350,
+//         type: 'radar',
+//         dropShadow: {
+//           enabled: true,
+//           blur: 1,
+//           left: 1,
+//           top: 1,
+//         },
+//       },
+//       title: {
+//         text: 'Radar Chart - Multi Series',
+//       },
+//       stroke: {
+//         width: 2,
+//       },
+//       fill: {
+//         opacity: 0.2,
+//       },
+//       markers: {
+//         size: 0,
+//       },
+//       xaxis: {
+//         categories: ['warning', 'Fault', 'Danger', 'Normal'],
+//       },
+//     },
+//   });
+
+//   return (
+//     <div>
+//       <div id="chart">
+//         <ReactApexChart
+//           options={chartData.options}
+//           series={chartData.series}
+//           type="radar"
+//           height={350}
+//         />
+//       </div>
+//       <div id="html-dist"></div>
+//     </div>
+//   );
+// };
+
+// export default RadarChart;
+
+
+// // import { ResponsiveRadar } from "@nivo/radar";
+
+// // import { data, colorMapper } from "./Extra_Components/data";
+
+// // export default function RadarChart() {
+// //   return (
+// //     <div style={{ width: 340, height: 320 }}>
+// //       <ResponsiveRadar
+// //         data={data}
+// //         indexBy="label"
+// //         keys={["myc", "avg", "top"]}
+// //         maxValue="auto"
+// //         curve="linearClosed"
+// //         borderWidth={1.5}
+// //         gridLevels={5}
+// //         gridShape="linear"
+// //         gridLabelOffset={12}
+// //         enableDots={false}
+// //         fillOpacity={0}
+// //         animate={false}
+// //         isInteractive={false}
+// //         colors={({ key }) => {
+// //           console.log(key);
+// //           if (key === "myc") return colorMapper["myc"];
+// //           if (key === "avg") return colorMapper["avg"];
+// //           if (key === "top") return colorMapper["top"];
+// //           return "skyblue";
+// //         }}
+// //         margin={{ top: 0, right: 72, bottom: 80, left: 72 }}
+// //         legends={[
+// //           {
+// //             data: [
+// //               { id: "myc", label: "My consumption" },
+// //               { id: "avg", label: "Average" },
+// //               { id: "top", label: "Top 11%" }
+// //             ],
+// //             anchor: "bottom-left",
+// //             direction: "row",
+// //             itemWidth: 56,
+// //             itemHeight: 24,
+// //             itemsSpacing: 24,
+// //             itemTextColor: "#333",
+// //             symbolSize: 6,
+// //             symbolShape: "circle"
+// //           }
+// //         ]}
+// //       />
+// //     </div>
+// //   );
+// // }
+
+
+
+
+
+// // import React, { useState, useEffect } from "react";
+// // import Chart from "react-apexcharts";
+// // import { Badge, Grid, Table } from "@mantine/core";
+
+
+// // const combineDatasets = (datasets) => {
+// //   const combinedCounts = {};
+// //   console.log("dattttttttta", datasets)
+
+  
+// //   datasets.forEach((data, index) => {
+// //     data.forEach(({ status, count }) => {
+// //       if (!combinedCounts[status]) {
+// //         combinedCounts[status] = {};
+// //       }
+// //       combinedCounts[status][`count_pit_${index + 1}`] = count;
+// //     });
+// //   });
+
+// //   return Object.keys(combinedCounts).map((status) => ({
+// //     status,
+// //     ...combinedCounts[status],
+// //   }));
+// // };
+
+// // const RadarChart = ({ datasets }) => {
+// //   const [combinedData, setCombinedData] = useState([]);
+// //   const [legendData, setLegendData] = useState([]);
+// //   console.log("Datasets:", datasets);
+// //   useEffect(() => {
+// //     const combinedData = combineDatasets(datasets);
+// //     setCombinedData(combinedData);
+
+// //     const legendData = datasets.map((_, index) => ({
+// //       label: `pit ${index + 1}`,
+// //     }));
+// //     setLegendData(legendData);
+// //   }, [datasets]);
+
+// //   const series = datasets.map((_, index) => ({
+// //     name: `count_pit_${index + 1}`,
+// //     data: datasets[index].map(({ count }) => count),
+// //   }));
+
+// //   const options = {
+// //     chart: {
+// //       height: 350,
+// //       type: "radar",
+// //     },
+// //     title: {
+// //       text: "Radar Chart",
+// //     },
+// //     xaxis: {
+// //       categories: combinedData.map((data) => data.status),
+// //     },
+// //   };
+
+// //   return (
+// //     <div>
+// //       <Grid>
+// //         <Grid.Col span={{ base: 12, md: 1, lg: 3 }}>
+// //           <Table>
+// //             <Table.Tbody>
+// //               {legendData.map((item, index) => (
+// //                 <Table.Tr key={index}>
+// //                   <Table.Td>
+// //                     <Badge />
+// //                   </Table.Td>
+// //                   <Table.Td>{item.label}</Table.Td>
+// //                 </Table.Tr>
+// //               ))}
+// //             </Table.Tbody>
+// //           </Table>
+// //         </Grid.Col>
+// //         <Grid.Col span={{ base: 12, md: 1, lg: 8 }}>
+// //           <Chart options={options} series={series} type="radar" />
+// //         </Grid.Col>
+// //       </Grid>
+// //     </div>
+// //   );
+// // };
+
+// // export default RadarChart;
+
+
+// warkig code
+
+// import React, { useState, useEffect } from 'react';
+// import ReactApexChart from 'react-apexcharts';
+
+// const RadarChart = ({ data }) => {
+//   const [chartData, setChartData] = useState({
+//     series: [],
+//     options: {
+//       chart: {
+//         height: 350,
+//         type: 'radar',
+//         dropShadow: {
+//           enabled: true,
+//           blur: 1,
+//           left: 1,
+//           top: 1,
+//         },
+//       },
+//       title: {
+//         text: 'Radar Chart - Multi Series',
+//       },
+//       stroke: {
+//         width: 2,
+//       },
+//       fill: {
+//         opacity: 0.2,
+//       },
+//       markers: {
+//         size: 0,
+//       },
+//       xaxis: {
+//         categories: [],
+//       },
+//     },
+//   });
+
+//   useEffect(() => {
+//     // Set up chart data when component mounts or data changes
+//     if (data) {
+//       const categories = data.map(item => item.status);
+//       const seriesData = [
+//         {
+//           name: 'PIT 1',
+//           data: data.map(item => item.count),
+//         },
+//         {
+//           name: 'PIT 2',
+//           data: data.map(item => item.count),
+//         }
+//       ];
+
+//       setChartData({
+//         series: seriesData,
+//         options: {
+//           ...chartData.options,
+//           xaxis: {
+//             ...chartData.options.xaxis,
+//             categories: categories,
+//           },
+//         },
+//       });
+//     }
+//   }, [data]);
+
+//   return (
+//     <div>
+//       <div id="chart">
+//         <ReactApexChart
+//           options={chartData.options}
+//           series={chartData.series}
+//           type="radar"
+//           height={350}
+//         />
+//       </div>
+//       <div id="html-dist"></div>
+//     </div>
+//   );
+// };
+
+// export default RadarChart;
+
+this is good working code
+import React, { useState, useEffect } from 'react';
+import ReactApexChart from 'react-apexcharts';
+
+const RadarChart = ({ datasets }) => {
+  console.log("data1234567",datasets);
+  const [chartData, setChartData] = useState({
+    series: [],
+    options: {
+      chart: {
+        height: 350,
+        type: 'radar',
+        dropShadow: {
+          enabled: true,
+          blur: 1,
+          left: 1,
+          top: 1,
+        },
+      },
+      title: {
+        text: 'Radar Chart - Multi Series',
+      },
+      stroke: {
+        width: 2,
+      },
+      fill: {
+        opacity: 0.2,
+      },
+      markers: {
+        size: 0,
+      },
+      xaxis: {
+        categories: [],
+      },
+    },
+  });
+
+  useEffect(() => {
+    // Set up chart data when component mounts or datasets change
+    if (datasets) {
+      const categories = datasets[0].map(item => item.status);
+      const seriesData = datasets.map((dataset, index) => ({
+        name: `PIT ${index + 1}`,
+        data: dataset.map(item => item.count),
+      }));
+
+      setChartData({
+        series: seriesData,
+        options: {
+          ...chartData.options,
+          xaxis: {
+            ...chartData.options.xaxis,
+            categories: categories,
+          },
+        },
+      });
+    }
+  }, [datasets]);
+
+  return (
+    <div>
+      <div id="chart">
+        <ReactApexChart
+          options={chartData.options}
+          series={chartData.series}
+          type="radar"
+          height={350}
+        />
+      </div>
+      <div id="html-dist"></div>
+    </div>
+  );
+};
+
+export default RadarChart;
+
+
+
+
+
+
+
+

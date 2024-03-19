@@ -1,0 +1,18 @@
+export const Scc_User_data = [
+    { SLNO: '1', status: 'unsafe', PlantName: 'First Manufacturing Division',EmployeeID:'PT-01', Name:"Rajesh" },
+    { SLNO: '2', status: 'Warning', PlantName: 'Second Manufacturing Division',EmployeeID:'PT-02', Name:"Venu"},
+    { SLNO: '3', status: 'safe', PlantName: 'Third Manufacturing Division',EmployeeID:'PT-03', Name:"Ram"},
+    { SLNO: '4', status: 'Warning', PlantName: 'KP Plan of Oil Refinery',EmployeeID:'PT-04',Name:"Pavan" },
+    { SLNO: '5', status: 'safe', PlantName: 'VP Plant Manufacturing Division',EmployeeID:'PT-05' ,Name:"Kalyan"},
+    { SLNO: '6', status: 'Warning', PlantName: 'Fifth Manufacturing Division',EmployeeID:'PT-06' ,Name:"Dhinesh"},
+    { SLNO: '7', status: 'safe', PlantName: 'Fifth Manufacturing Division',EmployeeID:'PT-07' ,Name:"Niju"},
+    { SLNO: '8', status: 'safe', PlantName: 'KP Plan of Oil Refinery',EmployeeID:'PT-08',Name:"Prashanth" },
+    { SLNO: '9', status: 'unsafe', PlantName: 'First Manufacturing Division',EmployeeID:'PT-09',Name:"Rohith" },
+    { SLNO: '10', status: 'Warning', PlantName: 'KP Plan of Oil Refinery',EmployeeID:'PT-10' ,Name:"Rajan"},
+    { SLNO: '11', status: 'unsafe', PlantName: 'Third Manufacturing Division',EmployeeID:'PT-11',Name:"Ravi"},
+    { SLNO: '12', status: 'safe', PlantName: 'Fifth Manufacturing Division',EmployeeID:'PT-07' ,Name:"Niju"},
+    { SLNO: '13', status: 'safe', PlantName: 'KP Plan of Oil Refinery',EmployeeID:'PT-08',Name:"Prashanth" },
+    { SLNO: '14', status: 'unsafe', PlantName: 'First Manufacturing Division',EmployeeID:'PT-09',Name:"Rohith" },
+    { SLNO: '15', status: 'Warning', PlantName: 'KP Plan of Oil Refinery',EmployeeID:'PT-10' ,Name:"Rajan"},
+    { SLNO: '16', status: 'unsafe', PlantName: 'Third Manufacturing Division',EmployeeID:'PT-12' ,Name:"Vishnu"},
+]
