@@ -4,7 +4,7 @@ import Testing_page from './Rferm_components/Testing_page';
 
 
 const LoginPage = () => {
-  const userCredentials = ['CCC'];
+  const userCredentials = ['ADMIN'];
 
   return (
     <div>
