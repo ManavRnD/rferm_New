@@ -14,14 +14,14 @@ function Testing_page({ credentials }) {
       {credentials.includes('ADMIN') && (
         <div>
           <Ccc/>
-          <Scc />
-          <Pcc />
+          <Scc/>
+          <Pcc/>
           <Map_componenent />
         </div>
       )}
       {credentials.includes('CCC') && (
         <div>
-          <Ccc />
+          <Ccc  />
           <Map_componenent />
         </div>
       )}

@@ -54,20 +54,23 @@ export function Pit_card({ data }) {
 
     let bgColor;
 
-  // Determine background color based on data.Status
-  switch (data.PITStatus) {
-    case 'Safe':
-      bgColor = 'green';
-      break;
-    case 'Unsafe':
-      bgColor = 'red';
-      break;
-    case 'Warning':
-      bgColor = 'orange';
-      break;
-    default:
-      bgColor = 'white'; // Or any default color you prefer
-  }
+    // Determine background color based on data.Status
+    switch (data.PITStatus) {
+        case 'Safe':
+            bgColor = 'green';
+            break;
+        case 'Unsafe':
+            bgColor = 'red';
+            break;
+        case 'Warning':
+            bgColor = 'orange';
+            break;
+        default:
+            bgColor = 'white'; // Or any default color you prefer
+    }
+
+ 
+
 
 
 
@@ -96,73 +99,86 @@ export function Pit_card({ data }) {
     const handleModalToggle2 = () => {
         setIsModalOpen2((prev) => !prev); // Toggle modal state
     };
+    let CardColor;
 
+    // Determine background color based on data.Status
+    switch (data.PITStatus) {
+        case 'Safe':
+            CardColor = theme.fn.linearGradient(45, '#f7f7f7', '#d5f5db');
+            break;
+        case 'Unsafe':
+            CardColor = theme.fn.linearGradient(45, '#f4beb6', '#f4e7e7');
+            break;
+        case 'Warning':
+            CardColor =  theme.fn.linearGradient(45, '#f7eee0', '#f7eee0');
+            break;
+        default:
+            CardColor = 'white'; // Or any default color you prefer
+    }
 
     return (
         <>
-            <Card withBorder mt="10px" p="xl" radius="md" shadow='xl' style={{ width: "400px", display: "inline-block", marginLeft: "10px" }} >
-
+            <Card withBorder mt="10px" p="xl" radius="md" shadow='xl' bg={CardColor} style={{ width: "300px", display: "inline-block", marginLeft: "10px" }} >
                 <Grid cols={12} gutter="md" >
-
                     <Grid.Col md={8} lg={8}>
                         <Text fz="sm" fw={800} >
                             Name {data.PIT}
                         </Text>
                     </Grid.Col>
                     <Grid.Col md={4} lg={4} >
-                        <Center>
-                            <Text fw={900} fz="15px" style={{ display: "flex" }}>
-                                <BatteryGaugevar size={40} Batterycharge={data.Battery} /> {data.Battery} %
+                        
+                            <Text fw={900} fz="12px" style={{ display: "flex" }}>
+                                <BatteryGaugevar size={30} Batterycharge={data.Battery} /> {data.Battery} %
                             </Text>
-                        </Center>
+                       
                     </Grid.Col>
                     <Divider size="sm" variant='transparent' />
                     <Grid.Col md={6} lg={6} >
                         <Grid.Col style={{ padding: "0px" }}>
                             <Text fz="sm" fw={800} style={{ display: "flex" }}>
 
-                                <Card withBorder w={26} padding={0} radius="50px" bg={bgColor} onClick={handleModalToggle1}>
+                                <Card withBorder w={26} padding={0} radius="50px" bg={bgColor}  style={{ cursor: 'pointer' }} onClick={handleModalToggle1}>
                                     <Center>
                                         <IconCircuitGround stroke={2} />
                                     </Center>
                                 </Card>
                                 <Text fz="sm" fw={800} style={{ display: "flex", position: "absolute", left: "55px" }}>
-                                {data.Resistance} <IconOmega size="20px" />
+                                    {data.Resistance} <IconOmega size="20px" />
                                 </Text>
                             </Text>
                         </Grid.Col>
                         <Divider size="sm" variant='transparent' />
-                        <Text fz="sm" c="red" fw={700} onClick={handleModalToggle2}>
+                        <Text fz="sm" c="red" fw={700} style={{ cursor: 'pointer' }} onClick={handleModalToggle2}>
                             Ground(V)
                         </Text>
                         <IconTrekking />
                         <Text fz="sm" fw={600} >
-                        {data.GroundStep}
+                            {data.GroundStep}
                         </Text>
 
                         <IconHandClick />
                         <Text fz="sm" fw={600} >
-                        {data.GroundTouch}
+                            {data.GroundTouch}
                         </Text>
                     </Grid.Col>
                     <Grid.Col md={6} lg={6} >
                         <Grid.Col display={"flex"} style={{ padding: "0px" }} onClick={handleModalToggle} >
-                            <RxLightningBolt size={20} color='red' />
-                            <Text fz="sm" fw={800} >
-                            {data.Fualtcount}
+                            <RxLightningBolt size={20} color='red' style={{ cursor: 'pointer' }} />
+                            <Text fz="sm" fw={800} style={{ cursor: 'pointer' }} >
+                                {data.Fualtcount}
                             </Text>
                         </Grid.Col>
-                        <Text fz="sm" c="red" mt={5} fw={700} onClick={handleModalToggle2} >
+                        <Text fz="sm" c="red" mt={5} fw={700} style={{ cursor: 'pointer' }} onClick={handleModalToggle2} >
                             Lightning(V)
                         </Text>
                         <IconTrekking />
                         <Text fz="sm" fw={600} >
-                        {data.LightningStep}
+                            {data.LightningStep}
                         </Text>
 
                         <IconHandClick />
                         <Text fz="sm" fw={600} >
-                        {data.LightningTouch}
+                            {data.LightningTouch}
 
                         </Text>
                     </Grid.Col>
@@ -170,7 +186,7 @@ export function Pit_card({ data }) {
             </Card>
 
             <Modal
-                
+
                 size="4000px"
                 padding="md"
                 opened={isModalOpen}
@@ -180,12 +196,12 @@ export function Pit_card({ data }) {
                 {/* Your modal content goes here */}
                 <Text h={70} fw={800} fz="50px" ta={"center"} mb={10} bg={"#efb4b1"}> FAULT READING</Text>
                 <Text fw={800} ta={"center"} > PIT NAME: {data.PIT} </Text>
-                <PitResistance/>
-                
+                <PitResistance />
+
             </Modal>
 
             <Modal
-                
+
                 size="auto"
                 padding="md"
                 opened={isModalOpen1}
@@ -194,12 +210,12 @@ export function Pit_card({ data }) {
             >
                 {/* Your modal content goes here */}
                 <Text fw={800} ta={"center"} > PIT NAME: {data.PIT} </Text>
-                <Pit_details/>
-                
+                <Pit_details />
+
             </Modal>
 
             <Modal
-                
+
                 size="auto"
                 padding="md"
                 opened={isModalOpen2}
@@ -208,9 +224,10 @@ export function Pit_card({ data }) {
             >
                 {/* Your modal content goes here */}
                 <Text fw={800} ta={"center"} > PIT NAME: {data.PIT} </Text>
-                <StepandTouch/>
-                
+                <StepandTouch />
+
             </Modal>
+            
         </>
     );
 }
@@ -219,8 +236,8 @@ export default function PitCardList({ datatable }) {
 
     const location = useLocation();
     const prop = location.state?.prop; // Access the prop passed from the previous component
-  // Now you can use the prop variable in your component logic
-  console.log("prop",prop)
+    // Now you can use the prop variable in your component logic
+    console.log("prop", prop)
 
     const [searchTerm, setSearchTerm] = useState('');
     const [selectedStatus, setSelectedStatus] = useState(prop || 'All');
@@ -290,7 +307,7 @@ export default function PitCardList({ datatable }) {
                 <p>No Pits available</p>
             ) : (
                 <>
-                    <div style={{ display: 'flex', flexWrap: 'wrap' }}>
+                    <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent:"center"}}>
                         {currentPageData.map((data) => (
                             <Pit_card key={data.PIT} data={data} />
                         ))}

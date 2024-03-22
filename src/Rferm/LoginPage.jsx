@@ -5,15 +5,17 @@ import App from '../App';
 
 
 const LoginPage = () => {
-  const userCredentials = ['ADMIN'];
+  const userCredentials = ['ADMIN']; // or 'SCC'
+  const showSCC = true;
+  const showPCC = false;
+ 
 
-  return (
-    <div>
-      
-      <Testing_page credentials={userCredentials} />
-    </div>
-  );
+return (
+  <div>
+    <Testing_page credentials={userCredentials}/>
+    
+  </div>
+);
 };
 
 export default LoginPage;
-

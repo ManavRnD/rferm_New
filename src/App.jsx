@@ -290,23 +290,12 @@ function App() {
                     <Text fz="lg">Temp page</Text>
                   </Link>
 
-                 
-                  <Link
-                    to="/Rferm/Rferm_components/SCCuserdetails"
-                    className={`${classes.NavLink} ${classes.NavLinkActive}`}
-                  >
-                    {" "}
-                    <Text fz="lg">SCC Users</Text>
-                  </Link>
-                  
-
-                    
                   <Link
                     to="/Rferm/PCCuserdetails"
                     className={`${classes.NavLink} ${classes.NavLinkActive}`}
                   >
                     {" "}
-                    <Text fz="lg">PCC Users</Text>
+                    <Text fz="lg">Users</Text>
                   </Link>
                 
 
