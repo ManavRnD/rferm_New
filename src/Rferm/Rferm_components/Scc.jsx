@@ -189,14 +189,14 @@ function Scc() {
   const totalUnsafe = unsafeData.length;
 
   const data0 = [
-    { label: 'SAFE PCC', stats: '34', progress: 100, color: '#24782c', icon: 'up' },
+    { label: 'HEALTHY PCC', stats: '34', progress: 100, color: '#24782c', icon: 'up' },
   ];
   const data1 = [
-    { label: 'WARNING PCC', stats: '26', progress: 100, color: '#d14d14', icon: 'down' },
+    { label: 'UNHEALTHY PCC', stats: '26', progress: 100, color: '#d14d14', icon: 'down' },
   ];
   const data2 = [
     {
-      label: 'UNSAFE PCC',
+      label: 'DANGER PCC',
       stats: '38',
       progress: 100,
       color: '#c51d31',

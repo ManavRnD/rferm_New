@@ -11,7 +11,6 @@ function PCCuserdetails() {
 
   const columns = {
     SLNO: "SLNO",
-    EmployeeID: "EMPLOYEE ID",
     Name: "NAME",
     Mail: "MAIL",
     status: 'STATUS',
@@ -20,7 +19,6 @@ function PCCuserdetails() {
 
   const visibleColumns = [
     "SLNO", 
-    "EmployeeID",
     "Name" ,
     "Mail",
     "status",

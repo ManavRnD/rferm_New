@@ -187,3 +187,107 @@ export default RadarChart;
 // };
 
 // export default RadarChart;
+
+// import { useMantineTheme } from '@mantine/core';
+// import React, { useState, useEffect } from 'react';
+// import ReactApexChart from 'react-apexcharts';
+
+// const RadarChart = ({ datasets }) => {
+//   const theme = useMantineTheme();
+//   const [chartData, setChartData] = useState({
+//     series: [],
+//     options: {
+//       chart: {
+//         height: 350,
+//         type: 'radar',
+//         dropShadow: {
+//           enabled: true,
+//           blur: 1,
+//           left: 1,
+//           top: 1,
+//         },
+//       },
+//       title: {
+//         text: '',
+//       },
+//       stroke: {
+//         width: 2,
+//       },
+//       fill: {
+//         opacity: 0.2,
+//       },
+//       markers: {
+//         size: 2,
+//         hover: {
+//           size: 10
+//         }
+//       },
+//       xaxis: {
+//         categories: [],
+//       },
+//       yaxis: {
+//         tickAmount: 6,
+//         show: true,
+//         labels: {
+//           style: {
+//             colors: "gray" // Adjust based on theme
+//           },
+//         },
+//       },
+//     },
+//   });
+//   const [legendData, setLegendData] = useState([]);
+
+//   useEffect(() => {
+//     if (datasets) {
+//       const categories = datasets[0].map(item => item.status);
+//       const seriesData = datasets.map((dataset, index) => ({
+//         name: `PITS PLANT ${index + 1}`,
+//         data: dataset.map(item => item.count),
+//       }));
+
+//       setChartData({
+//         series: seriesData,
+//         options: {
+//           ...chartData.options,
+//           xaxis: {
+//             ...chartData.options.xaxis,
+//             categories: categories,
+//           },
+//         },
+//       });
+//       setLegendData(seriesData);
+//     }
+//   }, [datasets]);
+
+//   return (
+//     <div>
+//       <div id="chart">
+//         <ReactApexChart
+//           options={chartData.options}
+//           series={chartData.series}
+//           type="radar"
+//           height={350}
+//         />
+//       </div>
+//       <div id="legends">
+//         <table>
+//           <thead>
+//             <tr>
+//               <th>Legend</th>
+//             </tr>
+//           </thead>
+//           <tbody>
+//             {legendData.map((legend, index) => (
+//               <tr key={index}>
+//                 <td>{legend.name}</td>
+//               </tr>
+//             ))}
+//           </tbody>
+//         </table>
+//       </div>
+//     </div>
+//   );
+// };
+
+// export default RadarChart;

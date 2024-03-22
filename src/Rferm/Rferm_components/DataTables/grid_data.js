@@ -1,4 +1,5 @@
-export const grid_data = [{ Date: '01-03-2024', value:30 },
+export const grid_data = [ 
+    { Date: '01-03-2024', value:30 },
     { Date: '02-03-2024', value: 34 },
     { Date: '03-03-2024', value: 42 },
     { Date: '04-03-2024', value: 41 },
@@ -18,5 +19,6 @@ export const grid_data = [{ Date: '01-03-2024', value:30 },
     { Date: '18-03-2024', value: 15 },
     { Date: '19-03-2024', value: 2 },
     { Date: '20-03-2024', value: 4 },
-    
+
+
 ]

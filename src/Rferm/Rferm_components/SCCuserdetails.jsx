@@ -11,7 +11,6 @@ function SCCuserdetails() {
 
   const columns = {
     SLNO: "SLNO",
-    EmployeeID: "EMPLOYEE ID",
     PlantName: "PLANT NAME",
     Name:"NAME",
     status: 'STATUS',
@@ -20,7 +19,6 @@ function SCCuserdetails() {
 
   const visibleColumns = [
     "SLNO",
-    "EmployeeID",
     "Name",
     "PlantName",
     "status",

@@ -166,14 +166,14 @@ function Pcc() {
   };
 
   const data0 = [
-    { label: 'SAFE ', stats: '34', progress: 100, color: '#24782c', },
+    { label: 'HEALTHY', stats: '34', progress: 100, color: '#24782c', },
   ];
   const data1 = [
-    { label: 'WARNING', stats: '26', progress: 100, color: '#d14d14', },
+    { label: 'UNHEALTHY', stats: '26', progress: 100, color: '#d14d14', },
   ];
   const data2 = [
     {
-      label: 'UNSAFE ',
+      label: 'DANGER',
       stats: '38',
       progress: 100,
       color: '#c51d31',

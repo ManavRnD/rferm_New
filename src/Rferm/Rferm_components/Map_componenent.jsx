@@ -22,78 +22,17 @@ function Map_componenent() {
     filter: "blur(8px)",
     borderRadius: "10px",
   };
-
   
-  const { data, chartData } = useWebsocket(email);
 
-  const transformedData = chartData
-    .map((row) => ({
-      x: row[4],
-      y: Number(row[13]),
-    }))
-    .reverse();
+ // Example data containing latitude, longitude, and percentage
+ const data = {
+  data: [
+    { x: 12.971599, y: 77.594566, z: 10 }, // Example data point
+    // Add more data points as needed
+  ]
+};
 
-  const diaDataElectroStatic = chartData
-    .map((row) => ({
-      x: row[4],
-      y: row[5],
-    }))
-    .reverse();
-
-  const diaDataSpark = chartData
-    .map((row) => ({
-      x: row[4],
-      y: row[6],
-    }))
-    .reverse();
-
-  const diaDataEnvironment = chartData
-    .map((row) => ({
-      x: row[4],
-      y: row[7],
-    }))
-    .reverse();
-
-  const transformerData = data.map((row) => ({
-    x: row[4],
-    y: Number(row[13]),
-  }));
-
-    
-      const mapData = chartData.map((row) => ({
-    x: Number(row[2]),
-    y: Number(row[3]),
-    z: Number(row[13]),
-  }));
-
-  const staticData = data.map((row) => ({
-    x: row[4],
-    y: row[5],
-  }));
-  const sparkData = data.map((row) => ({
-    x: row[4],
-    y: row[6],
-  }));
-  const envData = data.map((row) => ({
-    x: row[4],
-    y: row[7],
-  }));
-  const temp = data.map((row) => ({
-    x: row[4],
-    y: Number(row[14]),
-  }));
-  const pressure = data.map((row) => ({
-    x: row[4],
-    y: Number(row[15]),
-  }));
-  const humidity = data.map((row) => ({
-    x: row[4],
-    y: Number(row[16]),
-  }));
-  const calenderData = data.map((row) => ({
-    x: row[4],
-    y: Number(row[13]),
-  }));
+ 
 
   return (
     <div>
@@ -102,7 +41,7 @@ function Map_componenent() {
          <Grid.Col md={11} lg={11}>
            {" "}
             <Card mt="xl" shadow="xl" padding="lg" radius="lg" withBorder>
-             <Lmap data={mapData} />
+             <Lmap data={data} />
             </Card>
          </Grid.Col>
            <Grid.Col md={.5} lg={.5}></Grid.Col>

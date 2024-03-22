@@ -214,7 +214,7 @@ function App() {
   }));
 
   const { classes } = useStyles();
-
+ 
   return (
     <MantineProvider
       theme={{
@@ -279,7 +279,7 @@ function App() {
                     className={`${classes.NavLink} ${classes.NavLinkActive}`}
                   >
                     {" "}
-                    <Text fz="lg">PIT Details</Text>
+                    <Text fz="lg">Pit Details</Text>
                   </Link>
 
                   <Link
@@ -287,21 +287,26 @@ function App() {
                     className={`${classes.NavLink} ${classes.NavLinkActive}`}
                   >
                     {" "}
-                    <Text fz="lg">PAGE TEMP</Text>
+                    <Text fz="lg">Temp page</Text>
                   </Link>
+
+                 
                   <Link
                     to="/Rferm/Rferm_components/SCCuserdetails"
                     className={`${classes.NavLink} ${classes.NavLinkActive}`}
                   >
                     {" "}
-                    <Text fz="lg">SCC_Users</Text>
+                    <Text fz="lg">SCC Users</Text>
                   </Link>
+                  
+
+                    
                   <Link
                     to="/Rferm/PCCuserdetails"
                     className={`${classes.NavLink} ${classes.NavLinkActive}`}
                   >
                     {" "}
-                    <Text fz="lg">PCC_Users</Text>
+                    <Text fz="lg">PCC Users</Text>
                   </Link>
                 
 

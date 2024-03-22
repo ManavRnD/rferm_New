@@ -1,5 +1,6 @@
 import React from 'react';
 import Testing_page from './Rferm_components/Testing_page';
+import App from '../App';
 
 
 
@@ -8,6 +9,7 @@ const LoginPage = () => {
 
   return (
     <div>
+      
       <Testing_page credentials={userCredentials} />
     </div>
   );

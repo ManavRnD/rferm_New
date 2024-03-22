@@ -40,17 +40,35 @@ export function Pit_card({ data }) {
         return () => clearInterval(interval);
     }, []);
 
-    const [currentColorIndex, setCurrentColorIndex] = useState(0);
-    const colors = ['green', 'orange', 'red'];
+    // const [currentColorIndex, setCurrentColorIndex] = useState(0);
+    // const colors = ['green', 'orange', 'red'];
 
-    useEffect(() => {
-        const interval = setInterval(() => {
-            setCurrentColorIndex(prevIndex => (prevIndex + 1) % colors.length);
-        }, 5000); // Change this value to control the interval in milliseconds
+    // useEffect(() => {
+    //     const interval = setInterval(() => {
+    //         setCurrentColorIndex(prevIndex => (prevIndex + 1) % colors.length);
+    //     }, 5000); // Change this value to control the interval in milliseconds
 
-        return () => clearInterval(interval);
-    }, []);
-    console.log("color", currentColorIndex)
+    //     return () => clearInterval(interval);
+    // }, []);
+    // console.log("color", currentColorIndex)
+
+    let bgColor;
+
+  // Determine background color based on data.Status
+  switch (data.PITStatus) {
+    case 'Safe':
+      bgColor = 'green';
+      break;
+    case 'Unsafe':
+      bgColor = 'red';
+      break;
+    case 'Warning':
+      bgColor = 'orange';
+      break;
+    default:
+      bgColor = 'white'; // Or any default color you prefer
+  }
+
 
 
     const navigate = useNavigate();
@@ -94,7 +112,7 @@ export function Pit_card({ data }) {
                     <Grid.Col md={4} lg={4} >
                         <Center>
                             <Text fw={900} fz="15px" style={{ display: "flex" }}>
-                                <BatteryGaugevar size={40} /> {batteryValue} %
+                                <BatteryGaugevar size={40} Batterycharge={data.Battery} /> {data.Battery} %
                             </Text>
                         </Center>
                     </Grid.Col>
@@ -103,13 +121,13 @@ export function Pit_card({ data }) {
                         <Grid.Col style={{ padding: "0px" }}>
                             <Text fz="sm" fw={800} style={{ display: "flex" }}>
 
-                                <Card withBorder w={26} padding={0} radius="50px" bg={colors[currentColorIndex]} onClick={handleModalToggle1}>
+                                <Card withBorder w={26} padding={0} radius="50px" bg={bgColor} onClick={handleModalToggle1}>
                                     <Center>
                                         <IconCircuitGround stroke={2} />
                                     </Center>
                                 </Card>
                                 <Text fz="sm" fw={800} style={{ display: "flex", position: "absolute", left: "55px" }}>
-                                    18.87 <IconOmega size="20px" />
+                                {data.Resistance} <IconOmega size="20px" />
                                 </Text>
                             </Text>
                         </Grid.Col>
@@ -119,19 +137,19 @@ export function Pit_card({ data }) {
                         </Text>
                         <IconTrekking />
                         <Text fz="sm" fw={600} >
-                            423432.34
+                        {data.GroundStep}
                         </Text>
 
                         <IconHandClick />
                         <Text fz="sm" fw={600} >
-                            423432.34
+                        {data.GroundTouch}
                         </Text>
                     </Grid.Col>
                     <Grid.Col md={6} lg={6} >
                         <Grid.Col display={"flex"} style={{ padding: "0px" }} onClick={handleModalToggle} >
                             <RxLightningBolt size={20} color='red' />
                             <Text fz="sm" fw={800} >
-                                188
+                            {data.Fualtcount}
                             </Text>
                         </Grid.Col>
                         <Text fz="sm" c="red" mt={5} fw={700} onClick={handleModalToggle2} >
@@ -139,12 +157,12 @@ export function Pit_card({ data }) {
                         </Text>
                         <IconTrekking />
                         <Text fz="sm" fw={600} >
-                            423432.34
+                        {data.LightningStep}
                         </Text>
 
                         <IconHandClick />
                         <Text fz="sm" fw={600} >
-                            423432.34
+                        {data.LightningTouch}
 
                         </Text>
                     </Grid.Col>

@@ -32,7 +32,7 @@ const Lmap = (data) => {
 
   const color = getColor(percentage);
 
-  // console.log("latitudel", lat);
+  console.log("latitudel", lat);
   return (
     <div>
       <Map

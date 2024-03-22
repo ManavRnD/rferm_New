@@ -1,0 +1,6 @@
+export const bop13= [
+    { status: 'Fault', count: 50 },
+    { status: 'Normal', count: 110 },
+    { status: 'Warning', count: 52 },
+    { status: 'Danger', count: 20 },
+];

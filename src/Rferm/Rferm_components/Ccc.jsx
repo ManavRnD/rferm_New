@@ -1,4 +1,4 @@
-import { Button, Card, Center, Flex, Grid, Text, Group, Divider, Table, Checkbox, Modal, } from '@mantine/core'
+import { Button, Card, Center, Flex, Grid, Text, Group, Divider, Table, Checkbox, Modal, Pagination, } from '@mantine/core'
 import React, { useState } from 'react'
 import Responseive_pie from '../../maintenance/Responseive_pie'
 import TableComponent from '../../components/Table_comp';
@@ -26,6 +26,16 @@ import { recent_data } from './DataTables/recent_data';
 import Apex_area_Chart from './Extra_Components/Apex_area_Chart';
 import { grid_data } from './DataTables/grid_data';
 import Plantdetails from './Plantdetails';
+import { bop5 } from './DataTables/bop5';
+import { bop6 } from './DataTables/bop6';
+import { bop7 } from './DataTables/bop7';
+import { bop8 } from './DataTables/bop8';
+import { bop9 } from './DataTables/bop9';
+import { bop10 } from './DataTables/bop10';
+import { bop11 } from './DataTables/bop11';
+import { bop12 } from './DataTables/bop12';
+import { bop13 } from './DataTables/bop13';
+
 
 
 
@@ -215,14 +225,14 @@ function Ccc() {
   // RfermRingProgress data table hear
 
   const data0 = [
-    { label: 'SAFE SCC', stats: '34', progress: 100, color: '#24782c', icon: 'up' },
+    { label: 'HEALTHY SCC', stats: '34', progress: 100, color: '#24782c', icon: 'up' },
   ];
   const data1 = [
-    { label: 'WARNING SCC', stats: '26', progress: 100, color: '#d14d14', icon: 'down' },
+    { label: 'UNHEALTHY SCC', stats: '26', progress: 100, color: '#d14d14', icon: 'down' },
   ];
   const data2 = [
     {
-      label: 'UNSAFE SCC',
+      label: 'DANGER SCC',
       stats: '38',
       progress: 100,
       color: '#c51d31',
@@ -261,6 +271,11 @@ function Ccc() {
 
   const [selectedDatasets, setSelectedDatasets] = useState([bop1]);
   const [sendData, setSendData] = useState([bop1]);
+  const [pageIndex, setPageIndex] = useState(1); // Start from page 1
+  const datasetsPerPage =5;
+
+  const datasets = [bop1, bop2, bop3, bop4, bop5, bop6, bop7, bop8, bop9, bop10, bop11, bop12, bop13];
+  const paginatedDatasets = datasets.slice((pageIndex - 1) * datasetsPerPage, pageIndex * datasetsPerPage);
 
   const handleDatasetSelection = (dataset) => {
     if (selectedDatasets.includes(dataset)) {
@@ -276,7 +291,13 @@ function Ccc() {
     console.log("data i try to send", sendData);
   };
 
-  const datasets = [bop1, bop2, bop3, bop4];
+  const handlePageChange = (newPageIndex) => {
+    setPageIndex(newPageIndex);
+  };
+
+  
+
+  
 
   return (
     <>
@@ -331,37 +352,50 @@ function Ccc() {
               </Grid.Col>
               <Divider size='md' />
               <Grid.Col md={1.5} lg={1.5}>
-                <Center>
-                  <Table>
-                    <thead>
-                      <td>Select</td>
-                      <td>Name</td>
-                    </thead>
-                    <tbody>
-                      {datasets.map((dataset, index) => (
-                        <tr key={index}>
-                          <td>
-                            <Checkbox
-                              key={index}
-                              checked={selectedDatasets.includes(dataset)}
-                              onChange={() => handleDatasetSelection(dataset)}
-                              mt="md"
-                            />
-                          </td>
-                          <td>{`PLANT ${index + 1}`}</td>
-                        </tr>
-                      ))}
-                    </tbody>
-                  </Table>
-                </Center>
-                <div>
-                  <Center>
+              <Center>
+          <Table>
+            <thead>
+              <td>Select</td>
+              <td>Name</td>
+            </thead>
+            <tbody>
+              {paginatedDatasets.map((dataset, index) => (
+                <tr key={index}>
+                  <td>
+                    <Checkbox
+                      key={index}
+                      checked={selectedDatasets.includes(dataset)}
+                      onChange={() => handleDatasetSelection(dataset)}
+                      mt="md"
+                    />
+                  </td>
+                  <td>{`PLANT ${index + (pageIndex - 1) * datasetsPerPage + 1}`}</td>
+                </tr>
+              ))}
+            </tbody>
+          </Table>
+        </Center>
+         {/* Filter input */}
+      <Center>
+        
+      </Center>
+        <Center>
                     {/* Submit button (disabled if no datasets are selected) */}
-                    <Button mt="xl" onClick={handleSubmit} disabled={selectedDatasets.length === 0}>
+                    <Button mt="xl" mb="10px" onClick={handleSubmit} disabled={selectedDatasets.length === 0}>
                       Submit
                     </Button>
                   </Center>
-                </div>
+        <Center>
+          {/* Pagination controls */}
+          <Pagination
+            size="xs"
+            radius="sm"
+            limit={datasetsPerPage}
+            value={pageIndex}
+            onChange={handlePageChange}
+            withGoTo
+          />
+        </Center>
                 <div>
                   <Center>
                     {/* Display message if no datasets are selected */}

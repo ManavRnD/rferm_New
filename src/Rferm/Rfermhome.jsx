@@ -472,30 +472,269 @@
     {/* <Pit_details/> */}
       {/* <GraphChart/> */}
       
-import React from 'react'
-import Pit_details from './Rferm_components/Pit_details'
-import GraphChart from './Rferm_components/Extra_Components/GraphChart'
-import RadarChart from './Rferm_components/RadarChart'
-import { bop1 } from './Rferm_components/DataTables/bop1'
-import { bop2 } from './Rferm_components/DataTables/bop2'
-import { bop3 } from './Rferm_components/DataTables/bop3'
-import { bop4 } from './Rferm_components/DataTables/bop4'
+// import React from 'react'
+// import Pit_details from './Rferm_components/Pit_details'
+// import GraphChart from './Rferm_components/Extra_Components/GraphChart'
+// import RadarChart from './Rferm_components/RadarChart'
+// import { bop1 } from './Rferm_components/DataTables/bop1'
+// import { bop2 } from './Rferm_components/DataTables/bop2'
+// import { bop3 } from './Rferm_components/DataTables/bop3'
+// import { bop4 } from './Rferm_components/DataTables/bop4'
 
 
 
-function Rfermhome() {
+// function Rfermhome() {
 
- const dataset=[bop1,bop2,bop3,bop4];
+//  const dataset=[bop1,bop2,bop3,bop4];
 
 
- console.log("data1234567",dataset);
-  return (
-    <div> 
+//  console.log("data1234567",dataset);
+//   return (
+//     <div> 
   
-      <RadarChart datasets={dataset}/>
-    </div>
+//       <RadarChart datasets={dataset}/>
+//     </div>
     
-  )
-}
+//   )
+// }
 
-export default Rfermhome
+// export default Rfermhome
+
+
+import { Button, Card, Center, Flex, Grid, Text, Group, Divider, Table, Checkbox, Modal, Pagination, } from '@mantine/core'
+import React, { useState } from 'react'
+import { useNavigate } from 'react-router-dom';
+import { bop1 } from './Rferm_components/DataTables/bop1';
+import { bop2 } from './Rferm_components/DataTables/bop2';
+import { bop3 } from './Rferm_components/DataTables/bop3';
+import { bop4 } from './Rferm_components/DataTables/bop4';
+import { bop5 } from './Rferm_components/DataTables/bop5';
+import { bop6 } from './Rferm_components/DataTables/bop6';
+import { bop7 } from './Rferm_components/DataTables/bop7';
+import { bop8 } from './Rferm_components/DataTables/bop8';
+import { bop9 } from './Rferm_components/DataTables/bop9';
+import { bop10 } from './Rferm_components/DataTables/bop10';
+import { bop11 } from './Rferm_components/DataTables/bop11';
+import { bop12 } from './Rferm_components/DataTables/bop12';
+import { bop13 } from './Rferm_components/DataTables/bop13';
+
+function Ccc() {
+
+
+  const [selectedDatasets, setSelectedDatasets] = useState([bop1]);
+  const [sendData, setSendData] = useState([bop1]);
+  const [pageIndex, setPageIndex] = useState(1); // Start from page 1
+  const datasetsPerPage =7;
+
+  const datasets = [bop1, bop2, bop3, bop4, bop5, bop6, bop7, bop8, bop9, bop10, bop11, bop12, bop13];
+  const paginatedDatasets = datasets.slice((pageIndex - 1) * datasetsPerPage, pageIndex * datasetsPerPage);
+
+  const handleDatasetSelection = (dataset) => {
+    if (selectedDatasets.includes(dataset)) {
+      setSelectedDatasets(selectedDatasets.filter((item) => item !== dataset));
+    } else {
+      setSelectedDatasets([...selectedDatasets, dataset]);
+    }
+  };
+
+  const handleSubmit = () => {
+    console.log("Button submit clicked");
+    setSendData(selectedDatasets);
+    console.log("data i try to send", sendData);
+  };
+
+  const handlePageChange = (newPageIndex) => {
+    setPageIndex(newPageIndex);
+  };
+
+  
+
+  
+
+  return (
+    <>
+      <Grid mt="xl" mb="xl">
+              <Grid.Col md={5} lg={5}>
+              <Center>
+          <Table>
+            <thead>
+              <td>Select</td>
+              <td>Name</td>
+            </thead>
+            <tbody>
+              {paginatedDatasets.map((dataset, index) => (
+                <tr key={index}>
+                  <td>
+                    <Checkbox
+                      key={index}
+                      checked={selectedDatasets.includes(dataset)}
+                      onChange={() => handleDatasetSelection(dataset)}
+                      mt="md"
+                    />
+                  </td>
+                  <td>{`PLANT ${index + (pageIndex - 1) * datasetsPerPage + 1}`}</td>
+                </tr>
+              ))}
+            </tbody>
+          </Table>
+        </Center>
+         {/* Filter input */}
+      <Center>
+        
+      </Center>
+        <Center>
+                    {/* Submit button (disabled if no datasets are selected) */}
+                    <Button mt="xl" mb="10px" onClick={handleSubmit} disabled={selectedDatasets.length === 0}>
+                      Submit
+                    </Button>
+                  </Center>
+        <Center>
+          {/* Pagination controls */}
+          <Pagination
+            size="xs"
+            radius="sm"
+            limit={datasetsPerPage}
+            value={pageIndex}
+            onChange={handlePageChange}
+            withGoTo
+          />
+        </Center>
+                <div>
+                  <Center>
+                    {/* Display message if no datasets are selected */}
+                    {selectedDatasets.length === 0 && <p>No PIT selected</p>}
+                  </Center>
+                </div>
+              </Grid.Col>
+              </Grid>
+             
+              </>
+
+  )
+};
+export default Ccc;
+
+
+
+// import { Button, Card, Center, Flex, Grid, Text, Group, Divider, Table, Checkbox, Modal, Pagination, TextInput, } from '@mantine/core'
+// import React, { useState } from 'react'
+// import { useNavigate } from 'react-router-dom';
+// import { bop1 } from './Rferm_components/DataTables/bop1';
+// import { bop2 } from './Rferm_components/DataTables/bop2';
+// import { bop3 } from './Rferm_components/DataTables/bop3';
+// import { bop4 } from './Rferm_components/DataTables/bop4';
+// import { bop5 } from './Rferm_components/DataTables/bop5';
+// import { bop6 } from './Rferm_components/DataTables/bop6';
+// import { bop7 } from './Rferm_components/DataTables/bop7';
+// import { bop8 } from './Rferm_components/DataTables/bop8';
+// import { bop9 } from './Rferm_components/DataTables/bop9';
+// import { bop10 } from './Rferm_components/DataTables/bop10';
+// import { bop11 } from './Rferm_components/DataTables/bop11';
+// import { bop12 } from './Rferm_components/DataTables/bop12';
+// import { bop13 } from './Rferm_components/DataTables/bop13';
+
+// function Ccc() {
+//   const [selectedDatasets, setSelectedDatasets] = useState([bop1]);
+//   const [sendData, setSendData] = useState([bop1]);
+//   const [pageIndex, setPageIndex] = useState(1); // Start from page 1
+//   const [searchTerm, setSearchTerm] = useState('');
+//   const datasetsPerPage = 7;
+
+//   const datasets = [bop1, bop2, bop3, bop4, bop5, bop6, bop7, bop8, bop9, bop10, bop11, bop12, bop13];
+
+//   // Filtering datasets based on search term
+//   const filteredDatasets = datasets.filter(dataset =>
+//     dataset.name && dataset.name.toLowerCase().includes(searchTerm.toLowerCase())
+//   );
+
+//   // Extracting paginated datasets based on current page index
+//   const paginatedDatasets = filteredDatasets.slice((pageIndex - 1) * datasetsPerPage, pageIndex * datasetsPerPage);
+
+//   // Handler to toggle dataset selection
+//   const handleDatasetSelection = dataset => {
+//     if (selectedDatasets.includes(dataset)) {
+//       setSelectedDatasets(selectedDatasets.filter(item => item !== dataset));
+//     } else {
+//       setSelectedDatasets([...selectedDatasets, dataset]);
+//     }
+//   };
+// console.log("dataset",datasets)
+//   // Handler for form submission
+//   const handleSubmit = () => {
+//     console.log('Button submit clicked');
+//     setSendData(selectedDatasets);
+//     console.log('Data to send:', sendData);
+//   };
+
+//   // Handler for pagination page change
+//   const handlePageChange = newPageIndex => {
+//     setPageIndex(newPageIndex);
+//   };
+
+//   // Handler for search input change
+//   const handleSearchChange = event => {
+//     setSearchTerm(event.target.value);
+//     setPageIndex(1); // Reset page index when search term changes
+//   };
+
+//   return (
+//     <Grid mt="xl" mb="xl">
+//       <Grid.Col md={5} lg={5}>
+//         <Center>
+//           <TextInput
+//             value={searchTerm}
+//             onChange={handleSearchChange}
+//             placeholder="Search by name..."
+//             mb="md"
+//           />
+//         </Center>
+//         <Center>
+//           <Table>
+//             <thead>
+//               <tr>
+//                 <td>Select</td>
+//                 <td>Name</td>
+//               </tr>
+//             </thead>
+//             <tbody>
+//               {paginatedDatasets.map((dataset, index) => (
+//                 <tr key={index}>
+//                   <td>
+//                     <Checkbox
+//                       checked={selectedDatasets.includes(dataset)}
+//                       onChange={() => handleDatasetSelection(dataset)}
+//                       mt="md"
+//                     />
+//                   </td>
+//                   <td>{dataset.name}</td>
+//                 </tr>
+//               ))}
+//             </tbody>
+//           </Table>
+//         </Center>
+//         <Center>
+//           <Button mt="xl" mb="10px" onClick={handleSubmit} disabled={selectedDatasets.length === 0}>
+//             Submit
+//           </Button>
+//         </Center>
+//         <Center>
+//           <Pagination
+//             size="xs"
+//             radius="sm"
+//             limit={datasetsPerPage}
+//             value={pageIndex}
+//             onChange={handlePageChange}
+//             withGoTo
+//           />
+//         </Center>
+//         <div>
+//           <Center>
+//             {selectedDatasets.length === 0 && <p>No PIT selected</p>}
+//           </Center>
+//         </div>
+//       </Grid.Col>
+//     </Grid>
+//   );
+// }
+
+// export default Ccc;
