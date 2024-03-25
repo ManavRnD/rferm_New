@@ -48,6 +48,7 @@
     "mantine-react-table": "^1.3.4",
     "mapbox-gl": "^2.15.0",
     "mapbox-gl-geocoder": "^2.0.1",
+    "moment": "^2.30.1",
     "react": "^18.2.0",
     "react-apexcharts": "^1.4.1",
     "react-battery-gauge": "^1.0.7",

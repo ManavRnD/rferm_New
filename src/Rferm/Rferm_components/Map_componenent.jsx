@@ -1,7 +1,6 @@
 import { Card, Grid } from '@mantine/core'
 import React from 'react'
 import Lmap from '../../components/Lmap'
-import useWebsocket from '../../components/useWebsocket';
 import { useMantineTheme } from '@mantine/core';
 import { useNavigate } from 'react-router-dom';
 import { useState } from 'react';

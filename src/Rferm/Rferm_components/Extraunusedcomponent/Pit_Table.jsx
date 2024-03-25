@@ -11,7 +11,7 @@ import {
   Paper
 } from "@mantine/core";
 import { DatePicker } from "@mantine/dates";
-import Pit_details from "./Pit_details";
+import Pit_details from "../Pit_details";
 
 const Pit_Table = ({ data, columns, visibleColumns }) => {
   const theme = useMantineTheme();

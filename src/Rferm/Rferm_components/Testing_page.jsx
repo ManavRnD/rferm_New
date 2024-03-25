@@ -2,7 +2,6 @@ import React from 'react';
 import Ccc from './Ccc';
 import Scc from './Scc';
 import Pcc from './Pcc';
-import Common_component from './Common_component';
 import Map_componenent from './Map_componenent';
 import { Grid } from '@mantine/core';
 

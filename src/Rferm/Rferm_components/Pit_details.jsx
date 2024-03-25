@@ -1,7 +1,6 @@
 
 import { Grid, Card, Center, Text, Button, Flex, Divider, } from '@mantine/core';
 import React, { useEffect, useState } from 'react';
-import Linechart from './Linechart';
 import TableComponent from '../../components/Table_comp';
 import { DatePicker, DatePickerInput } from '@mantine/dates';
 import RfermLinechartb from './RfermLinechartb';
@@ -43,53 +42,7 @@ const datatable = [
   { Date: '01/31/2024', SLNO: '31', PitName: 'Pit 01', PitID: '001', NormalReding: 1.80, TimeInterval: '06/01/2024 10:44:45', FaultResistance: '2.5', ResistanceTrend: '9', ThresholdLimit: '6' },
 
 
-  // { Date: '01/01/2024', SLNO: 'MC:00:00:00:002', PitName: 'Pit 02', PitID: '002', NormalReding: 2.20, TimeInterval: '01/01/2024 10:44:45', FaultResistance: '2.5', ResistanceTrend: '30', ResistanceTrend: '6' },
-  // { Date: '01/01/2024', SLNO: 'MC:00:00:00:002', PitName: 'Pit 02', PitID: '002', NormalReding: 1.80, TimeInterval: '01/01/2024 10:44:45', FaultResistance: '3.0', ResistanceTrend: '30', ResistanceTrend: '6' },
-  // { Date: '01/01/2024', SLNO: 'MC:00:00:00:002', PitName: 'Pit 02', PitID: '002', NormalReding: 1.80, TimeInterval: '01/01/2024 10:44:45', FaultResistance: '2.5', ResistanceTrend: '30', ResistanceTrend: '6' },
-  // { Date: '01/01/2024', SLNO: 'MC:00:00:00:002', PitName: 'Pit 02', PitID: '002', NormalReding: 2.32, TimeInterval: '01/01/2024 10:44:45', FaultResistance: '2.5', ResistanceTrend: '30', ResistanceTrend: '6' },
-  // { Date: '01/01/2024', SLNO: 'MC:00:00:00:002', PitName: 'Pit 02', PitID: '002', NormalReding: 1.80, TimeInterval: '01/01/2024 10:44:45', FaultResistance: '3.0', ResistanceTrend: '30', ResistanceTrend: '6' },
-  // { Date: '01/01/2024', SLNO: 'MC:00:00:00:002', PitName: 'Pit 02', PitID: '002', NormalReding: 1.80, TimeInterval: '01/01/2024 10:44:45', FaultResistance: '3.0', ResistanceTrend: '30', ResistanceTrend: '6' },
-  // { Date: '02/01/2024', SLNO: 'MC:00:00:00:002', PitName: 'Pit 02', PitID: '002', NormalReding: 1.80, TimeInterval: '02/01/2024 10:44:45', FaultResistance: '3.0', ResistanceTrend: '30', ResistanceTrend: '6' },
-  // { Date: '02/01/2024', SLNO: 'MC:00:00:00:002', PitName: 'Pit 02', PitID: '002', NormalReding: 2.22, TimeInterval: '02/01/2024 10:44:45', FaultResistance: '3.0', ResistanceTrend: '30', ResistanceTrend: '6' },
-  // { Date: '02/01/2024', SLNO: 'MC:00:00:00:002', PitName: 'Pit 02', PitID: '002', NormalReding: 1.80, TimeInterval: '02/01/2024 10:44:45', FaultResistance: '3.0', ResistanceTrend: '30', ResistanceTrend: '6' },
-  // { Date: '02/01/2024', SLNO: 'MC:00:00:00:002', PitName: 'Pit 02', PitID: '002', NormalReding: 1.80, TimeInterval: '02/01/2024 10:44:45', FaultResistance: '3.0', ResistanceTrend: '30', ResistanceTrend: '6' },
-  // { Date: '03/01/2024', SLNO: 'MC:00:00:00:002', PitName: 'Pit 02', PitID: '002', NormalReding: 1.80, TimeInterval: '03/01/2024 10:44:45', FaultResistance: '3.0', ResistanceTrend: '30', ResistanceTrend: '6' },
-  // { Date: '03/01/2024', SLNO: 'MC:00:00:00:002', PitName: 'Pit 02', PitID: '002', NormalReding: 1.80, TimeInterval: '03/01/2024 10:44:45', FaultResistance: '3.0', ResistanceTrend: '30', ResistanceTrend: '6' },
-  // { Date: '03/01/2024', SLNO: 'MC:00:00:00:002', PitName: 'Pit 02', PitID: '002', NormalReding: 1.80, TimeInterval: '03/01/2024 10:44:45', FaultResistance: '3.0', ResistanceTrend: '30', ResistanceTrend: '6' },
-  // { Date: '03/01/2024', SLNO: 'MC:00:00:00:002', PitName: 'Pit 02', PitID: '002', NormalReding: 1.80, TimeInterval: '03/01/2024 10:44:45', FaultResistance: '3.0', ResistanceTrend: '30', ResistanceTrend: '6' },
-  // { Date: '04/01/2024', SLNO: 'MC:00:00:00:002', PitName: 'Pit 02', PitID: '002', NormalReding: 1.80, TimeInterval: '04/01/2024 10:44:45', FaultResistance: '2.5', ResistanceTrend: '30', ResistanceTrend: '6' },
-  // { Date: '04/01/2024', SLNO: 'MC:00:00:00:002', PitName: 'Pit 02', PitID: '002', NormalReding: 2.22, TimeInterval: '04/01/2024 10:44:45', FaultResistance: '2.5', ResistanceTrend: '30', ResistanceTrend: '6' },
-
-  // { Date: '04/01/2024', SLNO: 'MC:00:00:00:003', PitName: 'Pit 03', PitID: '003', NormalReding: 1.80, TimeInterval: '04/01/2024 10:44:45', FaultResistance: '2.5', ResistanceTrend: '30', ResistanceTrend: '6' },
-  // { Date: '04/01/2024', SLNO: 'MC:00:00:00:003', PitName: 'Pit 03', PitID: '003', NormalReding: 1.80, TimeInterval: '04/01/2024 10:44:45', FaultResistance: '2.5', ResistanceTrend: '30', ResistanceTrend: '6' },
-  // { Date: '05/01/2024', SLNO: 'MC:00:00:00:003', PitName: 'Pit 03', PitID: '003', NormalReding: 1.80, TimeInterval: '05/01/2024 10:44:45', FaultResistance: '2.5', ResistanceTrend: '30', ResistanceTrend: '6' },
-  // { Date: '05/01/2024', SLNO: 'MC:00:00:00:003', PitName: 'Pit 03', PitID: '003', NormalReding: 4.44, TimeInterval: '05/01/2024 10:44:45', FaultResistance: '2.5', ResistanceTrend: '30', ResistanceTrend: '6' },
-  // { Date: '05/01/2024', SLNO: 'MC:00:00:00:003', PitName: 'Pit 03', PitID: '003', NormalReding: 1.80, TimeInterval: '05/01/2024 10:44:45', FaultResistance: '2.6', ResistanceTrend: '30', ResistanceTrend: '6' },
-  // { Date: '05/01/2024', SLNO: 'MC:00:00:00:003', PitName: 'Pit 03', PitID: '003', NormalReding: 1.80, TimeInterval: '05/01/2024 10:44:45', FaultResistance: '2.6', ResistanceTrend: '30', ResistanceTrend: '6' },
-  // { Date: '05/01/2024', SLNO: 'MC:00:00:00:003', PitName: 'Pit 03', PitID: '003', NormalReding: 1.80, TimeInterval: '05/01/2024 10:44:45', FaultResistance: '2.6', ResistanceTrend: '30', ResistanceTrend: '6' },
-  // { Date: '05/01/2024', SLNO: 'MC:00:00:00:003', PitName: 'Pit 03', PitID: '003', NormalReding: 1.80, TimeInterval: '05/01/2024 10:44:45', FaultResistance: '2.6', ResistanceTrend: '30', ResistanceTrend: '6' },
-  // { Date: '05/01/2024', SLNO: 'MC:00:00:00:003', PitName: 'Pit 03', PitID: '003', NormalReding: 1.80, TimeInterval: '05/01/2024 10:44:45', FaultResistance: '2.6', ResistanceTrend: '30', ResistanceTrend: '6' },
-  // { Date: '05/01/2024', SLNO: 'MC:00:00:00:003', PitName: 'Pit 03', PitID: '003', NormalReding: 2.22, TimeInterval: '05/01/2024 10:44:45', FaultResistance: '2.6', ResistanceTrend: '30', ResistanceTrend: '6' },
-  // { Date: '05/01/2024', SLNO: 'MC:00:00:00:003', PitName: 'Pit 03', PitID: '003', NormalReding: 1.80, TimeInterval: '06/01/2024 10:44:45', FaultResistance: '2.6', ResistanceTrend: '30', ResistanceTrend: '6' },
-  // { Date: '05/01/2024', SLNO: 'MC:00:00:00:003', PitName: 'Pit 03', PitID: '003', NormalReding: 1.80, TimeInterval: '06/01/2024 10:44:45', FaultResistance: '2.6', ResistanceTrend: '30', ResistanceTrend: '6' },
-  // { Date: '05/01/2024', SLNO: 'MC:00:00:00:003', PitName: 'Pit 03', PitID: '003', NormalReding: 1.80, TimeInterval: '06/01/2024 10:44:45', FaultResistance: '2.2', ResistanceTrend: '30', ResistanceTrend: '6' },
-  // { Date: '05/01/2024', SLNO: 'MC:00:00:00:003', PitName: 'Pit 03', PitID: '003', NormalReding: 1.80, TimeInterval: '06/01/2024 10:44:45', FaultResistance: '2.6', ResistanceTrend: '30', ResistanceTrend: '6' },
-
-  // { Date: '25/02/2024', SLNO: '1', PitName: 'Pit 01', PitID: '001', NormalReding: 1.80, TimeInterval: '04/01/2024 10:44:45', FaultResistance: '2.5', ResistanceTrend: '30', ResistanceTrend: '6' },
-  // { Date: '26/02/2024', SLNO: 'MC:00:00:00:002', PitName: 'Pit 03', PitID: '002', NormalReding: 1.80, TimeInterval: '04/01/2024 10:44:45', FaultResistance: '2.5', ResistanceTrend: '30', ResistanceTrend: '6' },
-  // { Date: '27/02/2024', SLNO: 'MC:00:00:00:003', PitName: 'Pit 03', PitID: '003', NormalReding: 1.80, TimeInterval: '05/01/2024 10:44:45', FaultResistance: '2.5', ResistanceTrend: '30', ResistanceTrend: '6' },
-  // { Date: '27/02/2024', SLNO: '1', PitName: 'Pit 03', PitID: '001', NormalReding: 4.44, TimeInterval: '05/01/2024 10:44:45', FaultResistance: '2.5', ResistanceTrend: '30', ResistanceTrend: '6' },
-  // { Date: '27/02/2024', SLNO: 'MC:00:00:00:002', PitName: 'Pit 03', PitID: '002', NormalReding: 1.80, TimeInterval: '05/01/2024 10:44:45', FaultResistance: '2.6', ResistanceTrend: '30', ResistanceTrend: '6' },
-  // { Date: '28/02/2024', SLNO: 'MC:00:00:00:003', PitName: 'Pit 03', PitID: '003', NormalReding: 1.80, TimeInterval: '05/01/2024 10:44:45', FaultResistance: '2.6', ResistanceTrend: '30', ResistanceTrend: '6' },
-  // { Date: '28/02/2024', SLNO: 'MC:00:00:00:003', PitName: 'Pit 03', PitID: '003', NormalReding: 1.80, TimeInterval: '05/01/2024 10:44:45', FaultResistance: '2.6', ResistanceTrend: '30', ResistanceTrend: '6' },
-  // { Date: '29/02/2024', SLNO: 'MC:00:00:00:003', PitName: 'Pit 03', PitID: '003', NormalReding: 1.80, TimeInterval: '05/01/2024 10:44:45', FaultResistance: '2.6', ResistanceTrend: '30', ResistanceTrend: '6' },
-  // { Date: '29/02/2024', SLNO: 'MC:00:00:00:003', PitName: 'Pit 03', PitID: '003', NormalReding: 1.80, TimeInterval: '05/01/2024 10:44:45', FaultResistance: '2.6', ResistanceTrend: '30', ResistanceTrend: '6' },
-  // { Date: '01/03/2024', SLNO: 'MC:00:00:00:003', PitName: 'Pit 03', PitID: '003', NormalReding: 2.22, TimeInterval: '05/01/2024 10:44:45', FaultResistance: '2.6', ResistanceTrend: '30', ResistanceTrend: '6' },
-  // { Date: '02/03/2024', SLNO: 'MC:00:00:00:003', PitName: 'Pit 03', PitID: '003', NormalReding: 1.80, TimeInterval: '06/01/2024 10:44:45', FaultResistance: '2.6', ResistanceTrend: '30', ResistanceTrend: '6' },
-  // { Date: '03/03/2024', SLNO: 'MC:00:00:00:003', PitName: 'Pit 03', PitID: '003', NormalReding: 1.80, TimeInterval: '06/01/2024 10:44:45', FaultResistance: '2.6', ResistanceTrend: '30', ResistanceTrend: '6' },
-  // { Date: '04/03/2024', SLNO: 'MC:00:00:00:003', PitName: 'Pit 03', PitID: '003', NormalReding: 1.80, TimeInterval: '06/01/2024 10:44:45', FaultResistance: '2.2', ResistanceTrend: '30', ResistanceTrend: '6' },
-  // { Date: '04/03/2024', SLNO: 'MC:00:00:00:003', PitName: 'Pit 03', PitID: '003', NormalReding: 1.80, TimeInterval: '06/01/2024 10:44:45', FaultResistance: '2.6', ResistanceTrend: '30', ResistanceTrend: '6' },
-];
+ ];
 
 const cols = {
   SLNO: 'SLNO',

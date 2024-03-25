@@ -1,7 +1,7 @@
 import { Card, Grid, Text, Center } from '@mantine/core';
 import React from 'react'
-import Responseive_pie from '../../maintenance/Responseive_pie';
-import RfermResponseive_pie from './RfermResponseive_pie';
+import Responseive_pie from '../../../maintenance/Responseive_pie';
+import RfermResponseive_pie from '../RfermResponseive_pie';
 import { red } from '@mui/material/colors';
 
 

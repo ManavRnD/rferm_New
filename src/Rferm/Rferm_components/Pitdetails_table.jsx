@@ -12,9 +12,6 @@ import {
   Paper
 } from "@mantine/core";
 import { DatePicker } from "@mantine/dates";
-import Sample from "../PIT_cardsmainpage";
-import Pit_details from "./Pit_details";
-import PitCardList, { Pit_card } from "./Pit_card";
 import Rfermhome from "../Rfermhome";
 
 

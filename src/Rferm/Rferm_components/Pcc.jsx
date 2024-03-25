@@ -1,21 +1,10 @@
 import { Button, Card, Center, Checkbox, Divider, Flex, Grid, Group, Notification, Pagination, Table, Text, useMantineTheme, } from '@mantine/core';
 import React, { useState } from 'react'
-import Responseive_pie from '../../maintenance/Responseive_pie';
-import TableComponent from '../../components/Table_comp';
 import { useNavigate } from 'react-router-dom';
-import Usertable from './UserTable';
-import Pit_Table from './Pit_Table';
-import RFCircularProgressbar from './RFCircularProgressbar';
-import Linechart from './Linechart';
-import RfermRingProgress from './RfermRingProgress';
-import Rfermhome from '../Rfermhome';
 import WorningRing from './WorningRing';
 import FualtRing from './FualtRing';
 import SafeRing from './SafeRing';
-import RfermResponseive_pie from './RfermResponseive_pie';
 import TotalRing from './TotalRing';
-import { red } from '@mui/material/colors';
-import { gray } from 'd3';
 import RadarChart from './RadarChart';
 import { bop1 } from './DataTables/bop1';
 import { bop2 } from './DataTables/bop2';

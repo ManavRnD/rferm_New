@@ -19,7 +19,7 @@ import { CircleCheck, AlertCircle } from "tabler-icons-react";
 
 const Login = ({ onLogin }) => {
   const theme = useMantineTheme();
-  const [username, setUsername] = useState("");
+  const [userName, setUsername] = useState("");
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -77,7 +77,8 @@ const Login = ({ onLogin }) => {
     setIsLoading(true);
     // Here, you can perform the login logic with the entered username and password
     // For demonstration purposes, we will use a simple check to simulate a successful login
-    if (username === "admin" && password === "Mepl@123") {
+    if ((userName === "Rferm" || userName === "Lmas" || userName === "admin") &&
+    password === "admin@123") {
       // Call the onLogin function to indicate successful login
       notifications.show({
         title: "Login Successful",

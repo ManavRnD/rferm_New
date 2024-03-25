@@ -1,21 +1,10 @@
 import { Button, Card, Center, Flex, Grid, Text, Group, Divider, Table, Checkbox, Modal, Pagination, Notification, } from '@mantine/core'
 import React, { useState } from 'react'
-import Responseive_pie from '../../maintenance/Responseive_pie'
-import TableComponent from '../../components/Table_comp';
-import MyResponsiveLine from '../PIT_cardsmainpage';
-import Data_table from '../../components/Data_table';
-import RfermTable from './RfermTable';
-import Usertable from './UserTable';
-import RFCircularProgressbar from './RFCircularProgressbar';
-import RfermRingProgress from './RfermRingProgress';
-import Pitdetails_table from './Pitdetails_table';
-import RfermResponseive_pie from './RfermResponseive_pie';
 import SafeRing from './SafeRing';
 import WorningRing from './WorningRing';
 import FualtRing from './FualtRing';
 import { useNavigate } from 'react-router-dom';
 import TotalRing from './TotalRing';
-import { green, red } from '@mui/material/colors';
 import RadarChart from './RadarChart';
 import Recent_table from './Extra_Components/Recent_table';
 import { bop1 } from './DataTables/bop1';
@@ -35,7 +24,6 @@ import { bop10 } from './DataTables/bop10';
 import { bop9 } from './DataTables/bop9';
 import { bop8 } from './DataTables/bop8';
 import { bop7 } from './DataTables/bop7';
-import { showNotification } from '@mantine/notifications';
 import { IconCheck, IconX } from '@tabler/icons-react';
 
 
